@@ -1,25 +1,25 @@
 {
   "success": false,
-  "obstruction": 1920.2691259447674,
+  "obstruction": 54116.76471740814,
   "iterations": 1,
-  "message": "Partial: 60% placed, obstruction 1920.27",
+  "message": "Partial: 91% placed, obstruction 54116.76",
   "violations": [
-    "NonOverlapConstraint: {'unit_3br_17', 'elevator_passenger_1_f2'} = 87.12",
-    "NonOverlapConstraint: {'unit_3br_29', 'elevator_passenger_1_f2'} = 13.12",
-    "NonOverlapConstraint: {'unit_3br_17', 'elevator_passenger_2_f2'} = 87.12",
-    "NonOverlapConstraint: {'elevator_passenger_2_f2', 'unit_3br_29'} = 13.12",
-    "NonOverlapConstraint: {'unit_3br_17', 'stair_1_f2'} = 117.17",
-    "NonOverlapConstraint: {'unit_3br_29', 'stair_1_f2'} = 27.49",
-    "NonOverlapConstraint: {'stair_2_f2', 'unit_3br_17'} = 108.28",
-    "NonOverlapConstraint: {'stair_2_f2', 'unit_3br_29'} = 27.49",
-    "NonOverlapConstraint: {'unit_3br_2', 'elevator_passenger_1_f3'} = 13.12",
-    "NonOverlapConstraint: {'unit_3br_18', 'elevator_passenger_1_f3'} = 87.12"
+    "NonOverlapConstraint: {'unit_studio_1', 'elevator_passenger_1_f2'} = 68.00",
+    "NonOverlapConstraint: {'elevator_passenger_1_f2', 'unit_2br_5'} = 136.00",
+    "NonOverlapConstraint: {'unit_2br_9', 'elevator_passenger_1_f2'} = 52.00",
+    "NonOverlapConstraint: {'elevator_passenger_2_f2', 'unit_2br_5'} = 136.00",
+    "NonOverlapConstraint: {'unit_2br_9', 'elevator_passenger_2_f2'} = 52.00",
+    "NonOverlapConstraint: {'elevator_passenger_2_f2', 'unit_2br_13'} = 45.20",
+    "NonOverlapConstraint: {'unit_studio_1', 'stair_1_f2'} = 77.56",
+    "NonOverlapConstraint: {'unit_studio_25', 'stair_1_f2'} = 88.18",
+    "NonOverlapConstraint: {'stair_1_f2', 'unit_2br_5'} = 188.00",
+    "NonOverlapConstraint: {'unit_2br_9', 'stair_1_f2'} = 7.70"
   ],
   "metrics": {
-    "placement_rate": "60.1%",
-    "avg_membership": "0.99",
-    "total_spaces": 268,
-    "placed_spaces": 161
+    "placement_rate": "90.8%",
+    "avg_membership": "1.00",
+    "total_spaces": 240,
+    "placed_spaces": 218
   },
   "building": {
     "floors": [
@@ -125,7 +125,7 @@
             "floor_index": -1,
             "geometry": {
               "x": 60.01362074907784,
-              "y": 17.46659226153404,
+              "y": -20.53340773846596,
               "width": 14.933184523068078,
               "height": 14.933184523068078,
               "rotation": 0
@@ -143,61 +143,7 @@
             "floor_index": -1,
             "geometry": {
               "x": 61.15565769027512,
-              "y": 31.32455532033676,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f-1_2",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": -1,
-            "geometry": {
-              "x": 61.15565769027512,
-              "y": 44.324555320336756,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f-1_3",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": -1,
-            "geometry": {
-              "x": 61.15565769027512,
-              "y": 57.324555320336756,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f-1_4",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": -1,
-            "geometry": {
-              "x": -60.675444679663244,
-              "y": 61.15565769027512,
+              "y": -6.675444679663241,
               "width": 12.649110640673518,
               "height": 12.649110640673518,
               "rotation": 0
@@ -286,8 +232,8 @@
             "name": "Mech Shaft - Ventilation",
             "floor_index": -1,
             "geometry": {
-              "x": 5.545268253204709,
-              "y": -61.934944757407166,
+              "x": -7.109051323707208,
+              "y": -18.240627968037366,
               "width": 11.090536506409418,
               "height": 11.090536506409418,
               "rotation": 0
@@ -296,7 +242,7 @@
             "actual_area_sf": 123.00000000000001,
             "membership": 1.0,
             "area_deviation": "+0.0%",
-            "is_vertical": false
+            "is_vertical": true
           },
           {
             "id": "mep_plumbing_1",
@@ -304,7 +250,7 @@
             "name": "Domestic Water Booster Room",
             "floor_index": -1,
             "geometry": {
-              "x": 18.36396103067893,
+              "x": 6.363961030678928,
               "y": -61.11625197993295,
               "width": 12.727922061357855,
               "height": 12.727922061357855,
@@ -322,7 +268,7 @@
             "name": "Cistern/Water Tank Room",
             "floor_index": -1,
             "geometry": {
-              "x": 42.32772345116346,
+              "x": 30.327723451163457,
               "y": -50.15248955944842,
               "width": 34.655446902326915,
               "height": 34.655446902326915,
@@ -340,8 +286,8 @@
             "name": "Central Water Heating Room",
             "floor_index": -1,
             "geometry": {
-              "x": 62.870440781965435,
-              "y": -27.39022777135356,
+              "x": 52.60977222864644,
+              "y": -62.870440781965435,
               "width": 9.219544457292887,
               "height": 9.219544457292887,
               "rotation": 0
@@ -358,8 +304,8 @@
             "name": "Graywater System Room",
             "floor_index": -1,
             "geometry": {
-              "x": 63.32690107915284,
-              "y": -17.846688068540963,
+              "x": 62.15331193145904,
+              "y": -63.32690107915284,
               "width": 8.306623862918075,
               "height": 8.306623862918075,
               "rotation": 0
@@ -376,8 +322,8 @@
             "name": "Plumbing Shaft",
             "floor_index": -1,
             "geometry": {
-              "x": 63.60722966440446,
-              "y": -63.12701665379258,
+              "x": 3.309200275704918,
+              "y": -16.568343061040075,
               "width": 7.745966692414834,
               "height": 7.745966692414834,
               "rotation": 0
@@ -386,7 +332,7 @@
             "actual_area_sf": 60.00000000000001,
             "membership": 1.0,
             "area_deviation": "+0.0%",
-            "is_vertical": false
+            "is_vertical": true
           },
           {
             "id": "mep_plumbing_8",
@@ -413,7 +359,7 @@
             "floor_index": -1,
             "geometry": {
               "x": 62.308172794217576,
-              "y": -7.827959783605699,
+              "y": -45.8279597836057,
               "width": 10.344080432788601,
               "height": 10.344080432788601,
               "rotation": 0
@@ -431,7 +377,7 @@
             "floor_index": -1,
             "geometry": {
               "x": 61.670737991300754,
-              "y": 3.809475019311125,
+              "y": -34.19052498068888,
               "width": 11.61895003862225,
               "height": 11.61895003862225,
               "rotation": 0
@@ -448,8 +394,8 @@
             "name": "Sprinkler Riser Closets",
             "floor_index": -1,
             "geometry": {
-              "x": 65.24414503311209,
-              "y": -48.763932022500214,
+              "x": 10.418251599412125,
+              "y": -14.931427692332447,
               "width": 4.47213595499958,
               "height": 4.47213595499958,
               "rotation": 0
@@ -458,7 +404,7 @@
             "actual_area_sf": 20.000000000000004,
             "membership": 1.0,
             "area_deviation": "+0.0%",
-            "is_vertical": false
+            "is_vertical": true
           }
         ]
       },
@@ -564,7 +510,7 @@
             "floor_index": 0,
             "geometry": {
               "x": 54.557365027291794,
-              "y": 15.922847983320086,
+              "y": -25.077152016679914,
               "width": 25.84569596664017,
               "height": 25.84569596664017,
               "rotation": 0
@@ -648,7 +594,7 @@
             "is_vertical": false
           },
           {
-            "id": "support_7_f0_1",
+            "id": "support_7_f0_2",
             "type": "SUPPORT",
             "name": "Storage - Janitor",
             "floor_index": 0,
@@ -666,67 +612,13 @@
             "is_vertical": false
           },
           {
-            "id": "support_7_f0_2",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 0,
-            "geometry": {
-              "x": 39.324555320336756,
-              "y": -61.15565769027512,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f0_3",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 0,
-            "geometry": {
-              "x": 52.324555320336756,
-              "y": -61.15565769027512,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f0_4",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 0,
-            "geometry": {
-              "x": 61.15565769027512,
-              "y": -47.675444679663244,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
             "id": "support_10",
             "type": "SUPPORT",
             "name": "Recycling Room",
             "floor_index": 0,
             "geometry": {
-              "x": 60.58818863456676,
-              "y": -34.107975623954886,
+              "x": 39.892024376045114,
+              "y": -60.58818863456676,
               "width": 13.784048752090222,
               "height": 13.784048752090222,
               "rotation": 0
@@ -743,8 +635,8 @@
             "name": "Compactor Room",
             "floor_index": 0,
             "geometry": {
-              "x": 59.24917419403471,
-              "y": -18.768961183422835,
+              "x": 55.23103881657717,
+              "y": -59.24917419403471,
               "width": 16.46207763315433,
               "height": 16.46207763315433,
               "rotation": 0
@@ -762,7 +654,7 @@
             "floor_index": 0,
             "geometry": {
               "x": 61.195310465623606,
-              "y": -3.7150974550117324,
+              "y": -44.71509745501173,
               "width": 12.569805089976535,
               "height": 12.569805089976535,
               "rotation": 0
@@ -780,7 +672,7 @@
             "floor_index": 0,
             "geometry": {
               "x": 62.21238613418551,
-              "y": 34.26782687642637,
+              "y": -6.732173123573631,
               "width": 10.535653752852738,
               "height": 10.535653752852738,
               "rotation": 0
@@ -798,7 +690,7 @@
             "floor_index": 0,
             "geometry": {
               "x": 62.21238613418551,
-              "y": 45.26782687642637,
+              "y": 4.267826876426369,
               "width": 10.535653752852738,
               "height": 10.535653752852738,
               "rotation": 0
@@ -833,8 +725,8 @@
             "name": "Staff Lockers & Showers",
             "floor_index": 0,
             "geometry": {
-              "x": -56.900495061637926,
-              "y": 57.3807080722498,
+              "x": 57.3807080722498,
+              "y": 20.099504938362077,
               "width": 20.199009876724155,
               "height": 20.199009876724155,
               "rotation": 0
@@ -852,7 +744,7 @@
             "floor_index": 0,
             "geometry": {
               "x": 61.670737991300754,
-              "y": 56.80947501931112,
+              "y": 36.80947501931112,
               "width": 11.61895003862225,
               "height": 11.61895003862225,
               "rotation": 0
@@ -869,8 +761,8 @@
             "name": "Bar/Cafe Nook",
             "floor_index": 0,
             "geometry": {
-              "x": -35.07983516607922,
-              "y": 56.5600481766911,
+              "x": 56.5600481766911,
+              "y": 53.92016483392078,
               "width": 21.840329667841555,
               "height": 21.840329667841555,
               "rotation": 0
@@ -887,7 +779,7 @@
             "name": "Business Center/Coworking",
             "floor_index": 0,
             "geometry": {
-              "x": -13.692235935955848,
+              "x": -56.69223593595585,
               "y": 57.17244894656773,
               "width": 20.615528128088304,
               "height": 20.615528128088304,
@@ -905,7 +797,7 @@
             "name": "Concierge Desk",
             "floor_index": 0,
             "geometry": {
-              "x": 2.477225575051661,
+              "x": -40.52277442494834,
               "y": 62.002987435560215,
               "width": 10.954451150103322,
               "height": 10.954451150103322,
@@ -923,7 +815,7 @@
             "name": "Dining Room",
             "floor_index": 0,
             "geometry": {
-              "x": 18.92016483392078,
+              "x": -24.07983516607922,
               "y": 56.5600481766911,
               "width": 21.840329667841555,
               "height": 21.840329667841555,
@@ -941,7 +833,7 @@
             "name": "Theater/Screening Room",
             "floor_index": 0,
             "geometry": {
-              "x": 40.735455276791946,
+              "x": -2.264544723208056,
               "y": 56.74475773381993,
               "width": 21.470910553583888,
               "height": 21.470910553583888,
@@ -952,6 +844,60 @@
             "membership": 1.0,
             "area_deviation": "+0.0%",
             "is_vertical": false
+          },
+          {
+            "id": "mep_mechanical_3_f0",
+            "type": "MECHANICAL",
+            "name": "Mech Shaft - Ventilation",
+            "floor_index": 0,
+            "geometry": {
+              "x": -7.109051323707208,
+              "y": -18.240627968037366,
+              "width": 11.090536506409418,
+              "height": 11.090536506409418,
+              "rotation": 0
+            },
+            "target_area_sf": 123,
+            "actual_area_sf": 123.00000000000001,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
+            "is_vertical": true
+          },
+          {
+            "id": "mep_plumbing_7_f0",
+            "type": "PLUMBING",
+            "name": "Plumbing Shaft",
+            "floor_index": 0,
+            "geometry": {
+              "x": 3.309200275704918,
+              "y": -16.568343061040075,
+              "width": 7.745966692414834,
+              "height": 7.745966692414834,
+              "rotation": 0
+            },
+            "target_area_sf": 60,
+            "actual_area_sf": 60.00000000000001,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
+            "is_vertical": true
+          },
+          {
+            "id": "mep_fire_3_f0",
+            "type": "FIRE_SPRINKLER",
+            "name": "Sprinkler Riser Closets",
+            "floor_index": 0,
+            "geometry": {
+              "x": 10.418251599412125,
+              "y": -14.931427692332447,
+              "width": 4.47213595499958,
+              "height": 4.47213595499958,
+              "rotation": 0
+            },
+            "target_area_sf": 20,
+            "actual_area_sf": 20.000000000000004,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
+            "is_vertical": true
           }
         ]
       },
@@ -1051,66 +997,12 @@
             "is_vertical": true
           },
           {
-            "id": "support_7_f1_1",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 1,
-            "geometry": {
-              "x": -46.0,
-              "y": -61.0,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f1_2",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 1,
-            "geometry": {
-              "x": -33.0,
-              "y": -61.0,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
             "id": "support_7_f1_3",
             "type": "SUPPORT",
             "name": "Storage - Janitor",
             "floor_index": 1,
             "geometry": {
-              "x": -20.0,
-              "y": -61.0,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f1_4",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 1,
-            "geometry": {
-              "x": -7.0,
+              "x": -46.0,
               "y": -61.0,
               "width": 12.649110640673518,
               "height": 12.649110640673518,
@@ -1146,8 +1038,8 @@
             "name": "Mech Shaft - Ventilation",
             "floor_index": 1,
             "geometry": {
-              "x": 5.0,
-              "y": -61.0,
+              "x": -7.109051323707208,
+              "y": -18.240627968037366,
               "width": 11.090536506409418,
               "height": 11.090536506409418,
               "rotation": 0
@@ -1156,7 +1048,7 @@
             "actual_area_sf": 123.00000000000001,
             "membership": 1.0,
             "area_deviation": "+0.0%",
-            "is_vertical": false
+            "is_vertical": true
           },
           {
             "id": "mep_plumbing_7_f1",
@@ -1164,8 +1056,8 @@
             "name": "Plumbing Shaft",
             "floor_index": 1,
             "geometry": {
-              "x": 15.0,
-              "y": -63.0,
+              "x": 3.309200275704918,
+              "y": -16.568343061040075,
               "width": 7.745966692414834,
               "height": 7.745966692414834,
               "rotation": 0
@@ -1174,7 +1066,7 @@
             "actual_area_sf": 60.00000000000001,
             "membership": 1.0,
             "area_deviation": "+0.0%",
-            "is_vertical": false
+            "is_vertical": true
           },
           {
             "id": "mep_fire_3_f1",
@@ -1182,8 +1074,8 @@
             "name": "Sprinkler Riser Closets",
             "floor_index": 1,
             "geometry": {
-              "x": 22.0,
-              "y": -65.0,
+              "x": 10.418251599412125,
+              "y": -14.931427692332447,
               "width": 4.47213595499958,
               "height": 4.47213595499958,
               "rotation": 0
@@ -1192,7 +1084,7 @@
             "actual_area_sf": 20.000000000000004,
             "membership": 1.0,
             "area_deviation": "+0.0%",
-            "is_vertical": false
+            "is_vertical": true
           }
         ]
       },
@@ -1292,38 +1184,20 @@
             "is_vertical": true
           },
           {
-            "id": "elevator_lobby_f2",
-            "type": "CIRCULATION",
-            "name": "Elevator Lobby",
-            "floor_index": 2,
-            "geometry": {
-              "x": -56.105000000000004,
-              "y": 56.105000000000004,
-              "width": 24.750426021223745,
-              "height": 24.750426021223745,
-              "rotation": 0
-            },
-            "target_area_sf": 668,
-            "actual_area_sf": 612.5835882320695,
-            "membership": 0.668165198994428,
-            "area_deviation": "-8.3%",
-            "is_vertical": false
-          },
-          {
             "id": "unit_studio_1",
             "type": "DWELLING_UNIT",
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": -59.780213010611874,
-              "y": -51.48021301061188,
+              "x": -9.3,
+              "y": -17.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1333,15 +1207,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": -38.71021301061188,
-              "y": -51.48021301061188,
+              "x": -29.3,
+              "y": -17.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1351,15 +1225,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": -17.640213010611877,
-              "y": -51.48021301061188,
+              "x": -39.3,
+              "y": 17.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1369,15 +1243,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": 3.4297869893881234,
-              "y": -51.48021301061188,
+              "x": 0.6999999999999993,
+              "y": -51.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1387,15 +1261,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": 24.499786989388124,
-              "y": -51.48021301061188,
+              "x": 40.7,
+              "y": 34.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1405,15 +1279,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": 45.56978698938812,
-              "y": -51.48021301061188,
+              "x": 20.7,
+              "y": 0.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1423,15 +1297,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": -59.780213010611874,
-              "y": -13.810213010611875,
+              "x": -19.3,
+              "y": 17.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1441,16 +1315,358 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": -38.71021301061188,
-              "y": -13.810213010611875,
+              "x": 40.7,
+              "y": -51.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_1",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 2,
+            "geometry": {
+              "x": 20.95,
+              "y": -37.7,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_5",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 2,
+            "geometry": {
+              "x": 20.95,
+              "y": 37.3,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_9",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 2,
+            "geometry": {
+              "x": 53.95,
+              "y": -37.7,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_13",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 2,
+            "geometry": {
+              "x": -56.05,
+              "y": 37.3,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_17",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 2,
+            "geometry": {
+              "x": -56.05,
+              "y": -7.699999999999999,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_21",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 2,
+            "geometry": {
+              "x": 53.95,
+              "y": 7.300000000000001,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_25",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 2,
+            "geometry": {
+              "x": -23.05,
+              "y": -52.7,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_29",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 2,
+            "geometry": {
+              "x": -56.05,
+              "y": -52.7,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_1",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath (Typical)",
+            "floor_index": 2,
+            "geometry": {
+              "x": -10.05,
+              "y": -25.55,
+              "width": 39.9,
+              "height": 28.9,
+              "rotation": 0
+            },
+            "target_area_sf": 1150,
+            "actual_area_sf": 1153.11,
+            "membership": 0.9891826086956526,
+            "area_deviation": "+0.3%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_5",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath (Typical)",
+            "floor_index": 2,
+            "geometry": {
+              "x": -10.05,
+              "y": 2.4499999999999993,
+              "width": 39.9,
+              "height": 28.9,
+              "rotation": 0
+            },
+            "target_area_sf": 1150,
+            "actual_area_sf": 1153.11,
+            "membership": 0.9891826086956526,
+            "area_deviation": "+0.3%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_9",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath (Typical)",
+            "floor_index": 2,
+            "geometry": {
+              "x": 8.95,
+              "y": 16.45,
+              "width": 39.9,
+              "height": 28.9,
+              "rotation": 0
+            },
+            "target_area_sf": 1150,
+            "actual_area_sf": 1153.11,
+            "membership": 0.9891826086956526,
+            "area_deviation": "+0.3%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_13",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 1 Bath",
+            "floor_index": 2,
+            "geometry": {
+              "x": 22.0,
+              "y": -11.6,
+              "width": 36.0,
+              "height": 28.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1039,
+            "actual_area_sf": 1036.8,
+            "membership": 0.9915303176130893,
+            "area_deviation": "-0.2%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_17",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 1 Bath",
+            "floor_index": 2,
+            "geometry": {
+              "x": -14.0,
+              "y": 30.4,
+              "width": 36.0,
+              "height": 28.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1039,
+            "actual_area_sf": 1036.8,
+            "membership": 0.9915303176130893,
+            "area_deviation": "-0.2%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_21",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath + Powder",
+            "floor_index": 2,
+            "geometry": {
+              "x": 48.630213010611875,
+              "y": 20.55978698938813,
+              "width": 39.7,
+              "height": 31.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1261,
+            "actual_area_sf": 1262.46,
+            "membership": 0.9953687549563837,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_25",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath + Powder",
+            "floor_index": 2,
+            "geometry": {
+              "x": -48.630213010611875,
+              "y": -20.55978698938813,
+              "width": 39.7,
+              "height": 31.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1261,
+            "actual_area_sf": 1262.46,
+            "membership": 0.9953687549563837,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_3br_1",
+            "type": "DWELLING_UNIT",
+            "name": "3 Bedroom + 2 Bath",
+            "floor_index": 2,
+            "geometry": {
+              "x": 1.2397869893881222,
+              "y": -52.18021301061188,
+              "width": 43.5,
+              "height": 32.6,
+              "rotation": 0
+            },
+            "target_area_sf": 1417,
+            "actual_area_sf": 1418.1000000000001,
+            "membership": 0.9968948482709947,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_3br_5",
+            "type": "DWELLING_UNIT",
+            "name": "3 Bedroom + 2 Bath",
+            "floor_index": 2,
+            "geometry": {
+              "x": 46.73021301061188,
+              "y": -15.310213010611871,
+              "width": 43.5,
+              "height": 32.6,
+              "rotation": 0
+            },
+            "target_area_sf": 1417,
+            "actual_area_sf": 1418.1000000000001,
+            "membership": 0.9968948482709947,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_3br_9",
+            "type": "DWELLING_UNIT",
+            "name": "3 Bedroom + 2 Bath",
+            "floor_index": 2,
+            "geometry": {
+              "x": -1.2397869893881222,
+              "y": 52.18021301061188,
+              "width": 43.5,
+              "height": 32.6,
+              "rotation": 0
+            },
+            "target_area_sf": 1417,
+            "actual_area_sf": 1418.1000000000001,
+            "membership": 0.9968948482709947,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_3br_13",
+            "type": "DWELLING_UNIT",
+            "name": "3 Bedroom + 2 Bath",
+            "floor_index": 2,
+            "geometry": {
+              "x": -46.73021301061188,
+              "y": 15.310213010611871,
+              "width": 43.5,
+              "height": 32.6,
+              "rotation": 0
+            },
+            "target_area_sf": 1417,
+            "actual_area_sf": 1418.1000000000001,
+            "membership": 0.9968948482709947,
+            "area_deviation": "+0.1%",
             "is_vertical": false
           },
           {
@@ -1459,15 +1675,15 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 2,
             "geometry": {
-              "x": -4.190213010611878,
-              "y": -14.210213010611874,
+              "x": -46.33021301061188,
+              "y": -51.880213010611875,
               "width": 44.3,
               "height": 33.2,
               "rotation": 0
             },
             "target_area_sf": 1473,
             "actual_area_sf": 1470.76,
-            "membership": 1.0,
+            "membership": 0.9939171758316361,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1477,15 +1693,15 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 2,
             "geometry": {
-              "x": 43.77978698938812,
-              "y": -14.210213010611874,
+              "x": 46.33021301061188,
+              "y": -51.880213010611875,
               "width": 44.3,
               "height": 33.2,
               "rotation": 0
             },
             "target_area_sf": 1473,
             "actual_area_sf": 1470.76,
-            "membership": 1.0,
+            "membership": 0.9939171758316361,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1495,15 +1711,15 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 2,
             "geometry": {
-              "x": -46.33021301061188,
-              "y": 23.459786989388128,
+              "x": 46.33021301061188,
+              "y": 51.880213010611875,
               "width": 44.3,
               "height": 33.2,
               "rotation": 0
             },
             "target_area_sf": 1473,
             "actual_area_sf": 1470.76,
-            "membership": 1.0,
+            "membership": 0.9939171758316361,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1513,15 +1729,15 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 2,
             "geometry": {
-              "x": 1.6397869893881207,
-              "y": 23.459786989388128,
+              "x": -46.33021301061188,
+              "y": 51.880213010611875,
               "width": 44.3,
               "height": 33.2,
               "rotation": 0
             },
             "target_area_sf": 1473,
             "actual_area_sf": 1470.76,
-            "membership": 1.0,
+            "membership": 0.9939171758316361,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1531,8 +1747,8 @@
             "name": "Common Laundry Room",
             "floor_index": 2,
             "geometry": {
-              "x": -0.2157013093685194,
-              "y": 55.153446648183994,
+              "x": 33.11901937362852,
+              "y": 4.378391405591153,
               "width": 22.847319317591726,
               "height": 22.847319317591726,
               "rotation": 0
@@ -1544,49 +1760,13 @@
             "is_vertical": false
           },
           {
-            "id": "support_7_f2_1",
+            "id": "support_7_f2_4",
             "type": "SUPPORT",
             "name": "Storage - Janitor",
             "floor_index": 2,
             "geometry": {
-              "x": 21.202513669764105,
-              "y": 50.05434230972489,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f2_2",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 2,
-            "geometry": {
-              "x": 37.52162431043762,
-              "y": 50.05434230972489,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f2_3",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 2,
-            "geometry": {
-              "x": 53.84073495111114,
-              "y": 50.05434230972489,
+              "x": 54.53723435276114,
+              "y": -0.7207129328679507,
               "width": 12.649110640673518,
               "height": 12.649110640673518,
               "rotation": 0
@@ -1603,17 +1783,71 @@
             "name": "Trash Room (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": -27.684573978776257,
-              "y": 56.105000000000004,
-              "width": 24.750426021223745,
-              "height": 24.750426021223745,
+              "x": 34.27510534024178,
+              "y": 32.05179668979614,
+              "width": 25.15949125081825,
+              "height": 25.15949125081825,
               "rotation": 0
             },
             "target_area_sf": 633,
-            "actual_area_sf": 612.5835882320695,
-            "membership": 0.8709863395391436,
-            "area_deviation": "-3.2%",
+            "actual_area_sf": 633.0,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
             "is_vertical": false
+          },
+          {
+            "id": "mep_mechanical_3_f2",
+            "type": "MECHANICAL",
+            "name": "Mech Shaft - Ventilation",
+            "floor_index": 2,
+            "geometry": {
+              "x": -7.109051323707208,
+              "y": -18.240627968037366,
+              "width": 11.090536506409418,
+              "height": 11.090536506409418,
+              "rotation": 0
+            },
+            "target_area_sf": 123,
+            "actual_area_sf": 123.00000000000001,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
+            "is_vertical": true
+          },
+          {
+            "id": "mep_plumbing_7_f2",
+            "type": "PLUMBING",
+            "name": "Plumbing Shaft",
+            "floor_index": 2,
+            "geometry": {
+              "x": 3.309200275704918,
+              "y": -16.568343061040075,
+              "width": 7.745966692414834,
+              "height": 7.745966692414834,
+              "rotation": 0
+            },
+            "target_area_sf": 60,
+            "actual_area_sf": 60.00000000000001,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
+            "is_vertical": true
+          },
+          {
+            "id": "mep_fire_3_f2",
+            "type": "FIRE_SPRINKLER",
+            "name": "Sprinkler Riser Closets",
+            "floor_index": 2,
+            "geometry": {
+              "x": 10.418251599412125,
+              "y": -14.931427692332447,
+              "width": 4.47213595499958,
+              "height": 4.47213595499958,
+              "rotation": 0
+            },
+            "target_area_sf": 20,
+            "actual_area_sf": 20.000000000000004,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
+            "is_vertical": true
           }
         ]
       },
@@ -1713,38 +1947,20 @@
             "is_vertical": true
           },
           {
-            "id": "elevator_lobby_f3",
-            "type": "CIRCULATION",
-            "name": "Elevator Lobby",
-            "floor_index": 3,
-            "geometry": {
-              "x": -56.105000000000004,
-              "y": 56.105000000000004,
-              "width": 24.750426021223745,
-              "height": 24.750426021223745,
-              "rotation": 0
-            },
-            "target_area_sf": 668,
-            "actual_area_sf": 612.5835882320695,
-            "membership": 0.668165198994428,
-            "area_deviation": "-8.3%",
-            "is_vertical": false
-          },
-          {
             "id": "unit_studio_2",
             "type": "DWELLING_UNIT",
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": -59.780213010611874,
-              "y": -51.48021301061188,
+              "x": -29.3,
+              "y": -51.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1754,15 +1970,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": -38.71021301061188,
-              "y": -51.48021301061188,
+              "x": -59.3,
+              "y": -51.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1772,15 +1988,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": -17.640213010611877,
-              "y": -51.48021301061188,
+              "x": 30.7,
+              "y": -51.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1790,15 +2006,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": 3.4297869893881234,
-              "y": -51.48021301061188,
+              "x": -39.3,
+              "y": -17.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1808,15 +2024,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": 24.499786989388124,
-              "y": -51.48021301061188,
+              "x": -19.3,
+              "y": -17.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1826,15 +2042,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": 45.56978698938812,
-              "y": -51.48021301061188,
+              "x": 20.7,
+              "y": 17.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1844,15 +2060,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": -59.780213010611874,
-              "y": -13.810213010611875,
+              "x": 10.7,
+              "y": -51.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1862,16 +2078,268 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": -38.71021301061188,
-              "y": -13.810213010611875,
+              "x": -9.3,
+              "y": -51.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_2",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 3,
+            "geometry": {
+              "x": 20.95,
+              "y": -22.7,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_6",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 3,
+            "geometry": {
+              "x": -23.05,
+              "y": 22.3,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_10",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 3,
+            "geometry": {
+              "x": 31.95,
+              "y": 37.3,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_14",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 3,
+            "geometry": {
+              "x": 53.95,
+              "y": -37.7,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_18",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 3,
+            "geometry": {
+              "x": -56.05,
+              "y": 37.3,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_22",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 3,
+            "geometry": {
+              "x": -56.05,
+              "y": -7.699999999999999,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_26",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 3,
+            "geometry": {
+              "x": 53.95,
+              "y": 7.300000000000001,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_2",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath (Typical)",
+            "floor_index": 3,
+            "geometry": {
+              "x": -48.530213010611874,
+              "y": -17.709786989388117,
+              "width": 39.9,
+              "height": 28.9,
+              "rotation": 0
+            },
+            "target_area_sf": 1150,
+            "actual_area_sf": 1153.11,
+            "membership": 0.9891826086956526,
+            "area_deviation": "+0.3%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_6",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath (Typical)",
+            "floor_index": 3,
+            "geometry": {
+              "x": -10.05,
+              "y": -25.55,
+              "width": 39.9,
+              "height": 28.9,
+              "rotation": 0
+            },
+            "target_area_sf": 1150,
+            "actual_area_sf": 1153.11,
+            "membership": 0.9891826086956526,
+            "area_deviation": "+0.3%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_10",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath (Typical)",
+            "floor_index": 3,
+            "geometry": {
+              "x": -10.05,
+              "y": 2.4499999999999993,
+              "width": 39.9,
+              "height": 28.9,
+              "rotation": 0
+            },
+            "target_area_sf": 1150,
+            "actual_area_sf": 1153.11,
+            "membership": 0.9891826086956526,
+            "area_deviation": "+0.3%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_14",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 1 Bath",
+            "floor_index": 3,
+            "geometry": {
+              "x": 4.0,
+              "y": 30.4,
+              "width": 36.0,
+              "height": 28.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1039,
+            "actual_area_sf": 1036.8,
+            "membership": 0.9915303176130893,
+            "area_deviation": "-0.2%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_18",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 1 Bath",
+            "floor_index": 3,
+            "geometry": {
+              "x": 22.0,
+              "y": 2.4000000000000004,
+              "width": 36.0,
+              "height": 28.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1039,
+            "actual_area_sf": 1036.8,
+            "membership": 0.9915303176130893,
+            "area_deviation": "-0.2%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_22",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath + Powder",
+            "floor_index": 3,
+            "geometry": {
+              "x": -48.630213010611875,
+              "y": 16.310213010611882,
+              "width": 39.7,
+              "height": 31.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1261,
+            "actual_area_sf": 1262.46,
+            "membership": 0.9953687549563837,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_26",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath + Powder",
+            "floor_index": 3,
+            "geometry": {
+              "x": 48.630213010611875,
+              "y": 20.55978698938813,
+              "width": 39.7,
+              "height": 31.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1261,
+            "actual_area_sf": 1262.46,
+            "membership": 0.9953687549563837,
+            "area_deviation": "+0.1%",
             "is_vertical": false
           },
           {
@@ -1880,15 +2348,69 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 3,
             "geometry": {
-              "x": 1.2397869893881222,
-              "y": 23.159786989388127,
+              "x": -46.73021301061188,
+              "y": 52.18021301061188,
               "width": 43.5,
               "height": 32.6,
               "rotation": 0
             },
             "target_area_sf": 1417,
             "actual_area_sf": 1418.1000000000001,
-            "membership": 1.0,
+            "membership": 0.9968948482709947,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_3br_6",
+            "type": "DWELLING_UNIT",
+            "name": "3 Bedroom + 2 Bath",
+            "floor_index": 3,
+            "geometry": {
+              "x": 1.2397869893881222,
+              "y": -52.18021301061188,
+              "width": 43.5,
+              "height": 32.6,
+              "rotation": 0
+            },
+            "target_area_sf": 1417,
+            "actual_area_sf": 1418.1000000000001,
+            "membership": 0.9968948482709947,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_3br_10",
+            "type": "DWELLING_UNIT",
+            "name": "3 Bedroom + 2 Bath",
+            "floor_index": 3,
+            "geometry": {
+              "x": 46.73021301061188,
+              "y": -15.310213010611871,
+              "width": 43.5,
+              "height": 32.6,
+              "rotation": 0
+            },
+            "target_area_sf": 1417,
+            "actual_area_sf": 1418.1000000000001,
+            "membership": 0.9968948482709947,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_3br_14",
+            "type": "DWELLING_UNIT",
+            "name": "3 Bedroom + 2 Bath",
+            "floor_index": 3,
+            "geometry": {
+              "x": -1.2397869893881222,
+              "y": 52.18021301061188,
+              "width": 43.5,
+              "height": 32.6,
+              "rotation": 0
+            },
+            "target_area_sf": 1417,
+            "actual_area_sf": 1418.1000000000001,
+            "membership": 0.9968948482709947,
             "area_deviation": "+0.1%",
             "is_vertical": false
           },
@@ -1898,15 +2420,15 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 3,
             "geometry": {
-              "x": -4.190213010611878,
-              "y": -14.210213010611874,
+              "x": -46.33021301061188,
+              "y": -51.880213010611875,
               "width": 44.3,
               "height": 33.2,
               "rotation": 0
             },
             "target_area_sf": 1473,
             "actual_area_sf": 1470.76,
-            "membership": 1.0,
+            "membership": 0.9939171758316361,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1916,15 +2438,15 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 3,
             "geometry": {
-              "x": 43.77978698938812,
-              "y": -14.210213010611874,
+              "x": 46.33021301061188,
+              "y": -51.880213010611875,
               "width": 44.3,
               "height": 33.2,
               "rotation": 0
             },
             "target_area_sf": 1473,
             "actual_area_sf": 1470.76,
-            "membership": 1.0,
+            "membership": 0.9939171758316361,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1934,15 +2456,15 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 3,
             "geometry": {
-              "x": -46.33021301061188,
-              "y": 23.459786989388128,
+              "x": 46.33021301061188,
+              "y": 51.880213010611875,
               "width": 44.3,
               "height": 33.2,
               "rotation": 0
             },
             "target_area_sf": 1473,
             "actual_area_sf": 1470.76,
-            "membership": 1.0,
+            "membership": 0.9939171758316361,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -1952,8 +2474,8 @@
             "name": "Common Laundry Room",
             "floor_index": 3,
             "geometry": {
-              "x": -0.2157013093685194,
-              "y": 55.153446648183994,
+              "x": 33.11901937362852,
+              "y": 4.378391405591153,
               "width": 22.847319317591726,
               "height": 22.847319317591726,
               "rotation": 0
@@ -1965,76 +2487,76 @@
             "is_vertical": false
           },
           {
-            "id": "support_7_f3_1",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 3,
-            "geometry": {
-              "x": 21.202513669764105,
-              "y": 50.05434230972489,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f3_2",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 3,
-            "geometry": {
-              "x": 37.52162431043762,
-              "y": 50.05434230972489,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f3_3",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 3,
-            "geometry": {
-              "x": 53.84073495111114,
-              "y": 50.05434230972489,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
             "id": "support_8_f3",
             "type": "SUPPORT",
             "name": "Trash Room (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": -27.684573978776257,
-              "y": 56.105000000000004,
-              "width": 24.750426021223745,
-              "height": 24.750426021223745,
+              "x": 34.27510534024178,
+              "y": 32.05179668979614,
+              "width": 25.15949125081825,
+              "height": 25.15949125081825,
               "rotation": 0
             },
             "target_area_sf": 633,
-            "actual_area_sf": 612.5835882320695,
-            "membership": 0.8709863395391436,
-            "area_deviation": "-3.2%",
+            "actual_area_sf": 633.0,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
             "is_vertical": false
+          },
+          {
+            "id": "mep_mechanical_3_f3",
+            "type": "MECHANICAL",
+            "name": "Mech Shaft - Ventilation",
+            "floor_index": 3,
+            "geometry": {
+              "x": -7.109051323707208,
+              "y": -18.240627968037366,
+              "width": 11.090536506409418,
+              "height": 11.090536506409418,
+              "rotation": 0
+            },
+            "target_area_sf": 123,
+            "actual_area_sf": 123.00000000000001,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
+            "is_vertical": true
+          },
+          {
+            "id": "mep_plumbing_7_f3",
+            "type": "PLUMBING",
+            "name": "Plumbing Shaft",
+            "floor_index": 3,
+            "geometry": {
+              "x": 3.309200275704918,
+              "y": -16.568343061040075,
+              "width": 7.745966692414834,
+              "height": 7.745966692414834,
+              "rotation": 0
+            },
+            "target_area_sf": 60,
+            "actual_area_sf": 60.00000000000001,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
+            "is_vertical": true
+          },
+          {
+            "id": "mep_fire_3_f3",
+            "type": "FIRE_SPRINKLER",
+            "name": "Sprinkler Riser Closets",
+            "floor_index": 3,
+            "geometry": {
+              "x": 10.418251599412125,
+              "y": -14.931427692332447,
+              "width": 4.47213595499958,
+              "height": 4.47213595499958,
+              "rotation": 0
+            },
+            "target_area_sf": 20,
+            "actual_area_sf": 20.000000000000004,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
+            "is_vertical": true
           }
         ]
       },
@@ -2134,38 +2656,20 @@
             "is_vertical": true
           },
           {
-            "id": "elevator_lobby_f4",
-            "type": "CIRCULATION",
-            "name": "Elevator Lobby",
-            "floor_index": 4,
-            "geometry": {
-              "x": -56.105000000000004,
-              "y": 56.105000000000004,
-              "width": 24.750426021223745,
-              "height": 24.750426021223745,
-              "rotation": 0
-            },
-            "target_area_sf": 668,
-            "actual_area_sf": 612.5835882320695,
-            "membership": 0.668165198994428,
-            "area_deviation": "-8.3%",
-            "is_vertical": false
-          },
-          {
             "id": "unit_studio_3",
             "type": "DWELLING_UNIT",
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": -59.780213010611874,
-              "y": -51.48021301061188,
+              "x": -29.3,
+              "y": -51.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2175,15 +2679,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": -38.71021301061188,
-              "y": -51.48021301061188,
+              "x": 0.6999999999999993,
+              "y": 34.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2193,15 +2697,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": -17.640213010611877,
-              "y": -51.48021301061188,
+              "x": -59.3,
+              "y": -51.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2211,15 +2715,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": 3.4297869893881234,
-              "y": -51.48021301061188,
+              "x": -19.3,
+              "y": 17.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2229,15 +2733,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": 24.499786989388124,
-              "y": -51.48021301061188,
+              "x": -19.3,
+              "y": -17.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2247,15 +2751,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": 45.56978698938812,
-              "y": -51.48021301061188,
+              "x": -39.3,
+              "y": -17.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2265,16 +2769,268 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": -59.780213010611874,
-              "y": -13.810213010611875,
+              "x": -9.3,
+              "y": -51.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_3",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 4,
+            "geometry": {
+              "x": -23.05,
+              "y": 37.3,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_7",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 4,
+            "geometry": {
+              "x": 20.95,
+              "y": 22.3,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_11",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 4,
+            "geometry": {
+              "x": 20.95,
+              "y": -37.7,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_15",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 4,
+            "geometry": {
+              "x": 53.95,
+              "y": -37.7,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_19",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 4,
+            "geometry": {
+              "x": -56.05,
+              "y": 37.3,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_23",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 4,
+            "geometry": {
+              "x": -56.05,
+              "y": -7.699999999999999,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_27",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 4,
+            "geometry": {
+              "x": 53.95,
+              "y": 7.300000000000001,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_3",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath (Typical)",
+            "floor_index": 4,
+            "geometry": {
+              "x": -48.530213010611874,
+              "y": -17.709786989388117,
+              "width": 39.9,
+              "height": 28.9,
+              "rotation": 0
+            },
+            "target_area_sf": 1150,
+            "actual_area_sf": 1153.11,
+            "membership": 0.9891826086956526,
+            "area_deviation": "+0.3%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_7",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath (Typical)",
+            "floor_index": 4,
+            "geometry": {
+              "x": -10.05,
+              "y": -25.55,
+              "width": 39.9,
+              "height": 28.9,
+              "rotation": 0
+            },
+            "target_area_sf": 1150,
+            "actual_area_sf": 1153.11,
+            "membership": 0.9891826086956526,
+            "area_deviation": "+0.3%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_11",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 1 Bath",
+            "floor_index": 4,
+            "geometry": {
+              "x": -14.0,
+              "y": 2.4000000000000004,
+              "width": 36.0,
+              "height": 28.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1039,
+            "actual_area_sf": 1036.8,
+            "membership": 0.9915303176130893,
+            "area_deviation": "-0.2%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_15",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 1 Bath",
+            "floor_index": 4,
+            "geometry": {
+              "x": 4.0,
+              "y": 16.4,
+              "width": 36.0,
+              "height": 28.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1039,
+            "actual_area_sf": 1036.8,
+            "membership": 0.9915303176130893,
+            "area_deviation": "-0.2%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_19",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 1 Bath",
+            "floor_index": 4,
+            "geometry": {
+              "x": 22.0,
+              "y": -11.6,
+              "width": 36.0,
+              "height": 28.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1039,
+            "actual_area_sf": 1036.8,
+            "membership": 0.9915303176130893,
+            "area_deviation": "-0.2%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_23",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath + Powder",
+            "floor_index": 4,
+            "geometry": {
+              "x": -48.630213010611875,
+              "y": 16.310213010611882,
+              "width": 39.7,
+              "height": 31.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1261,
+            "actual_area_sf": 1262.46,
+            "membership": 0.9953687549563837,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_27",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath + Powder",
+            "floor_index": 4,
+            "geometry": {
+              "x": 48.630213010611875,
+              "y": 20.55978698938813,
+              "width": 39.7,
+              "height": 31.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1261,
+            "actual_area_sf": 1262.46,
+            "membership": 0.9953687549563837,
+            "area_deviation": "+0.1%",
             "is_vertical": false
           },
           {
@@ -2283,15 +3039,69 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 4,
             "geometry": {
-              "x": 1.2397869893881222,
-              "y": 23.159786989388127,
+              "x": -46.73021301061188,
+              "y": 52.18021301061188,
               "width": 43.5,
               "height": 32.6,
               "rotation": 0
             },
             "target_area_sf": 1417,
             "actual_area_sf": 1418.1000000000001,
-            "membership": 1.0,
+            "membership": 0.9968948482709947,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_3br_7",
+            "type": "DWELLING_UNIT",
+            "name": "3 Bedroom + 2 Bath",
+            "floor_index": 4,
+            "geometry": {
+              "x": 1.2397869893881222,
+              "y": -52.18021301061188,
+              "width": 43.5,
+              "height": 32.6,
+              "rotation": 0
+            },
+            "target_area_sf": 1417,
+            "actual_area_sf": 1418.1000000000001,
+            "membership": 0.9968948482709947,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_3br_11",
+            "type": "DWELLING_UNIT",
+            "name": "3 Bedroom + 2 Bath",
+            "floor_index": 4,
+            "geometry": {
+              "x": 46.73021301061188,
+              "y": -15.310213010611871,
+              "width": 43.5,
+              "height": 32.6,
+              "rotation": 0
+            },
+            "target_area_sf": 1417,
+            "actual_area_sf": 1418.1000000000001,
+            "membership": 0.9968948482709947,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_3br_15",
+            "type": "DWELLING_UNIT",
+            "name": "3 Bedroom + 2 Bath",
+            "floor_index": 4,
+            "geometry": {
+              "x": -1.2397869893881222,
+              "y": 52.18021301061188,
+              "width": 43.5,
+              "height": 32.6,
+              "rotation": 0
+            },
+            "target_area_sf": 1417,
+            "actual_area_sf": 1418.1000000000001,
+            "membership": 0.9968948482709947,
             "area_deviation": "+0.1%",
             "is_vertical": false
           },
@@ -2301,15 +3111,15 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 4,
             "geometry": {
-              "x": -25.260213010611878,
-              "y": -14.210213010611874,
+              "x": -46.33021301061188,
+              "y": -51.880213010611875,
               "width": 44.3,
               "height": 33.2,
               "rotation": 0
             },
             "target_area_sf": 1473,
             "actual_area_sf": 1470.76,
-            "membership": 1.0,
+            "membership": 0.9939171758316361,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2319,15 +3129,15 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 4,
             "geometry": {
-              "x": 22.70978698938812,
-              "y": -14.210213010611874,
+              "x": 46.33021301061188,
+              "y": -51.880213010611875,
               "width": 44.3,
               "height": 33.2,
               "rotation": 0
             },
             "target_area_sf": 1473,
             "actual_area_sf": 1470.76,
-            "membership": 1.0,
+            "membership": 0.9939171758316361,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2337,15 +3147,15 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 4,
             "geometry": {
-              "x": -46.33021301061188,
-              "y": 23.459786989388128,
+              "x": 46.33021301061188,
+              "y": 51.880213010611875,
               "width": 44.3,
               "height": 33.2,
               "rotation": 0
             },
             "target_area_sf": 1473,
             "actual_area_sf": 1470.76,
-            "membership": 1.0,
+            "membership": 0.9939171758316361,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2355,8 +3165,8 @@
             "name": "Common Laundry Room",
             "floor_index": 4,
             "geometry": {
-              "x": -0.2157013093685194,
-              "y": 55.153446648183994,
+              "x": 33.11901937362852,
+              "y": 4.378391405591153,
               "width": 22.847319317591726,
               "height": 22.847319317591726,
               "rotation": 0
@@ -2368,76 +3178,76 @@
             "is_vertical": false
           },
           {
-            "id": "support_7_f4_1",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 4,
-            "geometry": {
-              "x": 21.202513669764105,
-              "y": 50.05434230972489,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f4_2",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 4,
-            "geometry": {
-              "x": 37.52162431043762,
-              "y": 50.05434230972489,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f4_3",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 4,
-            "geometry": {
-              "x": 53.84073495111114,
-              "y": 50.05434230972489,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
             "id": "support_8_f4",
             "type": "SUPPORT",
             "name": "Trash Room (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": -27.684573978776257,
-              "y": 56.105000000000004,
-              "width": 24.750426021223745,
-              "height": 24.750426021223745,
+              "x": 34.27510534024178,
+              "y": 32.05179668979614,
+              "width": 25.15949125081825,
+              "height": 25.15949125081825,
               "rotation": 0
             },
             "target_area_sf": 633,
-            "actual_area_sf": 612.5835882320695,
-            "membership": 0.8709863395391436,
-            "area_deviation": "-3.2%",
+            "actual_area_sf": 633.0,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
             "is_vertical": false
+          },
+          {
+            "id": "mep_mechanical_3_f4",
+            "type": "MECHANICAL",
+            "name": "Mech Shaft - Ventilation",
+            "floor_index": 4,
+            "geometry": {
+              "x": -7.109051323707208,
+              "y": -18.240627968037366,
+              "width": 11.090536506409418,
+              "height": 11.090536506409418,
+              "rotation": 0
+            },
+            "target_area_sf": 123,
+            "actual_area_sf": 123.00000000000001,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
+            "is_vertical": true
+          },
+          {
+            "id": "mep_plumbing_7_f4",
+            "type": "PLUMBING",
+            "name": "Plumbing Shaft",
+            "floor_index": 4,
+            "geometry": {
+              "x": 3.309200275704918,
+              "y": -16.568343061040075,
+              "width": 7.745966692414834,
+              "height": 7.745966692414834,
+              "rotation": 0
+            },
+            "target_area_sf": 60,
+            "actual_area_sf": 60.00000000000001,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
+            "is_vertical": true
+          },
+          {
+            "id": "mep_fire_3_f4",
+            "type": "FIRE_SPRINKLER",
+            "name": "Sprinkler Riser Closets",
+            "floor_index": 4,
+            "geometry": {
+              "x": 10.418251599412125,
+              "y": -14.931427692332447,
+              "width": 4.47213595499958,
+              "height": 4.47213595499958,
+              "rotation": 0
+            },
+            "target_area_sf": 20,
+            "actual_area_sf": 20.000000000000004,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
+            "is_vertical": true
           }
         ]
       },
@@ -2537,38 +3347,20 @@
             "is_vertical": true
           },
           {
-            "id": "elevator_lobby_f5",
-            "type": "CIRCULATION",
-            "name": "Elevator Lobby",
-            "floor_index": 5,
-            "geometry": {
-              "x": -56.105000000000004,
-              "y": 56.105000000000004,
-              "width": 24.750426021223745,
-              "height": 24.750426021223745,
-              "rotation": 0
-            },
-            "target_area_sf": 668,
-            "actual_area_sf": 612.5835882320695,
-            "membership": 0.668165198994428,
-            "area_deviation": "-8.3%",
-            "is_vertical": false
-          },
-          {
             "id": "unit_studio_4",
             "type": "DWELLING_UNIT",
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": -59.780213010611874,
-              "y": -51.48021301061188,
+              "x": -29.3,
+              "y": -51.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2578,15 +3370,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": -38.71021301061188,
-              "y": -51.48021301061188,
+              "x": 30.7,
+              "y": -51.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2596,15 +3388,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": -17.640213010611877,
-              "y": -51.48021301061188,
+              "x": -59.3,
+              "y": -51.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2614,15 +3406,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": 3.4297869893881234,
-              "y": -51.48021301061188,
+              "x": -19.3,
+              "y": -17.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2632,15 +3424,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": 24.499786989388124,
-              "y": -51.48021301061188,
+              "x": 20.7,
+              "y": 17.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2650,15 +3442,15 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": 45.56978698938812,
-              "y": -51.48021301061188,
+              "x": -39.3,
+              "y": -17.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2668,16 +3460,322 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": -59.780213010611874,
-              "y": -13.810213010611875,
+              "x": 10.7,
+              "y": -51.0,
               "width": 17.4,
               "height": 34.0,
               "rotation": 0
             },
             "target_area_sf": 593,
             "actual_area_sf": 591.5999999999999,
-            "membership": 1.0,
+            "membership": 0.9905564924114665,
             "area_deviation": "-0.2%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_4",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 5,
+            "geometry": {
+              "x": 20.95,
+              "y": -22.7,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_8",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 5,
+            "geometry": {
+              "x": -23.05,
+              "y": 22.3,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_12",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 5,
+            "geometry": {
+              "x": 31.95,
+              "y": 37.3,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_16",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 5,
+            "geometry": {
+              "x": 53.95,
+              "y": -37.7,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_20",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 5,
+            "geometry": {
+              "x": -56.05,
+              "y": 37.3,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_24",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 5,
+            "geometry": {
+              "x": -56.05,
+              "y": -7.699999999999999,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_1br_28",
+            "type": "DWELLING_UNIT",
+            "name": "1 Bedroom + 1 Bath (Typical)",
+            "floor_index": 5,
+            "geometry": {
+              "x": 53.95,
+              "y": 7.300000000000001,
+              "width": 23.9,
+              "height": 30.6,
+              "rotation": 0
+            },
+            "target_area_sf": 732,
+            "actual_area_sf": 731.34,
+            "membership": 0.996393442622951,
+            "area_deviation": "-0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_4",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath (Typical)",
+            "floor_index": 5,
+            "geometry": {
+              "x": -10.05,
+              "y": -25.55,
+              "width": 39.9,
+              "height": 28.9,
+              "rotation": 0
+            },
+            "target_area_sf": 1150,
+            "actual_area_sf": 1153.11,
+            "membership": 0.9891826086956526,
+            "area_deviation": "+0.3%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_8",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath (Typical)",
+            "floor_index": 5,
+            "geometry": {
+              "x": -10.05,
+              "y": 2.4499999999999993,
+              "width": 39.9,
+              "height": 28.9,
+              "rotation": 0
+            },
+            "target_area_sf": 1150,
+            "actual_area_sf": 1153.11,
+            "membership": 0.9891826086956526,
+            "area_deviation": "+0.3%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_12",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 1 Bath",
+            "floor_index": 5,
+            "geometry": {
+              "x": 4.0,
+              "y": 30.4,
+              "width": 36.0,
+              "height": 28.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1039,
+            "actual_area_sf": 1036.8,
+            "membership": 0.9915303176130893,
+            "area_deviation": "-0.2%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_16",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 1 Bath",
+            "floor_index": 5,
+            "geometry": {
+              "x": 22.0,
+              "y": 2.4000000000000004,
+              "width": 36.0,
+              "height": 28.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1039,
+            "actual_area_sf": 1036.8,
+            "membership": 0.9915303176130893,
+            "area_deviation": "-0.2%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_20",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath + Powder",
+            "floor_index": 5,
+            "geometry": {
+              "x": -48.630213010611875,
+              "y": 15.710213010611872,
+              "width": 39.7,
+              "height": 31.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1261,
+            "actual_area_sf": 1262.46,
+            "membership": 0.9953687549563837,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_24",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath + Powder",
+            "floor_index": 5,
+            "geometry": {
+              "x": 48.630213010611875,
+              "y": 20.55978698938813,
+              "width": 39.7,
+              "height": 31.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1261,
+            "actual_area_sf": 1262.46,
+            "membership": 0.9953687549563837,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_2br_28",
+            "type": "DWELLING_UNIT",
+            "name": "2 Bedroom + 2 Bath + Powder",
+            "floor_index": 5,
+            "geometry": {
+              "x": -48.630213010611875,
+              "y": -19.75978698938813,
+              "width": 39.7,
+              "height": 31.8,
+              "rotation": 0
+            },
+            "target_area_sf": 1261,
+            "actual_area_sf": 1262.46,
+            "membership": 0.9953687549563837,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_3br_4",
+            "type": "DWELLING_UNIT",
+            "name": "3 Bedroom + 2 Bath",
+            "floor_index": 5,
+            "geometry": {
+              "x": 1.2397869893881222,
+              "y": -52.18021301061188,
+              "width": 43.5,
+              "height": 32.6,
+              "rotation": 0
+            },
+            "target_area_sf": 1417,
+            "actual_area_sf": 1418.1000000000001,
+            "membership": 0.9968948482709947,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_3br_8",
+            "type": "DWELLING_UNIT",
+            "name": "3 Bedroom + 2 Bath",
+            "floor_index": 5,
+            "geometry": {
+              "x": 46.73021301061188,
+              "y": -15.310213010611871,
+              "width": 43.5,
+              "height": 32.6,
+              "rotation": 0
+            },
+            "target_area_sf": 1417,
+            "actual_area_sf": 1418.1000000000001,
+            "membership": 0.9968948482709947,
+            "area_deviation": "+0.1%",
+            "is_vertical": false
+          },
+          {
+            "id": "unit_3br_12",
+            "type": "DWELLING_UNIT",
+            "name": "3 Bedroom + 2 Bath",
+            "floor_index": 5,
+            "geometry": {
+              "x": -1.2397869893881222,
+              "y": 52.18021301061188,
+              "width": 43.5,
+              "height": 32.6,
+              "rotation": 0
+            },
+            "target_area_sf": 1417,
+            "actual_area_sf": 1418.1000000000001,
+            "membership": 0.9968948482709947,
+            "area_deviation": "+0.1%",
             "is_vertical": false
           },
           {
@@ -2686,15 +3784,15 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 5,
             "geometry": {
-              "x": -25.260213010611878,
-              "y": -14.210213010611874,
+              "x": -46.33021301061188,
+              "y": -51.880213010611875,
               "width": 44.3,
               "height": 33.2,
               "rotation": 0
             },
             "target_area_sf": 1473,
             "actual_area_sf": 1470.76,
-            "membership": 1.0,
+            "membership": 0.9939171758316361,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2704,15 +3802,15 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 5,
             "geometry": {
-              "x": 22.70978698938812,
-              "y": -14.210213010611874,
+              "x": 46.33021301061188,
+              "y": -51.880213010611875,
               "width": 44.3,
               "height": 33.2,
               "rotation": 0
             },
             "target_area_sf": 1473,
             "actual_area_sf": 1470.76,
-            "membership": 1.0,
+            "membership": 0.9939171758316361,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2722,15 +3820,15 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 5,
             "geometry": {
-              "x": -46.33021301061188,
-              "y": 23.459786989388128,
+              "x": 46.33021301061188,
+              "y": 51.880213010611875,
               "width": 44.3,
               "height": 33.2,
               "rotation": 0
             },
             "target_area_sf": 1473,
             "actual_area_sf": 1470.76,
-            "membership": 1.0,
+            "membership": 0.9939171758316361,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2740,15 +3838,15 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 5,
             "geometry": {
-              "x": 1.6397869893881207,
-              "y": 23.459786989388128,
+              "x": -46.33021301061188,
+              "y": 51.880213010611875,
               "width": 44.3,
               "height": 33.2,
               "rotation": 0
             },
             "target_area_sf": 1473,
             "actual_area_sf": 1470.76,
-            "membership": 1.0,
+            "membership": 0.9939171758316361,
             "area_deviation": "-0.2%",
             "is_vertical": false
           },
@@ -2758,8 +3856,8 @@
             "name": "Common Laundry Room",
             "floor_index": 5,
             "geometry": {
-              "x": -0.2157013093685194,
-              "y": 55.153446648183994,
+              "x": 33.11901937362852,
+              "y": 4.378391405591153,
               "width": 22.847319317591726,
               "height": 22.847319317591726,
               "rotation": 0
@@ -2771,76 +3869,76 @@
             "is_vertical": false
           },
           {
-            "id": "support_7_f5_1",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 5,
-            "geometry": {
-              "x": 21.202513669764105,
-              "y": 50.05434230972489,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f5_2",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 5,
-            "geometry": {
-              "x": 37.52162431043762,
-              "y": 50.05434230972489,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f5_3",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 5,
-            "geometry": {
-              "x": 53.84073495111114,
-              "y": 50.05434230972489,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
             "id": "support_8_f5",
             "type": "SUPPORT",
             "name": "Trash Room (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": -27.684573978776257,
-              "y": 56.105000000000004,
-              "width": 24.750426021223745,
-              "height": 24.750426021223745,
+              "x": 34.27510534024178,
+              "y": 32.05179668979614,
+              "width": 25.15949125081825,
+              "height": 25.15949125081825,
               "rotation": 0
             },
             "target_area_sf": 633,
-            "actual_area_sf": 612.5835882320695,
-            "membership": 0.8709863395391436,
-            "area_deviation": "-3.2%",
+            "actual_area_sf": 633.0,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
             "is_vertical": false
+          },
+          {
+            "id": "mep_mechanical_3_f5",
+            "type": "MECHANICAL",
+            "name": "Mech Shaft - Ventilation",
+            "floor_index": 5,
+            "geometry": {
+              "x": -7.109051323707208,
+              "y": -18.240627968037366,
+              "width": 11.090536506409418,
+              "height": 11.090536506409418,
+              "rotation": 0
+            },
+            "target_area_sf": 123,
+            "actual_area_sf": 123.00000000000001,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
+            "is_vertical": true
+          },
+          {
+            "id": "mep_plumbing_7_f5",
+            "type": "PLUMBING",
+            "name": "Plumbing Shaft",
+            "floor_index": 5,
+            "geometry": {
+              "x": 3.309200275704918,
+              "y": -16.568343061040075,
+              "width": 7.745966692414834,
+              "height": 7.745966692414834,
+              "rotation": 0
+            },
+            "target_area_sf": 60,
+            "actual_area_sf": 60.00000000000001,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
+            "is_vertical": true
+          },
+          {
+            "id": "mep_fire_3_f5",
+            "type": "FIRE_SPRINKLER",
+            "name": "Sprinkler Riser Closets",
+            "floor_index": 5,
+            "geometry": {
+              "x": 10.418251599412125,
+              "y": -14.931427692332447,
+              "width": 4.47213595499958,
+              "height": 4.47213595499958,
+              "rotation": 0
+            },
+            "target_area_sf": 20,
+            "actual_area_sf": 20.000000000000004,
+            "membership": 1.0,
+            "area_deviation": "+0.0%",
+            "is_vertical": true
           }
         ]
       },
@@ -2940,78 +4038,6 @@
             "is_vertical": true
           },
           {
-            "id": "support_7_f6_1",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 6,
-            "geometry": {
-              "x": -19.0,
-              "y": -61.0,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f6_2",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 6,
-            "geometry": {
-              "x": -6.0,
-              "y": -61.0,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f6_3",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 6,
-            "geometry": {
-              "x": 7.0,
-              "y": -61.0,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
-            "id": "support_7_f6_4",
-            "type": "SUPPORT",
-            "name": "Storage - Janitor",
-            "floor_index": 6,
-            "geometry": {
-              "x": 20.0,
-              "y": -61.0,
-              "width": 12.649110640673518,
-              "height": 12.649110640673518,
-              "rotation": 0
-            },
-            "target_area_sf": 160,
-            "actual_area_sf": 160.00000000000003,
-            "membership": 1.0,
-            "area_deviation": "+0.0%",
-            "is_vertical": false
-          },
-          {
             "id": "mep_low_voltage_2_f6",
             "type": "LOW_VOLTAGE",
             "name": "IDF Closets",
@@ -3035,7 +4061,7 @@
             "name": "Fan Room/AHU",
             "floor_index": 6,
             "geometry": {
-              "x": 33.0,
+              "x": -20.0,
               "y": -61.0,
               "width": 11.489125293076057,
               "height": 11.489125293076057,
@@ -3071,8 +4097,8 @@
             "name": "Mech Shaft - Ventilation",
             "floor_index": 6,
             "geometry": {
-              "x": 45.0,
-              "y": -61.0,
+              "x": -7.109051323707208,
+              "y": -18.240627968037366,
               "width": 11.090536506409418,
               "height": 11.090536506409418,
               "rotation": 0
@@ -3081,7 +4107,7 @@
             "actual_area_sf": 123.00000000000001,
             "membership": 1.0,
             "area_deviation": "+0.0%",
-            "is_vertical": false
+            "is_vertical": true
           },
           {
             "id": "mep_plumbing_7_f6",
@@ -3089,8 +4115,8 @@
             "name": "Plumbing Shaft",
             "floor_index": 6,
             "geometry": {
-              "x": 55.0,
-              "y": -63.0,
+              "x": 3.309200275704918,
+              "y": -16.568343061040075,
               "width": 7.745966692414834,
               "height": 7.745966692414834,
               "rotation": 0
@@ -3099,7 +4125,7 @@
             "actual_area_sf": 60.00000000000001,
             "membership": 1.0,
             "area_deviation": "+0.0%",
-            "is_vertical": false
+            "is_vertical": true
           },
           {
             "id": "mep_fire_3_f6",
@@ -3107,8 +4133,8 @@
             "name": "Sprinkler Riser Closets",
             "floor_index": 6,
             "geometry": {
-              "x": 62.0,
-              "y": -65.0,
+              "x": 10.418251599412125,
+              "y": -14.931427692332447,
               "width": 4.47213595499958,
               "height": 4.47213595499958,
               "rotation": 0
@@ -3117,7 +4143,7 @@
             "actual_area_sf": 20.000000000000004,
             "membership": 1.0,
             "area_deviation": "+0.0%",
-            "is_vertical": false
+            "is_vertical": true
           }
         ]
       }
@@ -3170,12 +4196,48 @@
           "x": 13.84767985741633,
           "y": 0.0
         }
+      },
+      {
+        "id": "mep_mechanical_3",
+        "type": "shaft",
+        "floor_range": [
+          -1,
+          6
+        ],
+        "position": {
+          "x": -7.109051323707208,
+          "y": -18.240627968037366
+        }
+      },
+      {
+        "id": "mep_plumbing_7",
+        "type": "shaft",
+        "floor_range": [
+          -1,
+          6
+        ],
+        "position": {
+          "x": 3.309200275704918,
+          "y": -16.568343061040075
+        }
+      },
+      {
+        "id": "mep_fire_3",
+        "type": "shaft",
+        "floor_range": [
+          -1,
+          6
+        ],
+        "position": {
+          "x": 10.418251599412125,
+          "y": -14.931427692332447
+        }
       }
     ],
     "metrics": {
       "total_floors": 8,
-      "total_spaces": 268,
-      "cohomology_obstruction": 1883.28346547701
+      "total_spaces": 240,
+      "cohomology_obstruction": 54079.88882487841
     }
   }
 }

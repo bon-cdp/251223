@@ -171,7 +171,7 @@ def solve_massing(
 
 def place_vertical_core(sheaf: Sheaf, config: SolverConfig) -> None:
     """
-    Place vertical elements (elevators, stairs) at the floor center.
+    Place vertical elements (elevators, stairs, shafts) at the floor center.
 
     These form the "core" of the building and create gluing constraints.
     All instances across floors will have the same position.
@@ -188,19 +188,20 @@ def place_vertical_core(sheaf: Sheaf, config: SolverConfig) -> None:
     floor_cx = floor_bounds.x
     floor_cy = floor_bounds.y
 
-    # Separate elevators and stairs
+    # Separate elevators, stairs, and shafts
     elevators = [s for s in sheaf.stalks if 'elevator' in s.element_type]
     stairs = [s for s in sheaf.stalks if 'stair' in s.element_type]
+    shafts = [s for s in sheaf.stalks if 'shaft' in s.element_type]
 
     # Calculate core dimensions
     elevator_total_width = sum(s.spec.width_ft for s in elevators) + \
                           config.core_margin * (len(elevators) - 1) if elevators else 0
     stair_total_width = sum(s.spec.width_ft for s in stairs) + \
                        config.core_margin * (len(stairs) - 1) if stairs else 0
+    shaft_total_width = sum(s.spec.width_ft for s in shafts) + \
+                       config.core_margin * (len(shafts) - 1) if shafts else 0
 
-    # Core layout: elevators in center, stairs on sides
-    # [Stair 1] [Elevator 1] [Elevator 2] [Stair 2]
-
+    # Core layout: [Stair 1] [Elevator 1] [Elevator 2] [Stair 2] + Shafts nearby
     core_width = elevator_total_width + stair_total_width + config.core_margin * 2
     core_start_x = floor_cx - core_width / 2
 
@@ -227,6 +228,19 @@ def place_vertical_core(sheaf: Sheaf, config: SolverConfig) -> None:
     for s in stairs[2:]:
         # Place on opposite side of core
         s.place(floor_cx, floor_cy - floor_bounds.effective_height / 4)
+
+    # Place shafts adjacent to the core (below the main core, creating a service zone)
+    # Position them clearly away from the stairs/elevators
+    max_core_height = max(
+        (elevators[0].spec.height_ft if elevators else 0),
+        (stairs[0].spec.height_ft if stairs else 0)
+    )
+    shaft_y = floor_cy - max_core_height / 2 - 3  # 3ft gap below core
+    shaft_x = floor_cx - shaft_total_width / 2
+    for shaft in shafts:
+        shaft_h = shaft.spec.height_ft
+        shaft.place(shaft_x + shaft.spec.width_ft / 2, shaft_y - shaft_h / 2)
+        shaft_x += shaft.spec.width_ft + config.core_margin
 
 
 def place_floor_spaces(patch: FloorPatch, sheaf: Sheaf, config: SolverConfig) -> None:
@@ -263,7 +277,7 @@ def place_floor_spaces(patch: FloorPatch, sheaf: Sheaf, config: SolverConfig) ->
 
     # Determine floor layout strategy based on floor type
     if patch.floor_type == FloorType.RESIDENTIAL_TYPICAL:
-        place_residential_floor(patch, units, support, config)
+        place_residential_floor(patch, units, support, config, sheaf=sheaf)
     elif patch.floor_type == FloorType.GROUND:
         place_ground_floor(patch, support + amenities, units[:5], config)  # Maybe some units
     elif patch.floor_type in [FloorType.BASEMENT, FloorType.PARKING_UNDERGROUND]:
@@ -273,20 +287,73 @@ def place_floor_spaces(patch: FloorPatch, sheaf: Sheaf, config: SolverConfig) ->
         place_generic(patch, non_vertical, config)
 
 
+def compute_core_exclusion_zone(patch: FloorPatch, sheaf: Optional[Sheaf] = None, margin: float = 3.0) -> Optional[Rectangle]:
+    """
+    Compute the rectangular exclusion zone around vertical core elements.
+
+    In sheaf terms: This defines the region where χ_core = 1 (no placement allowed).
+    This is cohomology with supports - sections must vanish on this region.
+
+    Returns bounding box of all vertical elements + margin, or None if no core.
+    """
+    # First try to use stalks from sheaf (they have positions before floor spaces do)
+    if sheaf and sheaf.stalks:
+        placed_stalks = [s for s in sheaf.stalks if s.is_placed]
+        if placed_stalks:
+            # Compute bounding box of all stalk positions
+            min_x = min(s.position.x - s.spec.width_ft / 2 for s in placed_stalks)
+            max_x = max(s.position.x + s.spec.width_ft / 2 for s in placed_stalks)
+            min_y = min(s.position.y - s.spec.height_ft / 2 for s in placed_stalks)
+            max_y = max(s.position.y + s.spec.height_ft / 2 for s in placed_stalks)
+
+            # Add margin for exclusion zone
+            return Rectangle(
+                x=(min_x + max_x) / 2,
+                y=(min_y + max_y) / 2,
+                width=(max_x - min_x) + 2 * margin,
+                height=(max_y - min_y) + 2 * margin
+            )
+
+    # Fallback to floor's vertical spaces
+    vertical_spaces = patch.get_vertical_spaces()
+    if not vertical_spaces:
+        return None
+
+    placed_vertical = [s for s in vertical_spaces if s.is_placed]
+    if not placed_vertical:
+        return None
+
+    # Compute bounding box of all vertical elements
+    min_x = min(s.position.x - s.width / 2 for s in placed_vertical)
+    max_x = max(s.position.x + s.width / 2 for s in placed_vertical)
+    min_y = min(s.position.y - s.height / 2 for s in placed_vertical)
+    max_y = max(s.position.y + s.height / 2 for s in placed_vertical)
+
+    # Add margin for exclusion zone
+    return Rectangle(
+        x=(min_x + max_x) / 2,
+        y=(min_y + max_y) / 2,
+        width=(max_x - min_x) + 2 * margin,
+        height=(max_y - min_y) + 2 * margin
+    )
+
+
 def place_residential_floor(
     patch: FloorPatch,
     units: List[Space],
     support: List[Space],
-    config: SolverConfig
+    config: SolverConfig,
+    sheaf: Optional[Sheaf] = None
 ) -> None:
     """
-    Place rooms using row-based bin-packing with corridor as connecting space.
+    Place rooms using BILATERAL row-based packing - fill from both sides toward core.
 
     Engineering approach:
     - Corridor (44" = 3.67ft) is the gap between rows
     - Each room's face touches corridor for accessibility
-    - Pack rooms in rows from bottom to top
-    - All rooms accessible from corridor network
+    - Pack from BOTH left and right sides, converging at core
+    - Core exclusion zone prevents overlap with vertical elements
+    - Bilateral packing maximizes floor utilization
     """
     from .fuzzy import fuzzy_area_membership
 
@@ -296,73 +363,188 @@ def place_residential_floor(
     margin = config.margin
     corridor = config.corridor_width  # 3.67ft (44")
 
+    # Compute core exclusion zone (where units cannot be placed)
+    # Use small margin (2ft) to maximize usable space
+    core_zone = compute_core_exclusion_zone(patch, sheaf=sheaf, margin=2.0)
+
     # All spaces to place (units + support)
     all_spaces = units + support
 
-    # Sort by height (depth) first - same-height rooms pack together
-    sorted_spaces = sorted(all_spaces, key=lambda s: (-s.spec.height_ft, -s.spec.area_sf))
+    # OUTSIDE-IN for units, INSIDE-OUT for utilities
+    # This is schematic level - some overlap is acceptable
 
-    # Row-based packing from bottom
-    current_y = floor_bounds.bottom + margin
-    current_row_height = 0
-    current_x = floor_bounds.left + margin
+    # Separate units from support/utilities
+    unit_spaces = [s for s in all_spaces if s.spec.category == SpaceCategory.DWELLING_UNIT]
+    utility_spaces = [s for s in all_spaces if s.spec.category != SpaceCategory.DWELLING_UNIT]
 
-    for space in sorted_spaces:
+    # Sort units by area (largest first) for perimeter placement
+    unit_spaces = sorted(unit_spaces, key=lambda s: -s.spec.area_sf)
+
+    # PHASE 1: Place units OUTSIDE-IN (perimeter first)
+    # Pack around the edges: bottom, right, top, left - working inward
+
+    edges = [
+        ('bottom', floor_bounds.left + margin, floor_bounds.bottom + margin, 1, 0),   # left to right along bottom
+        ('right', floor_bounds.right - margin, floor_bounds.bottom + margin, 0, 1),   # bottom to top along right
+        ('top', floor_bounds.right - margin, floor_bounds.top - margin, -1, 0),       # right to left along top
+        ('left', floor_bounds.left + margin, floor_bounds.top - margin, 0, -1),       # top to bottom along left
+    ]
+
+    edge_idx = 0
+    edge_positions = {
+        'bottom': floor_bounds.left + margin,
+        'right': floor_bounds.bottom + margin,
+        'top': floor_bounds.right - margin,
+        'left': floor_bounds.top - margin,
+    }
+
+    for space in unit_spaces:
         target_w = space.spec.width_ft
         target_h = space.spec.height_ft
-        actual_w, actual_h = target_w, target_h
-        membership = 1.0
 
-        # Check remaining height
-        remaining_height = floor_bounds.top - margin - current_y
-        if target_h > remaining_height and remaining_height > 10:
-            scale = remaining_height / target_h
-            if scale >= (1 - config.fuzzy.max_shrink):
-                actual_h = remaining_height
-                actual_w = target_w * scale
-                new_area = actual_w * actual_h
-                membership = fuzzy_area_membership(new_area, space.spec.area_sf, config.fuzzy.area_tolerance)
+        # Apply fuzzy scaling
+        scale = min(1.0, (floor_width - 2*margin) / max(target_w, target_h))
+        if scale < (1 - config.fuzzy.max_shrink):
+            scale = 1 - config.fuzzy.max_shrink
 
-        # Check width
-        available_width = floor_width - 2 * margin
-        if actual_w > available_width:
-            scale = available_width / actual_w
-            if scale >= (1 - config.fuzzy.max_shrink):
-                actual_w = available_width
-                actual_h *= scale
-                new_area = actual_w * actual_h
-                membership = fuzzy_area_membership(new_area, space.spec.area_sf, config.fuzzy.area_tolerance)
+        actual_w = target_w * scale
+        actual_h = target_h * scale
+        membership = fuzzy_area_membership(actual_w * actual_h, space.spec.area_sf, config.fuzzy.area_tolerance)
 
-        # Try rotation if doesn't fit
-        if (actual_w > available_width or actual_h > remaining_height) and config.allow_rotation:
-            actual_w, actual_h = target_h, target_w
-            if actual_w <= available_width and actual_h <= remaining_height:
-                space.rotation = 90
-                new_area = actual_w * actual_h
-                membership = fuzzy_area_membership(new_area, space.spec.area_sf, config.fuzzy.area_tolerance)
+        space.set_fuzzy_dimensions(actual_w, actual_h, max(membership, 0.5))
 
-        if membership < config.fuzzy.min_membership:
-            continue
+        placed = False
+        attempts = 0
 
-        space.set_fuzzy_dimensions(actual_w, actual_h, membership)
+        def check_overlap_at(x, y, w, h):
+            """Check overlap with already placed spaces."""
+            test_rect = Rectangle(x, y, w, h)
+            total = 0
+            for other in patch.placed_spaces:
+                other_geom = other.try_geometry()
+                if other_geom:
+                    total += test_rect.intersection_area(other_geom)
+            return total
 
-        # Check if fits in current row
-        if current_x + space.width > floor_bounds.right - margin:
-            # Start new row
-            current_y += current_row_height + corridor
-            current_x = floor_bounds.left + margin
-            current_row_height = 0
+        while not placed and attempts < 4:
+            edge_name, start_x, start_y, dx, dy = edges[edge_idx % 4]
 
-            if current_y + space.height > floor_bounds.top - margin:
-                continue
+            if edge_name == 'bottom':
+                x = edge_positions['bottom'] + space.width / 2
+                y = floor_bounds.bottom + margin + space.height / 2
+                if x + space.width / 2 <= floor_bounds.right - margin:
+                    overlap = check_overlap_at(x, y, space.width, space.height)
+                    if overlap < space.spec.area_sf * 0.3:  # Allow up to 30% overlap
+                        space.place(x, y)
+                        edge_positions['bottom'] = x + space.width / 2 + corridor
+                        placed = True
+                    else:
+                        edge_positions['bottom'] = x + space.width / 2 + corridor  # Skip this spot
+            elif edge_name == 'right':
+                x = floor_bounds.right - margin - space.width / 2
+                y = edge_positions['right'] + space.height / 2
+                if y + space.height / 2 <= floor_bounds.top - margin:
+                    overlap = check_overlap_at(x, y, space.width, space.height)
+                    if overlap < space.spec.area_sf * 0.3:
+                        space.place(x, y)
+                        edge_positions['right'] = y + space.height / 2 + corridor
+                        placed = True
+                    else:
+                        edge_positions['right'] = y + space.height / 2 + corridor
+            elif edge_name == 'top':
+                x = edge_positions['top'] - space.width / 2
+                y = floor_bounds.top - margin - space.height / 2
+                if x - space.width / 2 >= floor_bounds.left + margin:
+                    overlap = check_overlap_at(x, y, space.width, space.height)
+                    if overlap < space.spec.area_sf * 0.3:
+                        space.place(x, y)
+                        edge_positions['top'] = x - space.width / 2 - corridor
+                        placed = True
+                    else:
+                        edge_positions['top'] = x - space.width / 2 - corridor
+            elif edge_name == 'left':
+                x = floor_bounds.left + margin + space.width / 2
+                y = edge_positions['left'] - space.height / 2
+                if y - space.height / 2 >= floor_bounds.bottom + margin:
+                    overlap = check_overlap_at(x, y, space.width, space.height)
+                    if overlap < space.spec.area_sf * 0.3:
+                        space.place(x, y)
+                        edge_positions['left'] = y - space.height / 2 - corridor
+                        placed = True
+                    else:
+                        edge_positions['left'] = y - space.height / 2 - corridor
 
-        # Place space
-        x = current_x + space.width / 2
-        y = current_y + space.height / 2
-        space.place(x, y)
+            edge_idx += 1
+            attempts += 1
 
-        current_x += space.width + corridor
-        current_row_height = max(current_row_height, space.height)
+        # If still not placed, try center area with overlap check
+        if not placed:
+            best_pos = None
+            min_overlap = float('inf')
+
+            # Grid search for position with minimal overlap
+            for try_y in range(int(floor_bounds.bottom + margin), int(floor_bounds.top - margin - space.height), int(max(10, space.height/2))):
+                for try_x in range(int(floor_bounds.left + margin), int(floor_bounds.right - margin - space.width), int(max(10, space.width/2))):
+                    test_rect = Rectangle(try_x + space.width/2, try_y + space.height/2, space.width, space.height)
+
+                    # Calculate total overlap with placed spaces
+                    total_overlap = 0
+                    for other in patch.placed_spaces:
+                        if other.id != space.id:
+                            other_geom = other.try_geometry()
+                            if other_geom:
+                                total_overlap += test_rect.intersection_area(other_geom)
+
+                    if total_overlap < min_overlap:
+                        min_overlap = total_overlap
+                        best_pos = (try_x + space.width/2, try_y + space.height/2)
+
+                    # Accept position with low overlap (< 20% of space area)
+                    if total_overlap < space.spec.area_sf * 0.2:
+                        space.place(try_x + space.width/2, try_y + space.height/2)
+                        placed = True
+                        break
+                if placed:
+                    break
+
+            # Use best position found even if overlap is higher
+            if not placed and best_pos:
+                space.place(best_pos[0], best_pos[1])
+
+    # PHASE 2: Place utilities INSIDE-OUT (near core first)
+    # Start from core and work outward
+
+    if core_zone:
+        util_x = core_zone.right + margin
+        util_y = core_zone.y
+    else:
+        util_x = floor_bounds.x
+        util_y = floor_bounds.y
+
+    util_row_height = 0
+
+    for space in utility_spaces:
+        actual_w = space.spec.width_ft
+        actual_h = space.spec.height_ft
+        space.set_fuzzy_dimensions(actual_w, actual_h, 1.0)
+
+        # Try to place near core, radiating outward
+        x = util_x + space.width / 2
+        y = util_y + space.height / 2
+
+        # Check bounds
+        if x + space.width / 2 > floor_bounds.right - margin:
+            # Wrap to next row
+            util_x = core_zone.right + margin if core_zone else floor_bounds.x
+            util_y += util_row_height + corridor
+            util_row_height = 0
+            x = util_x + space.width / 2
+            y = util_y + space.height / 2
+
+        if y + space.height / 2 <= floor_bounds.top - margin:
+            space.place(x, y)
+            util_x = x + space.width / 2 + corridor
+            util_row_height = max(util_row_height, space.height)
 
 
 def place_ground_floor(

@@ -584,8 +584,26 @@ def construct_sheaf(building: BuildingSpec, lot_geometry: Polygon) -> Sheaf:
     return sheaf
 
 
+def is_vertical_shaft(spec: SpaceSpec) -> bool:
+    """
+    Determine if a space is a true vertical element (shaft, riser).
+
+    These elements have the SAME position on every floor and should be
+    treated as VerticalStalks, not independent spaces.
+    """
+    name_lower = spec.name.lower()
+    vertical_keywords = ['shaft', 'riser', 'chase', 'duct']
+    return any(kw in name_lower for kw in vertical_keywords)
+
+
 def assign_space_to_floors(sheaf: Sheaf, spec: SpaceSpec, building: BuildingSpec) -> None:
-    """Assign a space spec to appropriate floor(s) based on floor_assignment."""
+    """
+    Assign a space spec to appropriate floor(s) based on floor_assignment.
+
+    Key insight for "floor: all" spaces:
+    - True vertical elements (shafts, risers) become VerticalStalks
+    - Distributed elements (janitor closets) have count distributed, not multiplied
+    """
     floors = []
 
     if spec.floor_assignment == FloorAssignment.GROUND:
@@ -599,6 +617,34 @@ def assign_space_to_floors(sheaf: Sheaf, spec: SpaceSpec, building: BuildingSpec
         ]
     elif spec.floor_assignment == FloorAssignment.ALL:
         floors = sheaf.floor_indices
+
+        # Check if this is a true vertical element
+        if is_vertical_shaft(spec):
+            # Mark the spec as vertical (it wasn't created that way)
+            spec.is_vertical = True
+
+            # Create as a VerticalStalk - one position for all floors
+            stalk = VerticalStalk(
+                id=spec.id,
+                element_type='shaft',
+                spec=spec,
+                floor_range=(sheaf.min_floor, sheaf.max_floor),
+            )
+            sheaf.add_stalk(stalk)
+
+            # Create corresponding space instances (but they share position via stalk)
+            for floor_idx in floors:
+                patch = sheaf.get_patch(floor_idx)
+                if patch:
+                    space = Space(
+                        id=f"{spec.id}_f{floor_idx}",
+                        spec=spec,
+                        floor_index=floor_idx,
+                        placement_priority=50,  # Shafts have high priority
+                    )
+                    patch.add_space(space)
+            return  # Exit - vertical stalk handled
+
     elif spec.floor_assignment == FloorAssignment.ALL_RESIDENTIAL:
         floors = [
             i for i in sheaf.floor_indices
@@ -617,7 +663,45 @@ def assign_space_to_floors(sheaf: Sheaf, spec: SpaceSpec, building: BuildingSpec
     if not floors:
         floors = [0]  # Default to ground
 
-    # Create space instances
+    # For "floor: all" with count > 1, DISTRIBUTE count across floors
+    # Instead of multiplying (which was the bug)
+    if spec.floor_assignment == FloorAssignment.ALL and spec.count > 1:
+        # Distribute count across floors (round-robin)
+        total_count = spec.count
+        for j in range(total_count):
+            floor_idx = floors[j % len(floors)]
+            patch = sheaf.get_patch(floor_idx)
+            if patch is None:
+                continue
+
+            instance_id = f"{spec.id}_f{floor_idx}_{j+1}"
+            space = Space(
+                id=instance_id,
+                spec=spec,
+                floor_index=floor_idx,
+                placement_priority=5 if spec.category == SpaceCategory.SUPPORT else 1,
+            )
+            patch.add_space(space)
+        return  # Exit - distributed handling done
+
+    # For "floor: all" with count=1, create ONE instance per floor
+    # (e.g., IDF closets - one per floor, different positions)
+    if spec.floor_assignment == FloorAssignment.ALL and spec.count == 1:
+        for floor_idx in floors:
+            patch = sheaf.get_patch(floor_idx)
+            if patch is None:
+                continue
+
+            space = Space(
+                id=f"{spec.id}_f{floor_idx}",
+                spec=spec,
+                floor_index=floor_idx,
+                placement_priority=5 if spec.category == SpaceCategory.SUPPORT else 1,
+            )
+            patch.add_space(space)
+        return  # Exit - one per floor done
+
+    # Standard case: create count instances on each assigned floor
     for i, floor_idx in enumerate(floors):
         patch = sheaf.get_patch(floor_idx)
         if patch is None:
