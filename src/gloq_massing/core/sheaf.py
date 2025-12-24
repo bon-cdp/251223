@@ -496,10 +496,8 @@ def construct_sheaf(building: BuildingSpec, lot_geometry: Polygon) -> Sheaf:
     for floor_idx in range(start_floor, end_floor + 1):
         floor_type = building.get_floor_type(floor_idx)
 
-        # Floor plate (use lot geometry scaled to floor plate area)
-        # For MVP, use rectangular floor plate
-        fp_side = building.floor_plate_width
-        floor_domain = Polygon.rectangle(fp_side, fp_side)
+        # Floor plate - use the provided lot geometry
+        floor_domain = lot_geometry
 
         patch = FloorPatch(
             index=floor_idx,

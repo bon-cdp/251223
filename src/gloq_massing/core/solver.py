@@ -107,8 +107,15 @@ def solve_massing(
         random.seed(config.random_seed)
 
     # Use rectangular lot if not provided
+    # NOTE: Using large demo floor plate - actual APN parcel size should be verified
+    # TODO: Replace with actual parcel geometry from APN data
+    # When integrating with real data, verify:
+    #   1. Parcel boundaries from APN lookup
+    #   2. Setback requirements
+    #   3. FAR constraints
+    #   4. Height limits
     if lot_geometry is None:
-        side = building.floor_plate_width
+        side = 800.0  # 800ft x 800ft = 640,000 SF demo floor plate
         lot_geometry = Polygon.rectangle(side, side)
 
     # Step 1: Construct the sheaf
@@ -370,181 +377,83 @@ def place_residential_floor(
     # All spaces to place (units + support)
     all_spaces = units + support
 
-    # OUTSIDE-IN for units, INSIDE-OUT for utilities
-    # This is schematic level - some overlap is acceptable
+    # RADIAL PLACEMENT - Units outside, BOH inside
+    # Units placed from perimeter inward, utilities from core outward
 
-    # Separate units from support/utilities
-    unit_spaces = [s for s in all_spaces if s.spec.category == SpaceCategory.DWELLING_UNIT]
-    utility_spaces = [s for s in all_spaces if s.spec.category != SpaceCategory.DWELLING_UNIT]
+    def has_overlap(x, y, w, h):
+        """Check if position overlaps ANY placed space or core."""
+        test_rect = Rectangle(x, y, w, h)
+        for other in patch.placed_spaces:
+            other_geom = other.try_geometry()
+            if other_geom and test_rect.intersection_area(other_geom) > 1:
+                return True
+        if core_zone and test_rect.intersects(core_zone):
+            return True
+        return False
 
-    # Sort units by area (largest first) for perimeter placement
-    unit_spaces = sorted(unit_spaces, key=lambda s: -s.spec.area_sf)
+    # Separate units from BOH (back of house)
+    units = [s for s in all_spaces if s.spec.category == SpaceCategory.DWELLING_UNIT]
+    boh = [s for s in all_spaces if s.spec.category != SpaceCategory.DWELLING_UNIT]
 
-    # PHASE 1: Place units OUTSIDE-IN (perimeter first)
-    # Pack around the edges: bottom, right, top, left - working inward
+    # Sort units by area (largest first)
+    units = sorted(units, key=lambda s: -s.spec.area_sf)
+    boh = sorted(boh, key=lambda s: -s.spec.area_sf)
 
-    edges = [
-        ('bottom', floor_bounds.left + margin, floor_bounds.bottom + margin, 1, 0),   # left to right along bottom
-        ('right', floor_bounds.right - margin, floor_bounds.bottom + margin, 0, 1),   # bottom to top along right
-        ('top', floor_bounds.right - margin, floor_bounds.top - margin, -1, 0),       # right to left along top
-        ('left', floor_bounds.left + margin, floor_bounds.top - margin, 0, -1),       # top to bottom along left
-    ]
+    scan_step = 5  # 5ft grid for accuracy
 
-    edge_idx = 0
-    edge_positions = {
-        'bottom': floor_bounds.left + margin,
-        'right': floor_bounds.bottom + margin,
-        'top': floor_bounds.right - margin,
-        'left': floor_bounds.top - margin,
-    }
+    # PHASE 1: Place UNITS from perimeter INWARD (outside-in)
+    # Scan from edges toward center
+    center_x = floor_bounds.x
+    center_y = floor_bounds.y
 
-    for space in unit_spaces:
-        target_w = space.spec.width_ft
-        target_h = space.spec.height_ft
+    for space in units:
+        space.set_fuzzy_dimensions(space.spec.width_ft, space.spec.height_ft, 1.0)
 
-        # Apply fuzzy scaling
-        scale = min(1.0, (floor_width - 2*margin) / max(target_w, target_h))
-        if scale < (1 - config.fuzzy.max_shrink):
-            scale = 1 - config.fuzzy.max_shrink
+        # Generate positions sorted by distance from center (furthest first = perimeter)
+        positions = []
+        for scan_y in range(int(floor_bounds.bottom + margin),
+                           int(floor_bounds.top - margin - space.height),
+                           scan_step):
+            for scan_x in range(int(floor_bounds.left + margin),
+                               int(floor_bounds.right - margin - space.width),
+                               scan_step):
+                x = scan_x + space.width / 2
+                y = scan_y + space.height / 2
+                dist = ((x - center_x)**2 + (y - center_y)**2)**0.5
+                positions.append((dist, x, y))
 
-        actual_w = target_w * scale
-        actual_h = target_h * scale
-        membership = fuzzy_area_membership(actual_w * actual_h, space.spec.area_sf, config.fuzzy.area_tolerance)
+        # Sort by distance descending (perimeter first)
+        positions.sort(reverse=True)
 
-        space.set_fuzzy_dimensions(actual_w, actual_h, max(membership, 0.5))
+        for dist, x, y in positions:
+            if not has_overlap(x, y, space.width, space.height):
+                space.place(x, y)
+                break
 
-        placed = False
-        attempts = 0
+    # PHASE 2: Place BOH from core OUTWARD (inside-out)
+    for space in boh:
+        space.set_fuzzy_dimensions(space.spec.width_ft, space.spec.height_ft, 1.0)
 
-        def check_overlap_at(x, y, w, h):
-            """Check overlap with already placed spaces."""
-            test_rect = Rectangle(x, y, w, h)
-            total = 0
-            for other in patch.placed_spaces:
-                other_geom = other.try_geometry()
-                if other_geom:
-                    total += test_rect.intersection_area(other_geom)
-            return total
+        # Generate positions sorted by distance from center (closest first = near core)
+        positions = []
+        for scan_y in range(int(floor_bounds.bottom + margin),
+                           int(floor_bounds.top - margin - space.height),
+                           scan_step):
+            for scan_x in range(int(floor_bounds.left + margin),
+                               int(floor_bounds.right - margin - space.width),
+                               scan_step):
+                x = scan_x + space.width / 2
+                y = scan_y + space.height / 2
+                dist = ((x - center_x)**2 + (y - center_y)**2)**0.5
+                positions.append((dist, x, y))
 
-        while not placed and attempts < 4:
-            edge_name, start_x, start_y, dx, dy = edges[edge_idx % 4]
+        # Sort by distance ascending (core first)
+        positions.sort()
 
-            if edge_name == 'bottom':
-                x = edge_positions['bottom'] + space.width / 2
-                y = floor_bounds.bottom + margin + space.height / 2
-                if x + space.width / 2 <= floor_bounds.right - margin:
-                    overlap = check_overlap_at(x, y, space.width, space.height)
-                    if overlap < space.spec.area_sf * 0.3:  # Allow up to 30% overlap
-                        space.place(x, y)
-                        edge_positions['bottom'] = x + space.width / 2 + corridor
-                        placed = True
-                    else:
-                        edge_positions['bottom'] = x + space.width / 2 + corridor  # Skip this spot
-            elif edge_name == 'right':
-                x = floor_bounds.right - margin - space.width / 2
-                y = edge_positions['right'] + space.height / 2
-                if y + space.height / 2 <= floor_bounds.top - margin:
-                    overlap = check_overlap_at(x, y, space.width, space.height)
-                    if overlap < space.spec.area_sf * 0.3:
-                        space.place(x, y)
-                        edge_positions['right'] = y + space.height / 2 + corridor
-                        placed = True
-                    else:
-                        edge_positions['right'] = y + space.height / 2 + corridor
-            elif edge_name == 'top':
-                x = edge_positions['top'] - space.width / 2
-                y = floor_bounds.top - margin - space.height / 2
-                if x - space.width / 2 >= floor_bounds.left + margin:
-                    overlap = check_overlap_at(x, y, space.width, space.height)
-                    if overlap < space.spec.area_sf * 0.3:
-                        space.place(x, y)
-                        edge_positions['top'] = x - space.width / 2 - corridor
-                        placed = True
-                    else:
-                        edge_positions['top'] = x - space.width / 2 - corridor
-            elif edge_name == 'left':
-                x = floor_bounds.left + margin + space.width / 2
-                y = edge_positions['left'] - space.height / 2
-                if y - space.height / 2 >= floor_bounds.bottom + margin:
-                    overlap = check_overlap_at(x, y, space.width, space.height)
-                    if overlap < space.spec.area_sf * 0.3:
-                        space.place(x, y)
-                        edge_positions['left'] = y - space.height / 2 - corridor
-                        placed = True
-                    else:
-                        edge_positions['left'] = y - space.height / 2 - corridor
-
-            edge_idx += 1
-            attempts += 1
-
-        # If still not placed, try center area with overlap check
-        if not placed:
-            best_pos = None
-            min_overlap = float('inf')
-
-            # Grid search for position with minimal overlap
-            for try_y in range(int(floor_bounds.bottom + margin), int(floor_bounds.top - margin - space.height), int(max(10, space.height/2))):
-                for try_x in range(int(floor_bounds.left + margin), int(floor_bounds.right - margin - space.width), int(max(10, space.width/2))):
-                    test_rect = Rectangle(try_x + space.width/2, try_y + space.height/2, space.width, space.height)
-
-                    # Calculate total overlap with placed spaces
-                    total_overlap = 0
-                    for other in patch.placed_spaces:
-                        if other.id != space.id:
-                            other_geom = other.try_geometry()
-                            if other_geom:
-                                total_overlap += test_rect.intersection_area(other_geom)
-
-                    if total_overlap < min_overlap:
-                        min_overlap = total_overlap
-                        best_pos = (try_x + space.width/2, try_y + space.height/2)
-
-                    # Accept position with low overlap (< 20% of space area)
-                    if total_overlap < space.spec.area_sf * 0.2:
-                        space.place(try_x + space.width/2, try_y + space.height/2)
-                        placed = True
-                        break
-                if placed:
-                    break
-
-            # Use best position found even if overlap is higher
-            if not placed and best_pos:
-                space.place(best_pos[0], best_pos[1])
-
-    # PHASE 2: Place utilities INSIDE-OUT (near core first)
-    # Start from core and work outward
-
-    if core_zone:
-        util_x = core_zone.right + margin
-        util_y = core_zone.y
-    else:
-        util_x = floor_bounds.x
-        util_y = floor_bounds.y
-
-    util_row_height = 0
-
-    for space in utility_spaces:
-        actual_w = space.spec.width_ft
-        actual_h = space.spec.height_ft
-        space.set_fuzzy_dimensions(actual_w, actual_h, 1.0)
-
-        # Try to place near core, radiating outward
-        x = util_x + space.width / 2
-        y = util_y + space.height / 2
-
-        # Check bounds
-        if x + space.width / 2 > floor_bounds.right - margin:
-            # Wrap to next row
-            util_x = core_zone.right + margin if core_zone else floor_bounds.x
-            util_y += util_row_height + corridor
-            util_row_height = 0
-            x = util_x + space.width / 2
-            y = util_y + space.height / 2
-
-        if y + space.height / 2 <= floor_bounds.top - margin:
-            space.place(x, y)
-            util_x = x + space.width / 2 + corridor
-            util_row_height = max(util_row_height, space.height)
+        for dist, x, y in positions:
+            if not has_overlap(x, y, space.width, space.height):
+                space.place(x, y)
+                break
 
 
 def place_ground_floor(
