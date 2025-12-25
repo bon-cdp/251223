@@ -107,7 +107,6 @@ class MatplotlibFloorRenderer:
         )
         # Apply rotation transform around the rectangle center
         if geom.rotation != 0.0:
-            # For 90/270, we've already swapped dimensions, so rotate the swapped rectangle
             # Use the original center point for rotation
             transform = (
                 mtransforms.Affine2D().rotate_deg_around(geom.x, geom.y, geom.rotation)
