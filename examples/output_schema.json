@@ -1,0 +1,234 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generated schema for Root",
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean"
+    },
+    "obstruction": {
+      "type": "number"
+    },
+    "iterations": {
+      "type": "number"
+    },
+    "message": {
+      "type": "string"
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "placement_rate": {
+          "type": "string"
+        },
+        "avg_membership": {
+          "type": "string"
+        },
+        "total_spaces": {
+          "type": "number"
+        },
+        "placed_spaces": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "placement_rate",
+        "avg_membership",
+        "total_spaces",
+        "placed_spaces"
+      ]
+    },
+    "building": {
+      "type": "object",
+      "properties": {
+        "floors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "floor_index": {
+                "type": "number"
+              },
+              "floor_type": {
+                "type": "string"
+              },
+              "boundary": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              },
+              "area_sf": {
+                "type": "number"
+              },
+              "spaces": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "floor_index": {
+                      "type": "number"
+                    },
+                    "geometry": {
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "type": "number"
+                        },
+                        "y": {
+                          "type": "number"
+                        },
+                        "width": {
+                          "type": "number"
+                        },
+                        "height": {
+                          "type": "number"
+                        },
+                        "rotation": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "x",
+                        "y",
+                        "width",
+                        "height",
+                        "rotation"
+                      ]
+                    },
+                    "target_area_sf": {
+                      "type": "number"
+                    },
+                    "actual_area_sf": {
+                      "type": "number"
+                    },
+                    "membership": {
+                      "type": "number"
+                    },
+                    "area_deviation": {
+                      "type": "string"
+                    },
+                    "is_vertical": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "type",
+                    "name",
+                    "floor_index",
+                    "geometry",
+                    "target_area_sf",
+                    "actual_area_sf",
+                    "membership",
+                    "area_deviation",
+                    "is_vertical"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "floor_index",
+              "floor_type",
+              "boundary",
+              "area_sf",
+              "spaces"
+            ]
+          }
+        },
+        "stalks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "floor_range": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "position": {
+                "type": "object",
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "x",
+                  "y"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "floor_range",
+              "position"
+            ]
+          }
+        },
+        "metrics": {
+          "type": "object",
+          "properties": {
+            "total_floors": {
+              "type": "number"
+            },
+            "total_spaces": {
+              "type": "number"
+            },
+            "cohomology_obstruction": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "total_floors",
+            "total_spaces",
+            "cohomology_obstruction"
+          ]
+        }
+      },
+      "required": [
+        "floors",
+        "stalks",
+        "metrics"
+      ]
+    }
+  },
+  "required": [
+    "success",
+    "obstruction",
+    "iterations",
+    "message",
+    "violations",
+    "metrics",
+    "building"
+  ]
+}
