@@ -52,40 +52,43 @@ class Point:
 @dataclass
 class Rectangle:
     """
-    Axis-aligned rectangle defined by center point and dimensions.
+    Rectangle defined by center point and dimensions with arbitrary rotation.
 
-    Supports rotation in 90-degree increments for room orientation.
+    Rotation uses the SO(2) matrix:
+        R(θ) = [cos θ  -sin θ]
+               [sin θ   cos θ]
     """
     x: float           # center x
     y: float           # center y
-    width: float       # dimension along x-axis (before rotation)
-    height: float      # dimension along y-axis (before rotation)
-    rotation: int = 0  # degrees: 0, 90, 180, 270
+    width: float       # dimension along local x-axis
+    height: float      # dimension along local y-axis
+    rotation: float = 0.0  # degrees, any angle
 
     def __post_init__(self):
-        # Normalize rotation to 0, 90, 180, 270
+        # Normalize rotation to [0, 360)
         self.rotation = self.rotation % 360
-        if self.rotation not in [0, 90, 180, 270]:
-            # Snap to nearest 90 degrees
-            self.rotation = round(self.rotation / 90) * 90 % 360
 
     @property
     def center(self) -> Point:
         return Point(self.x, self.y)
 
     @property
+    def _cos_sin(self) -> Tuple[float, float]:
+        """Cached cos/sin of rotation angle."""
+        rad = math.radians(self.rotation)
+        return math.cos(rad), math.sin(rad)
+
+    @property
     def effective_width(self) -> float:
-        """Width after rotation."""
-        if self.rotation in [90, 270]:
-            return self.height
-        return self.width
+        """Bounding box width after rotation."""
+        cos_r, sin_r = self._cos_sin
+        return abs(self.width * cos_r) + abs(self.height * sin_r)
 
     @property
     def effective_height(self) -> float:
-        """Height after rotation."""
-        if self.rotation in [90, 270]:
-            return self.width
-        return self.height
+        """Bounding box height after rotation."""
+        cos_r, sin_r = self._cos_sin
+        return abs(self.width * sin_r) + abs(self.height * cos_r)
 
     @property
     def left(self) -> float:
@@ -113,27 +116,62 @@ class Rectangle:
         return self.width * self.height
 
     def corners(self) -> List[Point]:
-        """Return 4 corners in counter-clockwise order from bottom-left."""
-        hw = self.effective_width / 2
-        hh = self.effective_height / 2
+        """Return 4 corners in counter-clockwise order, rotated by SO(2) matrix."""
+        hw, hh = self.width / 2, self.height / 2
+        cos_r, sin_r = self._cos_sin
+
+        # Local corners (before rotation)
+        local = [(-hw, -hh), (hw, -hh), (hw, hh), (-hw, hh)]
+
+        # Apply rotation matrix R(θ) = [cos -sin; sin cos]
         return [
-            Point(self.x - hw, self.y - hh),  # bottom-left
-            Point(self.x + hw, self.y - hh),  # bottom-right
-            Point(self.x + hw, self.y + hh),  # top-right
-            Point(self.x - hw, self.y + hh),  # top-left
+            Point(
+                self.x + lx * cos_r - ly * sin_r,
+                self.y + lx * sin_r + ly * cos_r
+            )
+            for lx, ly in local
         ]
 
     def intersects(self, other: Rectangle) -> bool:
-        """Check if this rectangle overlaps with another (excluding edges)."""
-        # Separating axis theorem for axis-aligned rectangles
-        if self.right <= other.left or other.right <= self.left:
-            return False
-        if self.top <= other.bottom or other.top <= self.bottom:
-            return False
-        return True
+        """Check if this rectangle overlaps with another using SAT."""
+        # Separating Axis Theorem for oriented bounding boxes
+        # Test 4 axes: 2 edge normals from each rectangle
+
+        corners_a = self.corners()
+        corners_b = other.corners()
+
+        def get_axes(corners: List[Point]) -> List[Tuple[float, float]]:
+            """Get edge normal vectors (perpendicular to edges)."""
+            axes = []
+            for i in range(len(corners)):
+                edge = corners[(i + 1) % len(corners)] - corners[i]
+                # Normal is perpendicular: (-y, x)
+                length = math.sqrt(edge.x**2 + edge.y**2)
+                if length > 0:
+                    axes.append((-edge.y / length, edge.x / length))
+            return axes
+
+        def project(corners: List[Point], axis: Tuple[float, float]) -> Tuple[float, float]:
+            """Project corners onto axis, return (min, max)."""
+            dots = [c.x * axis[0] + c.y * axis[1] for c in corners]
+            return min(dots), max(dots)
+
+        # Test all 4 axes (2 from each rectangle, but only need 2 unique per rect)
+        for axis in get_axes(corners_a)[:2] + get_axes(corners_b)[:2]:
+            min_a, max_a = project(corners_a, axis)
+            min_b, max_b = project(corners_b, axis)
+            # Check for separation (with small tolerance)
+            if max_a <= min_b + 0.001 or max_b <= min_a + 0.001:
+                return False  # Separating axis found
+
+        return True  # No separating axis, rectangles intersect
 
     def intersection_area(self, other: Rectangle) -> float:
-        """Calculate overlapping area with another rectangle."""
+        """Calculate overlapping area with another rectangle.
+
+        Note: Uses bounding box approximation. For precise OBB intersection
+        area, use Sutherland-Hodgman polygon clipping.
+        """
         x_overlap = max(0, min(self.right, other.right) - max(self.left, other.left))
         y_overlap = max(0, min(self.top, other.top) - max(self.bottom, other.bottom))
         return x_overlap * y_overlap

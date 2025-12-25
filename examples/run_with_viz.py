@@ -14,6 +14,13 @@ from gloq_massing.parsing.json_loader import load_gloq_json
 from gloq_massing.core.solver import solve_massing, SolverConfig
 from gloq_massing.core.geometry import Polygon
 from gloq_massing.visualization.renderer import save_building_html, save_floor_svg
+from gloq_massing.visualization import (
+    MatplotlibFloorRenderer,
+    MatplotlibBuildingRenderer,
+    RenderConfig,
+    OutputFormat,
+    load_solver_result,
+)
 
 
 def main():
@@ -59,6 +66,24 @@ def main():
             save_floor_svg(patch, svg_path, scale=3.0)
 
         print(f"Floor SVGs saved: p1_floor_*.svg")
+
+        # Dev's matplotlib renderer (PNG output)
+        print("\nRendering with matplotlib...")
+        typed_result = load_solver_result(str(json_path))
+
+        config_png = RenderConfig(
+            output_format=OutputFormat.PNG,
+            scale=3.0,
+            show_labels=True,
+            dpi=150,
+        )
+
+        # Render building grid
+        building_renderer = MatplotlibBuildingRenderer(config_png, cols=3)
+        building_renderer.render_building(typed_result.building)
+        grid_path = output_dir / "p1_building_grid.png"
+        building_renderer.save(grid_path)
+        print(f"Building grid PNG saved: {grid_path}")
 
         # Summary stats
         total_placed = sum(len(p.placed_spaces) for p in result.sheaf.patches.values())
