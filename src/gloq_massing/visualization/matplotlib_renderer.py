@@ -11,6 +11,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import matplotlib.transforms as mtransforms
 from matplotlib.figure import Figure
 from matplotlib.axes import Axes
 
@@ -104,6 +105,15 @@ class MatplotlibFloorRenderer:
             alpha=self.config.space_alpha,
             linestyle=linestyle,
         )
+        # Apply rotation transform around the rectangle center
+        if geom.rotation != 0.0:
+            # Use the original center point for rotation
+            transform = (
+                mtransforms.Affine2D().rotate_deg_around(geom.x, geom.y, geom.rotation)
+                + self._ax.transData
+            )
+            rect.set_transform(transform)
+
         self._ax.add_patch(rect)
 
         # Add label if enabled
