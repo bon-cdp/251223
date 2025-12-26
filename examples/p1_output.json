@@ -4,7 +4,7 @@
   "iterations": 1,
   "message": "Partial: 56% placed, obstruction 36.80",
   "violations": [
-    "MinimumDistanceConstraint: {'stair_2_f-1', 'stair_1_f-1'} = 36.80"
+    "MinimumDistanceConstraint: {'stair_1_f-1', 'stair_2_f-1'} = 36.80"
   ],
   "metrics": {
     "placement_rate": "55.8%",

@@ -1,11 +1,32 @@
 [project]
-name = "251223"
+name = "gloq-massing-solver"
 version = "0.1.0"
-description = "Add your description here"
+description = "Building massing solver using sheaf cohomology"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "matplotlib>=3.10.8",
     "numpy>=2.4.0",
     "pydantic>=2.12.5",
+]
+
+[project.optional-dependencies]
+# PDF pipeline dependencies (Henry's contribution)
+pipeline = [
+    "pdfplumber>=0.10.3",
+    "requests>=2.31.0",
+    "python-dotenv>=1.0.0",
+]
+# LLM integrations
+llm = [
+    "openai>=1.12.0",
+    "dashscope>=1.14.0",
+]
+# All extras
+all = [
+    "pdfplumber>=0.10.3",
+    "requests>=2.31.0",
+    "python-dotenv>=1.0.0",
+    "openai>=1.12.0",
+    "dashscope>=1.14.0",
 ]
