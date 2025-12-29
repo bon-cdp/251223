@@ -7,12 +7,44 @@ export interface Position {
   y: number;
 }
 
-export interface Geometry {
+// Rectangle-based geometry (legacy, backward compatible)
+export interface RectGeometry {
   x: number;      // Center X
   y: number;      // Center Y
   width: number;
   height: number;
   rotation: number;
+}
+
+// Polygon-based geometry for L-shapes and custom polygons
+export interface PolygonGeometry {
+  vertices: [number, number][];  // Array of [x, y] points, clockwise order
+  rotation?: number;
+}
+
+// Union type - supports both rectangle and polygon
+export type Geometry = RectGeometry | PolygonGeometry;
+
+// Type guard to check if geometry is polygon-based
+export function isPolygonGeometry(geom: Geometry): geom is PolygonGeometry {
+  return 'vertices' in geom;
+}
+
+// Type guard to check if geometry is rectangle-based
+export function isRectGeometry(geom: Geometry): geom is RectGeometry {
+  return 'width' in geom && 'height' in geom && !('vertices' in geom);
+}
+
+// Convert rectangle geometry to polygon vertices
+export function rectToPolygon(rect: RectGeometry): [number, number][] {
+  const halfW = rect.width / 2;
+  const halfH = rect.height / 2;
+  return [
+    [rect.x - halfW, rect.y - halfH],
+    [rect.x + halfW, rect.y - halfH],
+    [rect.x + halfW, rect.y + halfH],
+    [rect.x - halfW, rect.y + halfH],
+  ];
 }
 
 export interface SpaceData {

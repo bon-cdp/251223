@@ -1,17 +1,21 @@
 /**
  * Main SVG floor plan viewer component
+ * Supports both rectangle and polygon-based space geometries
  */
 
 import React from 'react';
-import { FloorData, SpaceData } from '../../types/solverOutput';
+import { FloorData, SpaceData, isPolygonGeometry, rectToPolygon } from '../../types/solverOutput';
 import { getSpaceColor, BOUNDARY_COLOR, BACKGROUND_COLOR } from '../../constants/colors';
 import {
   getFloorBounds,
   createSvgTransform,
   boundaryToSvgPoints,
   geometryToSvgRect,
+  polygonToSvgPath,
   worldToSvg,
+  getGeometryCenter,
 } from '../../utils/geometry';
+import { calculateCentroid } from '../../utils/polygon';
 
 interface FloorPlanViewerProps {
   floor: FloorData;
@@ -87,7 +91,7 @@ export const FloorPlanViewer: React.FC<FloorPlanViewerProps> = ({
   );
 };
 
-interface SpaceRectProps {
+interface SpaceShapeProps {
   space: SpaceData;
   transform: ReturnType<typeof createSvgTransform>;
   isSelected: boolean;
@@ -96,7 +100,10 @@ interface SpaceRectProps {
   onClick: () => void;
 }
 
-const SpaceRect: React.FC<SpaceRectProps> = ({
+/**
+ * Renders a space as either a rectangle or polygon based on geometry type
+ */
+const SpaceShape: React.FC<SpaceShapeProps> = ({
   space,
   transform,
   isSelected,
@@ -104,10 +111,52 @@ const SpaceRect: React.FC<SpaceRectProps> = ({
   showLabel,
   onClick,
 }) => {
-  const rect = geometryToSvgRect(space.geometry, transform);
   const color = getSpaceColor(space.type);
+  const geometry = space.geometry;
 
-  // For rotation, we need to position the rect centered and apply transform
+  // Determine if this is a polygon geometry
+  const isPolygon = isPolygonGeometry(geometry);
+
+  // Get center point for label positioning
+  const center = getGeometryCenter(geometry);
+  const svgCenter = worldToSvg(center.x, center.y, transform);
+
+  if (isPolygon) {
+    // Render as SVG path for polygon geometry
+    const pathD = polygonToSvgPath(geometry, transform);
+
+    return (
+      <g
+        onClick={onClick}
+        style={{ cursor: 'pointer' }}
+      >
+        <path
+          d={pathD}
+          fill={color}
+          fillOpacity={0.9}
+          stroke={isSelected ? '#000' : BOUNDARY_COLOR}
+          strokeWidth={isSelected ? 2 : 1}
+          strokeDasharray={isVertical ? '4,2' : undefined}
+        />
+        {showLabel && (
+          <text
+            x={svgCenter.x}
+            y={svgCenter.y}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize={8}
+            fill="#333"
+            pointerEvents="none"
+          >
+            {space.name.length > 12 ? space.name.slice(0, 12) + '...' : space.name}
+          </text>
+        )}
+      </g>
+    );
+  }
+
+  // Render as rectangle (original behavior)
+  const rect = geometryToSvgRect(geometry, transform);
   const halfWidth = rect.width / 2;
   const halfHeight = rect.height / 2;
 
@@ -145,5 +194,8 @@ const SpaceRect: React.FC<SpaceRectProps> = ({
     </g>
   );
 };
+
+// Backward compatible alias
+const SpaceRect = SpaceShape;
 
 export default FloorPlanViewer;
