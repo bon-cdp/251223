@@ -3,7 +3,7 @@
  * Supports moving, adding, and removing vertices with undo/redo
  */
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { SpaceData, Geometry, PolygonGeometry, isPolygonGeometry, rectToPolygon, RectGeometry } from '../types/solverOutput';
 import {
   moveVertex,
@@ -116,6 +116,16 @@ export function usePolygonEditor(initialSpaces: SpaceData[]): UsePolygonEditorRe
     { spaces: initialSpaces.map(toEditableSpace), timestamp: Date.now() }
   ]);
   const [historyIndex, setHistoryIndex] = useState(0);
+
+  // Sync editable spaces when initialSpaces changes (e.g., after data loads)
+  useEffect(() => {
+    if (initialSpaces.length > 0 && editableSpaces.length === 0) {
+      const newEditableSpaces = initialSpaces.map(toEditableSpace);
+      setEditableSpaces(newEditableSpaces);
+      setHistory([{ spaces: newEditableSpaces, timestamp: Date.now() }]);
+      setHistoryIndex(0);
+    }
+  }, [initialSpaces]);
 
   // Push state to history
   const pushHistory = useCallback((spaces: EditableSpace[]) => {
