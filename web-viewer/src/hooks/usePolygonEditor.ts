@@ -3,7 +3,7 @@
  * Supports moving, adding, and removing vertices with undo/redo
  */
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { SpaceData, Geometry, PolygonGeometry, isPolygonGeometry, rectToPolygon, RectGeometry } from '../types/solverOutput';
 import {
   moveVertex,
@@ -117,14 +117,27 @@ export function usePolygonEditor(initialSpaces: SpaceData[]): UsePolygonEditorRe
   ]);
   const [historyIndex, setHistoryIndex] = useState(0);
 
-  // Sync editable spaces when initialSpaces changes (e.g., after data loads)
+  // Track previous initialSpaces to detect data source changes
+  const prevInitialSpacesRef = useRef<SpaceData[]>(initialSpaces);
+
+  // Sync editable spaces when initialSpaces changes (e.g., after data loads or PDF upload)
   useEffect(() => {
-    if (initialSpaces.length > 0 && editableSpaces.length === 0) {
+    // Check if this is a new data source (different space IDs or count)
+    const isNewDataSource = initialSpaces.length > 0 && (
+      editableSpaces.length === 0 ||
+      initialSpaces[0]?.id !== prevInitialSpacesRef.current[0]?.id ||
+      initialSpaces.length !== prevInitialSpacesRef.current.length
+    );
+
+    if (isNewDataSource) {
       const newEditableSpaces = initialSpaces.map(toEditableSpace);
       setEditableSpaces(newEditableSpaces);
       setHistory([{ spaces: newEditableSpaces, timestamp: Date.now() }]);
       setHistoryIndex(0);
+      setSelectedSpaceId(null); // Clear selection on data change
     }
+
+    prevInitialSpacesRef.current = initialSpaces;
   }, [initialSpaces]);
 
   // Push state to history

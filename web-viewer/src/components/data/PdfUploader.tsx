@@ -201,6 +201,13 @@ Return ONLY valid JSON, no other text or markdown.`;
     }
 
     const result = await response.json();
+
+    // Validate API response structure
+    if (!result?.choices?.[0]?.message?.content) {
+      console.error('Invalid API response:', result);
+      throw new Error('Invalid response from AI service. Please try again.');
+    }
+
     const content = result.choices[0].message.content;
 
     // Parse JSON from response (handle both raw JSON and markdown code blocks)
@@ -210,10 +217,38 @@ Return ONLY valid JSON, no other text or markdown.`;
     if (codeBlockMatch) {
       jsonStr = codeBlockMatch[1];
     }
-    // Find JSON object
-    const jsonMatch = jsonStr.match(/\{[\s\S]*\}/);
+
+    // Find JSON object using brace-counting for accurate extraction
+    let jsonMatch: string | null = null;
+    const cleanJson = jsonStr.trim();
+
+    // Find the first opening brace
+    const startIndex = cleanJson.indexOf('{');
+    if (startIndex !== -1) {
+      // Count braces to find matching closing brace
+      let braceCount = 0;
+      let endIndex = -1;
+      for (let i = startIndex; i < cleanJson.length; i++) {
+        if (cleanJson[i] === '{') braceCount++;
+        if (cleanJson[i] === '}') braceCount--;
+        if (braceCount === 0) {
+          endIndex = i + 1;
+          break;
+        }
+      }
+      if (endIndex > startIndex) {
+        jsonMatch = cleanJson.slice(startIndex, endIndex);
+      }
+    }
+
+    // Fallback to regex if brace-counting fails
+    if (!jsonMatch) {
+      const regexMatch = jsonStr.match(/\{[\s\S]*\}/);
+      jsonMatch = regexMatch ? regexMatch[0] : null;
+    }
+
     if (jsonMatch) {
-      const buildingData = JSON.parse(jsonMatch[0]) as ExtractedBuildingData;
+      const buildingData = JSON.parse(jsonMatch) as ExtractedBuildingData;
 
       // Return with both legacy format and new structured data
       return {

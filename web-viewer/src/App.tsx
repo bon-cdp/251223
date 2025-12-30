@@ -106,18 +106,27 @@ function App() {
     const generatedResult = generateSolverResultFromExtracted(extractedData);
     setPdfResult(generatedResult);
 
+    // Clear selection when switching data sources
+    selectSpaceEditor(null);
+    clearSelection();
+
     const apn = extractedData.properties?.apn ||
                 extractedData.building_data?.building?.apn ||
                 'Unknown APN';
     setPdfProjectName(`Extracted: ${apn}`);
-  }, []);
+  }, [selectSpaceEditor, clearSelection]);
 
   // Reset to default data
   const handleReset = useCallback(() => {
     setPdfResult(null);
     setPdfProjectName(null);
+
+    // Clear selection when resetting
+    selectSpaceEditor(null);
+    clearSelection();
+
     resetToOriginal();
-  }, [resetToOriginal]);
+  }, [resetToOriginal, selectSpaceEditor, clearSelection]);
 
   // Loading state
   if (loading) {
