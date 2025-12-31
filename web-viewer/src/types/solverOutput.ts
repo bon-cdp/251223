@@ -119,20 +119,44 @@ export interface DwellingUnit {
 export interface BuildingInput {
   project_name: string;
   building: {
-    property_type: string;
-    construction_type: string;
+    property_type?: string;
+    construction_type?: string;
     lot_size_sf: number;
     far: number;
     gfa_sf: number;
-    gba_sf: number;
+    gba_sf?: number;
     stories_total: number;
     stories_above_grade: number;
     stories_below_grade: number;
     floor_plate_sf: number;
-    rentable_sf: number;
-    net_to_gross: number;
+    rentable_sf?: number;
+    net_to_gross?: number;
     height_above_grade_ft: number;
-    height_below_grade_ft: number;
+    height_below_grade_ft?: number;
   };
   dwelling_units: DwellingUnit[];
+  circulation?: {
+    corridor_width_ft: number;
+    corridor_length_ft?: number;
+    elevators: {
+      passenger: { count: number; sf_per_floor: number };
+      freight?: { count: number; sf_per_floor: number };
+    };
+    stairs: { count: number; sf_per_floor: number };
+    vestibule_elevator_lobby_sf?: number;
+    shaft_elevator_sf?: number;
+    shaft_stair_sf?: number;
+  };
+  parking?: {
+    surface_stalls: number;
+    podium_stalls: number;
+    underground_stalls: number;
+    indoor_parking_sf?: number;
+    surface_lot_sf?: number;
+    loading_dock_sf?: number;
+    rideshare_zone_sf?: number;
+  };
+  support?: Array<{ name: string; area_sf: number; floor?: string }>;
+  amenities_indoor?: Array<{ name: string; area_sf: number; floor?: string }>;
+  amenities_outdoor?: Array<{ name: string; area_sf: number; floor?: string }>;
 }

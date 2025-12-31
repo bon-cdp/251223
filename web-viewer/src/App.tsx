@@ -16,27 +16,31 @@ import { MetricsDashboard } from './components/panels/MetricsDashboard';
 import { LegendPanel } from './components/panels/LegendPanel';
 import { MetricsBar } from './components/panels/MetricsBar';
 import { VerificationCalculator } from './components/verification/VerificationCalculator';
-import { PdfUploader } from './components/data/PdfUploader';
 import { CanvasToolbar } from './components/toolbar/CanvasToolbar';
 import { ParcelMap } from './components/map/ParcelMap';
-import { generateSolverResultFromExtracted } from './utils/generateFromExtracted';
-import { SolverResult, SpaceData } from './types/solverOutput';
+import { SpaceData } from './types/solverOutput';
 import './App.css';
 
 type ViewMode = 'floorplan' | 'map';
 
 function App() {
-  const { solverResult: defaultResult, buildingInput, loading, error } = useSolverData();
-
-  // State for PDF-generated results
-  const [pdfResult, setPdfResult] = useState<SolverResult | null>(null);
-  const [pdfProjectName, setPdfProjectName] = useState<string | null>(null);
+  const {
+    solverResult,
+    buildingInput,
+    loading,
+    error,
+    loadProject,
+    currentProjectId,
+    availableProjects
+  } = useSolverData();
 
   // View mode toggle
   const [viewMode, setViewMode] = useState<ViewMode>('floorplan');
 
-  // Use PDF result if available, otherwise default
-  const solverResult = pdfResult || defaultResult;
+  // Handle project change
+  const handleProjectChange = useCallback((projectId: string) => {
+    loadProject(projectId);
+  }, [loadProject]);
 
   // Floor navigation
   const {
@@ -99,35 +103,6 @@ function App() {
     editableSpaces
   );
 
-  // Handle PDF extraction
-  const handlePdfExtracted = useCallback((extractedData: any) => {
-    console.log('PDF extracted:', extractedData);
-
-    const generatedResult = generateSolverResultFromExtracted(extractedData);
-    setPdfResult(generatedResult);
-
-    // Clear selection when switching data sources
-    selectSpaceEditor(null);
-    clearSelection();
-
-    const apn = extractedData.properties?.apn ||
-                extractedData.building_data?.building?.apn ||
-                'Unknown APN';
-    setPdfProjectName(`Extracted: ${apn}`);
-  }, [selectSpaceEditor, clearSelection]);
-
-  // Reset to default data
-  const handleReset = useCallback(() => {
-    setPdfResult(null);
-    setPdfProjectName(null);
-
-    // Clear selection when resetting
-    selectSpaceEditor(null);
-    clearSelection();
-
-    resetToOriginal();
-  }, [resetToOriginal, selectSpaceEditor, clearSelection]);
-
   // Loading state
   if (loading) {
     return (
@@ -152,7 +127,7 @@ function App() {
     );
   }
 
-  const projectName = pdfProjectName || buildingInput?.project_name || 'Building Massing';
+  const projectName = buildingInput?.project_name || 'Building Massing';
 
   return (
     <div className="app dark-theme">
@@ -160,7 +135,16 @@ function App() {
       <header className="header">
         <div className="header-left">
           <h1 className="logo">GLOQ</h1>
-          <span className="project-name">{projectName}</span>
+          {/* Project Selector */}
+          <select
+            className="project-selector"
+            value={currentProjectId}
+            onChange={(e) => handleProjectChange(e.target.value)}
+          >
+            {availableProjects.map(p => (
+              <option key={p.id} value={p.id}>{p.name}</option>
+            ))}
+          </select>
         </div>
         <div className="header-center">
           {/* View Toggle */}
@@ -180,11 +164,6 @@ function App() {
           </div>
         </div>
         <div className="header-right">
-          {pdfResult && (
-            <button onClick={handleReset} className="reset-button">
-              Reset to Sample
-            </button>
-          )}
         </div>
       </header>
 
@@ -201,9 +180,6 @@ function App() {
             onPrev={prevFloor}
             onNext={nextFloor}
           />
-
-          <div className="panel-header" style={{ marginTop: '16px' }}>PDF Upload</div>
-          <PdfUploader onDataExtracted={handlePdfExtracted} />
         </aside>
 
         {/* Center - Canvas Area */}
@@ -240,6 +216,7 @@ function App() {
               <ParcelMap
                 projectName={projectName}
                 floorArea={currentFloor?.area_sf}
+                parcelArea={buildingInput?.building?.lot_size_sf}
               />
             ) : (
               <div className="no-floor">No floor selected</div>

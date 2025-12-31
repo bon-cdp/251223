@@ -13,6 +13,8 @@ export interface ExtractedBuildingData {
   building: {
     property_type?: string;
     construction_type?: string;
+    address?: string;  // Property address for geocoding
+    apn?: string;      // Assessor's Parcel Number
     lot_size_sf: number;
     far: number;
     gfa_sf: number;
@@ -111,6 +113,8 @@ Return a JSON object with this EXACT structure (use actual numbers from the docu
   "building": {
     "property_type": "apartment",
     "construction_type": "Type III/I",
+    "address": "<full street address of the property if found, e.g., '123 Main St, Los Angeles, CA 90012'>",
+    "apn": "<Assessor's Parcel Number if found>",
     "lot_size_sf": <number from "Lot Size (GSF)">,
     "far": <number from "FAR">,
     "gfa_sf": <number from "Gross Floor Area (GFA)">,

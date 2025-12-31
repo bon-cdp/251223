@@ -82,6 +82,40 @@ body {
   border-left: 1px solid var(--border-color);
 }
 
+/* Project Selector */
+.project-selector {
+  padding: 6px 12px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  min-width: 200px;
+}
+
+.project-selector:hover {
+  border-color: var(--accent);
+}
+
+.project-selector:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+}
+
+.project-selector:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.project-selector option {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  padding: 8px;
+}
+
 /* View Toggle */
 .view-toggle {
   display: flex;

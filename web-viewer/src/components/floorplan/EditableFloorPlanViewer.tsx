@@ -1,9 +1,9 @@
 /**
  * Editable floor plan viewer with vertex editing support
- * Extends FloorPlanViewer with drag-and-drop vertex manipulation
+ * Supports pan and zoom navigation
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useCallback, useRef } from 'react';
 import { FloorData, SpaceData, isPolygonGeometry, rectToPolygon } from '../../types/solverOutput';
 import { getSpaceColor, BOUNDARY_COLOR, BACKGROUND_COLOR } from '../../constants/colors';
 import {
@@ -54,6 +54,92 @@ export const EditableFloorPlanViewer: React.FC<EditableFloorPlanViewerProps> = (
 }) => {
   const bounds = getFloorBounds(floor);
   const transform = createSvgTransform(bounds, scale, 30);
+  const svgRef = useRef<SVGSVGElement>(null);
+
+  // Pan and zoom state
+  const [viewBox, setViewBox] = useState({
+    x: 0,
+    y: 0,
+    width: transform.svgWidth,
+    height: transform.svgHeight,
+  });
+  const [isPanning, setIsPanning] = useState(false);
+  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
+  const [zoomLevel, setZoomLevel] = useState(1);
+
+  // Handle mouse wheel zoom
+  const handleWheel = useCallback((e: React.WheelEvent) => {
+    e.preventDefault();
+    const zoomFactor = e.deltaY > 0 ? 1.1 : 0.9;
+    const newZoom = Math.max(0.5, Math.min(5, zoomLevel * zoomFactor));
+
+    // Get mouse position relative to SVG
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    const rect = svg.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    // Calculate zoom point in viewBox coordinates
+    const zoomPointX = viewBox.x + (mouseX / rect.width) * viewBox.width;
+    const zoomPointY = viewBox.y + (mouseY / rect.height) * viewBox.height;
+
+    const newWidth = transform.svgWidth / newZoom;
+    const newHeight = transform.svgHeight / newZoom;
+
+    // Adjust viewBox to zoom toward mouse position
+    const newX = zoomPointX - (mouseX / rect.width) * newWidth;
+    const newY = zoomPointY - (mouseY / rect.height) * newHeight;
+
+    setZoomLevel(newZoom);
+    setViewBox({ x: newX, y: newY, width: newWidth, height: newHeight });
+  }, [viewBox, zoomLevel, transform]);
+
+  // Handle pan start
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    // Only start panning with middle mouse button or when holding space
+    // Or when in select mode
+    if (e.button === 1 || editMode === 'select') {
+      setIsPanning(true);
+      setPanStart({ x: e.clientX, y: e.clientY });
+    }
+  }, [editMode]);
+
+  // Handle pan move
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isPanning) return;
+
+    const svg = svgRef.current;
+    if (!svg) return;
+
+    const rect = svg.getBoundingClientRect();
+    const dx = (e.clientX - panStart.x) * (viewBox.width / rect.width);
+    const dy = (e.clientY - panStart.y) * (viewBox.height / rect.height);
+
+    setViewBox(prev => ({
+      ...prev,
+      x: prev.x - dx,
+      y: prev.y - dy,
+    }));
+    setPanStart({ x: e.clientX, y: e.clientY });
+  }, [isPanning, panStart, viewBox]);
+
+  // Handle pan end
+  const handleMouseUp = useCallback(() => {
+    setIsPanning(false);
+  }, []);
+
+  // Reset view
+  const resetView = useCallback(() => {
+    setZoomLevel(1);
+    setViewBox({
+      x: 0,
+      y: 0,
+      width: transform.svgWidth,
+      height: transform.svgHeight,
+    });
+  }, [transform]);
 
   // Use editable spaces if provided, otherwise use floor.spaces
   const spaces = useMemo(() => {
@@ -71,10 +157,64 @@ export const EditableFloorPlanViewer: React.FC<EditableFloorPlanViewerProps> = (
   const isEditingVertices = editMode === 'vertex';
 
   return (
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      {/* Zoom controls */}
+      <div style={{
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        zIndex: 10,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 4,
+      }}>
+        <button
+          onClick={() => handleWheel({ deltaY: -100, preventDefault: () => {} } as any)}
+          style={zoomButtonStyle}
+          title="Zoom In"
+        >+</button>
+        <button
+          onClick={() => handleWheel({ deltaY: 100, preventDefault: () => {} } as any)}
+          style={zoomButtonStyle}
+          title="Zoom Out"
+        >−</button>
+        <button
+          onClick={resetView}
+          style={zoomButtonStyle}
+          title="Reset View"
+        >⌂</button>
+      </div>
+
+      {/* Zoom level indicator */}
+      <div style={{
+        position: 'absolute',
+        bottom: 10,
+        right: 10,
+        zIndex: 10,
+        background: 'rgba(45, 45, 63, 0.9)',
+        color: '#a0a0b0',
+        padding: '4px 8px',
+        borderRadius: 4,
+        fontSize: 11,
+      }}>
+        {Math.round(zoomLevel * 100)}%
+      </div>
+
     <svg
-      width={transform.svgWidth}
-      height={transform.svgHeight}
-      style={{ border: '1px solid #333', background: '#1e1e2e' }}
+      ref={svgRef}
+      width="100%"
+      height="100%"
+      viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`}
+      style={{
+        border: '1px solid #333',
+        background: '#1e1e2e',
+        cursor: isPanning ? 'grabbing' : (editMode === 'select' ? 'grab' : 'default'),
+      }}
+      onWheel={handleWheel}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
     >
       {/* Background */}
       <rect
@@ -134,8 +274,8 @@ export const EditableFloorPlanViewer: React.FC<EditableFloorPlanViewerProps> = (
       {/* Edit mode indicator */}
       {isEditingVertices && selectedSpaceId && (
         <text
-          x={10}
-          y={20}
+          x={viewBox.x + 10}
+          y={viewBox.y + 20}
           fontSize={11}
           fill="#7c3aed"
           fontWeight="bold"
@@ -144,7 +284,24 @@ export const EditableFloorPlanViewer: React.FC<EditableFloorPlanViewerProps> = (
         </text>
       )}
     </svg>
+    </div>
   );
+};
+
+// Zoom button style
+const zoomButtonStyle: React.CSSProperties = {
+  width: 28,
+  height: 28,
+  background: '#2d2d3f',
+  color: '#fff',
+  border: '1px solid #4a4a5a',
+  borderRadius: 4,
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: 16,
+  fontWeight: 'bold',
 };
 
 interface EditableSpaceProps {

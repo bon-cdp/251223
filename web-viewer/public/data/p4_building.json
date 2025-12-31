@@ -1,0 +1,219 @@
+{
+  "$schema": "gloq_space_allocation_v1",
+  "project_name": "P4 - Proposed Apartment Project",
+
+  "building": {
+    "property_type": "apartment",
+    "construction_type": "Type III/I",
+    "lot_size_sf": 56914,
+    "far": 4.00,
+    "gfa_sf": 227656,
+    "gba_sf": 241570,
+    "stories_total": 10,
+    "stories_above_grade": 8,
+    "stories_below_grade": 2,
+    "floor_plate_sf": 24157,
+    "rentable_sf": 202110,
+    "net_to_gross": 0.837,
+    "height_above_grade_ft": 80,
+    "height_below_grade_ft": 20,
+    "story_distribution": {
+      "dwelling": 8.0,
+      "mixed_use": 2.0,
+      "parking": 0
+    }
+  },
+
+  "dwelling_units": [
+    {
+      "type": "studio",
+      "name": "Studio + 1 Bath (Typical)",
+      "count": 158,
+      "area_sf": 470,
+      "width_ft": 17.4,
+      "depth_ft": 27.0,
+      "bedrooms": 0,
+      "bathrooms": 1.0
+    },
+    {
+      "type": "1br",
+      "name": "1 Bedroom + 1 Bath (Typical)",
+      "count": 143,
+      "area_sf": 581,
+      "width_ft": 23.9,
+      "depth_ft": 24.3,
+      "bedrooms": 1,
+      "bathrooms": 1.0
+    },
+    {
+      "type": "2br",
+      "name": "2 Bedroom + 2 Bath (Typical)",
+      "count": 13,
+      "area_sf": 911,
+      "width_ft": 39.9,
+      "depth_ft": 22.9,
+      "bedrooms": 2,
+      "bathrooms": 2.0
+    },
+    {
+      "type": "2br",
+      "name": "2 Bedroom + 1 Bath",
+      "count": 13,
+      "area_sf": 823,
+      "width_ft": 36.0,
+      "depth_ft": 22.8,
+      "bedrooms": 2,
+      "bathrooms": 1.0
+    },
+    {
+      "type": "2br",
+      "name": "2 Bedroom + 2 Bath + Powder",
+      "count": 12,
+      "area_sf": 1000,
+      "width_ft": 39.7,
+      "depth_ft": 25.2,
+      "bedrooms": 2,
+      "bathrooms": 2.5
+    },
+    {
+      "type": "3br",
+      "name": "3 Bedroom + 2 Bath",
+      "count": 5,
+      "area_sf": 1122,
+      "width_ft": 43.5,
+      "depth_ft": 25.8,
+      "bedrooms": 3,
+      "bathrooms": 2.0
+    },
+    {
+      "type": "3br",
+      "name": "3 Bedroom + 2 Bath + Powder",
+      "count": 4,
+      "area_sf": 1166,
+      "width_ft": 44.3,
+      "depth_ft": 26.3,
+      "bedrooms": 3,
+      "bathrooms": 2.5
+    }
+  ],
+
+  "circulation": {
+    "corridor_width_ft": 6,
+    "corridor_length_ft": 3546,
+    "elevators": {
+      "passenger": {"count": 4, "sf_per_floor": 216},
+      "freight": {"count": 2, "sf_per_floor": 272}
+    },
+    "stairs": {"count": 3, "sf_per_floor": 224},
+    "vestibule_elevator_lobby_sf": 1324,
+    "vestibule_stair_sf": 1271,
+    "shaft_elevator_sf": 3471,
+    "shaft_stair_sf": 2535
+  },
+
+  "support": [
+    {"name": "Entry Lobby", "area_sf": 922, "floor": "ground"},
+    {"name": "Mail Room", "area_sf": 544, "floor": "ground"},
+    {"name": "Bicycle Room", "area_sf": 2400, "floor": "ground"},
+    {"name": "Bicycle Repair Area", "area_sf": 88, "floor": "ground"},
+    {"name": "Common Laundry Room", "area_sf": 930, "floor": "typical"},
+    {"name": "Storage - General", "area_sf": 353, "floor": "basement"},
+    {"name": "Storage - Janitor's Closet", "area_sf": 191, "floor": "all"},
+    {"name": "Storage - Cold Delivery", "area_sf": 177, "floor": "ground"},
+    {"name": "Storage - Parcels", "area_sf": 265, "floor": "ground"},
+    {"name": "Trash Room (Typical)", "area_sf": 1003, "floor": "typical"},
+    {"name": "Trash Vestibule (Typical)", "area_sf": 1339, "floor": "typical"},
+    {"name": "Recycling Room", "area_sf": 301, "floor": "ground"},
+    {"name": "Compactor Room", "area_sf": 260, "floor": "ground"},
+    {"name": "Compost Room", "area_sf": 251, "floor": "ground"}
+  ],
+
+  "staff": [
+    {"name": "Leasing Office", "area_sf": 88, "floor": "ground"},
+    {"name": "Manager Office", "area_sf": 88, "floor": "ground"},
+    {"name": "CCTV/Security Room", "area_sf": 144, "floor": "ground"},
+    {"name": "Staff Lockers & Showers", "area_sf": 646, "floor": "ground"},
+    {"name": "Staff Restroom", "area_sf": 107, "floor": "ground"}
+  ],
+
+  "amenities_indoor": [
+    {"name": "Bar/Cafe Nook", "area_sf": 1059, "floor": "ground"},
+    {"name": "Business Center/Coworking", "area_sf": 945, "floor": "ground"},
+    {"name": "Children's Play Area", "area_sf": 443, "floor": "ground"},
+    {"name": "Commercial Kitchen", "area_sf": 566, "floor": "ground"},
+    {"name": "Community/Multi-Purpose Room", "area_sf": 1439, "floor": "ground"},
+    {"name": "Concierge Desk", "area_sf": 267, "floor": "ground"},
+    {"name": "Dining Room", "area_sf": 1059, "floor": "ground"},
+    {"name": "Game Room", "area_sf": 588, "floor": "ground"},
+    {"name": "Library/Reading Lounge", "area_sf": 443, "floor": "ground"},
+    {"name": "Theater/Screening Room", "area_sf": 1023, "floor": "ground"},
+    {"name": "Restroom for Residents", "area_sf": 476, "floor": "ground"}
+  ],
+
+  "amenities_outdoor": [
+    {"name": "Outdoor Bar Area", "area_sf": 500, "floor": "roof"},
+    {"name": "BBQ Stations", "area_sf": 1495, "floor": "roof"},
+    {"name": "Cabanas", "area_sf": 691, "floor": "roof"},
+    {"name": "Fire Pit", "area_sf": 2216, "floor": "roof"},
+    {"name": "Gazebos", "area_sf": 1064, "floor": "roof"},
+    {"name": "Movie Screening Area", "area_sf": 305, "floor": "roof"},
+    {"name": "Outdoor Kitchen", "area_sf": 1575, "floor": "roof"},
+    {"name": "Seating/Tables", "area_sf": 722, "floor": "roof"},
+    {"name": "Swimming Pool", "area_sf": 1350, "floor": "roof"},
+    {"name": "Planters/Landscaping", "area_sf": 1984, "floor": "roof"},
+    {"name": "Outdoor Circulation", "area_sf": 4756, "floor": "roof"}
+  ],
+
+  "parking": {
+    "surface_stalls": 0,
+    "podium_stalls": 0,
+    "underground_stalls": 0,
+    "indoor_parking_sf": 0,
+    "surface_lot_sf": 0,
+    "loading_dock_sf": 250,
+    "rideshare_zone_sf": 800
+  },
+
+  "mep": {
+    "low_voltage": [
+      {"name": "MPOE Room", "area_sf": 200, "floor": "ground"},
+      {"name": "IDF Closets", "area_sf": 264, "floor": "all"},
+      {"name": "DAS Room", "area_sf": 216, "floor": "ground"}
+    ],
+    "electrical": [
+      {"name": "Main Electrical Room", "area_sf": 450, "floor": "basement"},
+      {"name": "Sub Electrical Rooms", "area_sf": 583, "floor": "typical"},
+      {"name": "ATS Room", "area_sf": 132, "floor": "basement"},
+      {"name": "Generator Room", "area_sf": 259, "floor": "basement"},
+      {"name": "Solar Battery/UPS Room", "area_sf": 321, "floor": "basement"}
+    ],
+    "mechanical": [
+      {"name": "Fan Room/AHU", "area_sf": 124, "floor": "roof"},
+      {"name": "HVAC Equipment Pad", "area_sf": 1128, "floor": "roof"},
+      {"name": "Mech Shaft - Commercial Kitchen", "area_sf": 130, "floor": "all"},
+      {"name": "Mech Shaft - Ventilation", "area_sf": 482, "floor": "all"}
+    ],
+    "plumbing": [
+      {"name": "Domestic Water Booster Room", "area_sf": 216, "floor": "basement"},
+      {"name": "Cistern/Water Tank Room", "area_sf": 1981, "floor": "basement"},
+      {"name": "Backflow Preventer Room", "area_sf": 80, "floor": "ground"},
+      {"name": "Central Water Heating Room", "area_sf": 85, "floor": "basement"},
+      {"name": "Graywater System Room", "area_sf": 69, "floor": "basement"},
+      {"name": "Plumbing Shaft", "area_sf": 153, "floor": "all"},
+      {"name": "Water Filtration Room", "area_sf": 94, "floor": "basement"},
+      {"name": "Rain Water Harvesting Room", "area_sf": 107, "floor": "basement"}
+    ],
+    "fire": [
+      {"name": "Fire Pump Room", "area_sf": 144, "floor": "basement"},
+      {"name": "Fire Control Room", "area_sf": 200, "floor": "ground"},
+      {"name": "Sprinkler Riser Closets", "area_sf": 20, "floor": "all"}
+    ]
+  },
+
+  "lot_geometry": {
+    "type": "placeholder_rectangle",
+    "width_ft": 239,
+    "depth_ft": 239,
+    "note": "Square lot approximating 56,914 SF"
+  }
+}

@@ -1,23 +1,28 @@
 /**
  * Parcel Map component using Leaflet
- * Shows parcel boundary on satellite imagery
+ * Shows parcel boundary on satellite imagery with geocoding support
  */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { geocodeAddress, createParcelBoundary, createBuildingFootprint } from '../../utils/geocoding';
 
 interface ParcelMapProps {
-  // Parcel boundary in lat/lng coordinates
+  // Property address for geocoding
+  address?: string;
+  // Parcel/lot area in square feet (for generating boundary)
+  parcelArea?: number;
+  // Floor plate area in SF (for building footprint)
+  floorArea?: number;
+  // Explicit parcel boundary in lat/lng coordinates (overrides geocoding)
   boundary?: [number, number][];
-  // Building footprint (optional)
+  // Explicit building footprint (optional)
   buildingFootprint?: [number, number][];
-  // Center point if no boundary
+  // Center point if no boundary or address
   center?: [number, number];
   // Zoom level
   zoom?: number;
-  // Floor plate area in SF (for display)
-  floorArea?: number;
   // Project name
   projectName?: string;
 }
@@ -26,7 +31,7 @@ interface ParcelMapProps {
 const DEFAULT_CENTER: [number, number] = [34.0522, -118.2437];
 const DEFAULT_ZOOM = 18;
 
-// Sample parcel coordinates (placeholder - would come from APN lookup)
+// Sample parcel coordinates (placeholder)
 const SAMPLE_PARCEL: [number, number][] = [
   [34.0525, -118.2440],
   [34.0525, -118.2435],
@@ -35,69 +40,103 @@ const SAMPLE_PARCEL: [number, number][] = [
 ];
 
 export const ParcelMap: React.FC<ParcelMapProps> = ({
+  address,
+  parcelArea,
+  floorArea,
   boundary,
   buildingFootprint,
   center = DEFAULT_CENTER,
   zoom = DEFAULT_ZOOM,
-  floorArea,
   projectName,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
+  const parcelPolygonRef = useRef<L.Polygon | null>(null);
+  const footprintPolygonRef = useRef<L.Polygon | null>(null);
 
+  // State for geocoded data
+  const [geocodedCenter, setGeocodedCenter] = useState<[number, number] | null>(null);
+  const [geocodedParcel, setGeocodedParcel] = useState<[number, number][] | null>(null);
+  const [geocodedFootprint, setGeocodedFootprint] = useState<[number, number][] | null>(null);
+  const [formattedAddress, setFormattedAddress] = useState<string | null>(null);
+  const [geocodingError, setGeocodingError] = useState<string | null>(null);
+  const [isGeocoding, setIsGeocoding] = useState(false);
+
+  // Geocode address when it changes
   useEffect(() => {
-    if (!mapContainerRef.current || mapRef.current) return;
+    if (!address) {
+      setGeocodedCenter(null);
+      setGeocodedParcel(null);
+      setGeocodedFootprint(null);
+      setFormattedAddress(null);
+      setGeocodingError(null);
+      return;
+    }
 
-    // Initialize map
+    let cancelled = false;
+    setIsGeocoding(true);
+    setGeocodingError(null);
+
+    geocodeAddress(address).then(result => {
+      if (cancelled) return;
+      setIsGeocoding(false);
+
+      if (result) {
+        const centerPoint: [number, number] = [result.lat, result.lng];
+        setGeocodedCenter(centerPoint);
+        setFormattedAddress(result.formattedAddress);
+
+        // Generate parcel boundary from area
+        if (parcelArea) {
+          const parcelBoundary = createParcelBoundary(
+            { lat: result.lat, lng: result.lng },
+            parcelArea
+          );
+          setGeocodedParcel(parcelBoundary);
+        }
+
+        // Generate building footprint from floor area
+        if (floorArea) {
+          const footprint = createBuildingFootprint(
+            { lat: result.lat, lng: result.lng },
+            floorArea
+          );
+          setGeocodedFootprint(footprint);
+        }
+      } else {
+        setGeocodingError('Could not find location for address');
+      }
+    }).catch(err => {
+      if (cancelled) return;
+      setIsGeocoding(false);
+      setGeocodingError('Geocoding failed');
+      console.error('Geocoding error:', err);
+    });
+
+    return () => { cancelled = true; };
+  }, [address, parcelArea, floorArea]);
+
+  // Initialize map once
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+    if (mapRef.current) return; // Already initialized
+
     const map = L.map(mapContainerRef.current, {
-      center: center,
+      center: geocodedCenter || center,
       zoom: zoom,
       zoomControl: true,
     });
 
-    // Add ESRI World Imagery (satellite) tile layer
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      attribution: 'Tiles &copy; Esri',
-      maxZoom: 20,
+    // Add Google Maps satellite tile layer
+    L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+      attribution: 'Map data &copy; Google',
+      maxZoom: 21,
     }).addTo(map);
 
-    // Add labels layer on top
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 20,
+    // Add Google Maps labels/roads layer on top (hybrid view)
+    L.tileLayer('https://mt1.google.com/vt/lyrs=h&x={x}&y={y}&z={z}', {
+      maxZoom: 21,
     }).addTo(map);
-
-    // Use provided boundary or sample
-    const parcelCoords = boundary || SAMPLE_PARCEL;
-
-    // Add parcel boundary polygon
-    const parcelPolygon = L.polygon(parcelCoords, {
-      color: '#7c3aed',
-      weight: 3,
-      fillColor: '#7c3aed',
-      fillOpacity: 0.2,
-    }).addTo(map);
-
-    // Add building footprint if provided
-    if (buildingFootprint) {
-      L.polygon(buildingFootprint, {
-        color: '#10b981',
-        weight: 2,
-        fillColor: '#10b981',
-        fillOpacity: 0.4,
-      }).addTo(map);
-    }
-
-    // Fit map to parcel bounds
-    map.fitBounds(parcelPolygon.getBounds(), { padding: [50, 50] });
-
-    // Add popup with info
-    const popupContent = `
-      <div style="font-family: -apple-system, sans-serif; font-size: 12px;">
-        <strong>${projectName || 'Parcel'}</strong>
-        ${floorArea ? `<br/>Floor Area: ${floorArea.toLocaleString()} SF` : ''}
-      </div>
-    `;
-    parcelPolygon.bindPopup(popupContent);
 
     mapRef.current = map;
 
@@ -106,25 +145,110 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
       map.remove();
       mapRef.current = null;
     };
-  }, [boundary, buildingFootprint, center, zoom, floorArea, projectName]);
+  }, []); // Only run once on mount
+
+  // Update map when data changes
+  useEffect(() => {
+    if (!mapRef.current) return;
+    const map = mapRef.current;
+
+    // Remove old polygons
+    if (parcelPolygonRef.current) {
+      parcelPolygonRef.current.remove();
+      parcelPolygonRef.current = null;
+    }
+    if (footprintPolygonRef.current) {
+      footprintPolygonRef.current.remove();
+      footprintPolygonRef.current = null;
+    }
+
+    // Determine what to show - priority: explicit boundary > geocoded > sample
+    const parcelCoords = boundary || geocodedParcel || SAMPLE_PARCEL;
+    const footprintCoords = buildingFootprint || geocodedFootprint;
+
+    // Add parcel boundary polygon
+    const parcelPoly = L.polygon(parcelCoords, {
+      color: '#7c3aed',
+      weight: 3,
+      fillColor: '#7c3aed',
+      fillOpacity: 0.2,
+    }).addTo(map);
+
+    // Build popup content
+    let popupContent = `
+      <div style="font-family: -apple-system, sans-serif; font-size: 12px;">
+        <strong>${projectName || 'Parcel'}</strong>
+    `;
+    if (formattedAddress) {
+      popupContent += `<br/><span style="color: #666;">${formattedAddress}</span>`;
+    }
+    if (parcelArea) {
+      popupContent += `<br/>Lot: ${parcelArea.toLocaleString()} SF`;
+    }
+    if (floorArea) {
+      popupContent += `<br/>Floor Area: ${floorArea.toLocaleString()} SF`;
+    }
+    popupContent += '</div>';
+
+    parcelPoly.bindPopup(popupContent);
+    parcelPolygonRef.current = parcelPoly;
+
+    // Add building footprint if available
+    if (footprintCoords) {
+      const footprintPoly = L.polygon(footprintCoords, {
+        color: '#10b981',
+        weight: 2,
+        fillColor: '#10b981',
+        fillOpacity: 0.4,
+      }).addTo(map);
+      footprintPolygonRef.current = footprintPoly;
+    }
+
+    // Fit map to parcel bounds
+    map.fitBounds(parcelPoly.getBounds(), { padding: [50, 50] });
+
+  }, [boundary, geocodedParcel, buildingFootprint, geocodedFootprint, projectName, floorArea, parcelArea, formattedAddress]);
+
+  // Update map center when geocoded center changes
+  useEffect(() => {
+    if (!mapRef.current || !geocodedCenter) return;
+    mapRef.current.setView(geocodedCenter, zoom);
+  }, [geocodedCenter, zoom]);
 
   return (
     <div style={styles.container}>
+      {/* Loading indicator */}
+      {isGeocoding && (
+        <div style={styles.loadingOverlay}>
+          <div style={styles.loadingSpinner} />
+          <span>Finding location...</span>
+        </div>
+      )}
+
+      {/* Error message */}
+      {geocodingError && (
+        <div style={styles.errorBanner}>
+          {geocodingError}
+        </div>
+      )}
+
       <div ref={mapContainerRef} style={styles.map} />
+
       <div style={styles.legend}>
         <div style={styles.legendItem}>
           <span style={{ ...styles.legendColor, background: '#7c3aed' }} />
           <span>Parcel Boundary</span>
         </div>
-        {buildingFootprint && (
+        {(buildingFootprint || geocodedFootprint) && (
           <div style={styles.legendItem}>
             <span style={{ ...styles.legendColor, background: '#10b981' }} />
             <span>Building Footprint</span>
           </div>
         )}
       </div>
+
       <div style={styles.hint}>
-        Click parcel for details | Scroll to zoom
+        {address ? `📍 ${address}` : 'Click parcel for details | Scroll to zoom'}
       </div>
     </div>
   );
@@ -139,10 +263,44 @@ const styles: Record<string, React.CSSProperties> = {
     background: '#1e1e2e',
     borderRadius: '8px',
     overflow: 'hidden',
+    position: 'relative',
   },
   map: {
     flex: 1,
     minHeight: '400px',
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    padding: '8px 12px',
+    background: 'rgba(30, 30, 46, 0.9)',
+    color: '#a0a0b0',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    fontSize: '12px',
+    zIndex: 1000,
+  },
+  loadingSpinner: {
+    width: '14px',
+    height: '14px',
+    border: '2px solid #3a3a4a',
+    borderTopColor: '#7c3aed',
+    borderRadius: '50%',
+    animation: 'spin 1s linear infinite',
+  },
+  errorBanner: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    padding: '8px 12px',
+    background: 'rgba(220, 38, 38, 0.9)',
+    color: '#fff',
+    fontSize: '12px',
+    zIndex: 1000,
   },
   legend: {
     display: 'flex',
@@ -169,6 +327,9 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '10px',
     color: '#6c6c80',
     textAlign: 'center',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
 };
 
