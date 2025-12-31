@@ -8,12 +8,66 @@ import * as pdfjsLib from 'pdfjs-dist';
 // Set up PDF.js worker - use unpkg for latest versions
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
+// Matches p1_building.json schema for proper visualization
+export interface ExtractedBuildingData {
+  building: {
+    property_type?: string;
+    construction_type?: string;
+    address?: string;  // Property address for geocoding
+    apn?: string;      // Assessor's Parcel Number
+    lot_size_sf: number;
+    far: number;
+    gfa_sf: number;
+    gba_sf?: number;
+    stories_total: number;
+    stories_above_grade: number;
+    stories_below_grade: number;
+    floor_plate_sf: number;
+    rentable_sf?: number;
+    net_to_gross?: number;
+    height_above_grade_ft: number;
+    height_below_grade_ft?: number;
+  };
+  dwelling_units: Array<{
+    type: string;  // "studio" | "1br" | "2br" | "3br"
+    name: string;
+    count: number;
+    area_sf: number;
+    width_ft: number;
+    depth_ft: number;
+    bedrooms: number;
+    bathrooms: number;
+  }>;
+  circulation: {
+    corridor_width_ft: number;
+    corridor_length_ft?: number;
+    elevators: {
+      passenger: { count: number; sf_per_floor: number };
+      freight?: { count: number; sf_per_floor: number };
+    };
+    stairs: { count: number; sf_per_floor: number };
+  };
+  parking: {
+    surface_stalls: number;
+    podium_stalls: number;
+    underground_stalls: number;
+    indoor_parking_sf?: number;
+    surface_lot_sf?: number;
+  };
+  support?: Array<{ name: string; area_sf: number; floor?: string }>;
+  amenities_indoor?: Array<{ name: string; area_sf: number; floor?: string }>;
+  amenities_outdoor?: Array<{ name: string; area_sf: number; floor?: string }>;
+}
+
+// Legacy interface for backward compatibility
 interface ExtractedData {
   properties?: Record<string, any>;
   constraints?: Record<string, any>;
   units?: Array<{ type: string; count: number; area_sf: number }>;
   metadata?: Record<string, any>;
   raw_response?: string;
+  // New structured data
+  building_data?: ExtractedBuildingData;
 }
 
 interface PdfUploaderProps {
@@ -50,14 +104,77 @@ export const PdfUploader: React.FC<PdfUploaderProps> = ({ onDataExtracted }) => 
     const DASHSCOPE_API_URL = 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions';
     const DASHSCOPE_API_KEY = 'sk-3154176795dd40969654a6efb517ab0a';
 
-    const instructions = `Extract structured real estate development information from the following text.
-Return a JSON object with these keys:
-- properties: object with property details (apn, area_sf, dimensions, etc.)
-- constraints: object with regulatory constraints (zoning, height, setbacks, parking, far)
-- units: array of dwelling unit types if found (type, count, area_sf)
-- metadata: object with any other relevant info
+    // Comprehensive prompt to extract structured building data with unit dimensions
+    const instructions = `Extract real estate space allocation data from this document. This is a Space Allocation Analysis PDF.
 
-Focus on numerical values and regulatory requirements.`;
+Return a JSON object with this EXACT structure (use actual numbers from the document):
+
+{
+  "building": {
+    "property_type": "apartment",
+    "construction_type": "Type III/I",
+    "address": "<full street address of the property if found, e.g., '123 Main St, Los Angeles, CA 90012'>",
+    "apn": "<Assessor's Parcel Number if found>",
+    "lot_size_sf": <number from "Lot Size (GSF)">,
+    "far": <number from "FAR">,
+    "gfa_sf": <number from "Gross Floor Area (GFA)">,
+    "gba_sf": <number from "Gross Building Area (GBA)">,
+    "stories_total": <number from "Total of stories">,
+    "stories_above_grade": <number from "Stories (Above Grade)">,
+    "stories_below_grade": <number from "Stories (Below Grade)">,
+    "floor_plate_sf": <number from "Typical floor plate area">,
+    "rentable_sf": <number from "Rentable area">,
+    "net_to_gross": <decimal from "Net-to-Gross ratio">,
+    "height_above_grade_ft": <number from "Above grade height">,
+    "height_below_grade_ft": <number from "Building height - Below grade">
+  },
+  "dwelling_units": [
+    {
+      "type": "studio",
+      "name": "Studio + 1 Bath (Typical)",
+      "count": <number from "Quantity of units">,
+      "area_sf": <number from "Room Size">,
+      "width_ft": <number from "Width" column>,
+      "depth_ft": <number from "Depth" column>,
+      "bedrooms": 0,
+      "bathrooms": 1.0
+    }
+    // Include ALL unit types from the Dwelling units table (Studio, 1BR, 2BR variants, 3BR variants)
+  ],
+  "circulation": {
+    "corridor_width_ft": <number from "Residential corridor width">,
+    "corridor_length_ft": <number from "Residential corridor length">,
+    "elevators": {
+      "passenger": { "count": <number>, "sf_per_floor": <number from "Elevator -Passenger SF/floor"> }
+    },
+    "stairs": { "count": <number from "Qty of Stair">, "sf_per_floor": <number from "Stair SF/floor"> }
+  },
+  "parking": {
+    "surface_stalls": <number from "Surface parking stalls">,
+    "podium_stalls": <number from "Podium parking stalls">,
+    "underground_stalls": <number from "Underground parking stalls">,
+    "indoor_parking_sf": <number from "Parking - Indoor" GSF>,
+    "surface_lot_sf": <number from "Parking - Surface Lot" GSF>
+  },
+  "support": [
+    { "name": "Entry Lobby", "area_sf": <number>, "floor": "ground" },
+    { "name": "Bicycle Room", "area_sf": <number>, "floor": "ground" }
+    // Include items from Support Areas table
+  ],
+  "amenities_indoor": [
+    { "name": "Bar / Café Nook", "area_sf": <number>, "floor": "ground" }
+    // Include items from Amenities – Indoor table that have areas
+  ],
+  "amenities_outdoor": [
+    { "name": "BBQ Stations", "area_sf": <number>, "floor": "roof" }
+    // Include items from Amenities – Outdoor table that have areas
+  ]
+}
+
+CRITICAL: Extract the EXACT Width and Depth values for each dwelling unit type from the table.
+The PDF has columns: "Dwelling units | Has? | % SF | NSF | Quantity of units | Room Size | Width | Depth"
+
+Return ONLY valid JSON, no other text or markdown.`;
 
     const response = await fetch(DASHSCOPE_API_URL, {
       method: 'POST',
@@ -70,15 +187,15 @@ Focus on numerical values and regulatory requirements.`;
         messages: [
           {
             role: 'system',
-            content: 'You are a real estate data extraction assistant. Extract structured data from property documents. Always return valid JSON.',
+            content: 'You are a real estate data extraction assistant specialized in Space Allocation Analysis documents. Extract exact numerical values from tables. Always return valid JSON matching the requested schema.',
           },
           {
             role: 'user',
-            content: `${instructions}\n\nDOCUMENT TEXT:\n${text.slice(0, 8000)}\n\nReturn ONLY valid JSON, no other text.`,
+            content: `${instructions}\n\nDOCUMENT TEXT:\n${text.slice(0, 15000)}\n\nReturn ONLY valid JSON, no markdown code blocks.`,
           },
         ],
         temperature: 0.1,
-        max_tokens: 2000,
+        max_tokens: 4000,
       }),
     });
 
@@ -88,12 +205,78 @@ Focus on numerical values and regulatory requirements.`;
     }
 
     const result = await response.json();
+
+    // Validate API response structure
+    if (!result?.choices?.[0]?.message?.content) {
+      console.error('Invalid API response:', result);
+      throw new Error('Invalid response from AI service. Please try again.');
+    }
+
     const content = result.choices[0].message.content;
 
-    // Parse JSON from response
-    const jsonMatch = content.match(/\{[\s\S]*\}/);
+    // Parse JSON from response (handle both raw JSON and markdown code blocks)
+    let jsonStr = content;
+    // Remove markdown code blocks if present
+    const codeBlockMatch = content.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (codeBlockMatch) {
+      jsonStr = codeBlockMatch[1];
+    }
+
+    // Find JSON object using brace-counting for accurate extraction
+    let jsonMatch: string | null = null;
+    const cleanJson = jsonStr.trim();
+
+    // Find the first opening brace
+    const startIndex = cleanJson.indexOf('{');
+    if (startIndex !== -1) {
+      // Count braces to find matching closing brace
+      let braceCount = 0;
+      let endIndex = -1;
+      for (let i = startIndex; i < cleanJson.length; i++) {
+        if (cleanJson[i] === '{') braceCount++;
+        if (cleanJson[i] === '}') braceCount--;
+        if (braceCount === 0) {
+          endIndex = i + 1;
+          break;
+        }
+      }
+      if (endIndex > startIndex) {
+        jsonMatch = cleanJson.slice(startIndex, endIndex);
+      }
+    }
+
+    // Fallback to regex if brace-counting fails
+    if (!jsonMatch) {
+      const regexMatch = jsonStr.match(/\{[\s\S]*\}/);
+      jsonMatch = regexMatch ? regexMatch[0] : null;
+    }
+
     if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
+      const buildingData = JSON.parse(jsonMatch) as ExtractedBuildingData;
+
+      // Return with both legacy format and new structured data
+      return {
+        building_data: buildingData,
+        // Legacy format for backward compatibility
+        properties: {
+          lot_size_sf: buildingData.building?.lot_size_sf,
+          far: buildingData.building?.far,
+          gfa_sf: buildingData.building?.gfa_sf,
+          stories: buildingData.building?.stories_total,
+          total_units: buildingData.dwelling_units?.reduce((sum, u) => sum + u.count, 0) || 0,
+        },
+        constraints: {
+          maximum_height_feet: buildingData.building?.height_above_grade_ft,
+          parking_stalls: (buildingData.parking?.surface_stalls || 0) +
+                         (buildingData.parking?.podium_stalls || 0) +
+                         (buildingData.parking?.underground_stalls || 0),
+        },
+        units: buildingData.dwelling_units?.map(u => ({
+          type: u.name || u.type,
+          count: u.count,
+          area_sf: u.area_sf,
+        })) || [],
+      };
     }
     return { raw_response: content };
   };

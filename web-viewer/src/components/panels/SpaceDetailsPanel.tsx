@@ -3,8 +3,9 @@
  */
 
 import React from 'react';
-import { SpaceData } from '../../types/solverOutput';
+import { SpaceData, isPolygonGeometry, isRectGeometry } from '../../types/solverOutput';
 import { getSpaceColor } from '../../constants/colors';
+import { getBoundingBox } from '../../utils/polygon';
 
 interface SpaceDetailsPanelProps {
   space: SpaceData | null;
@@ -69,9 +70,26 @@ export const SpaceDetailsPanel: React.FC<SpaceDetailsPanelProps> = ({
 
         <div style={styles.divider} />
 
-        <DetailRow label="Width" value={`${space.geometry.width.toFixed(1)} ft`} />
-        <DetailRow label="Height" value={`${space.geometry.height.toFixed(1)} ft`} />
-        <DetailRow label="Rotation" value={`${space.geometry.rotation}°`} />
+        {isRectGeometry(space.geometry) ? (
+          <>
+            <DetailRow label="Width" value={`${space.geometry.width.toFixed(1)} ft`} />
+            <DetailRow label="Height" value={`${space.geometry.height.toFixed(1)} ft`} />
+            <DetailRow label="Rotation" value={`${space.geometry.rotation}°`} />
+          </>
+        ) : isPolygonGeometry(space.geometry) ? (
+          <>
+            <DetailRow label="Vertices" value={`${space.geometry.vertices.length} points`} />
+            {(() => {
+              const bb = getBoundingBox(space.geometry.vertices);
+              return (
+                <>
+                  <DetailRow label="Bounds W" value={`${bb.width.toFixed(1)} ft`} />
+                  <DetailRow label="Bounds H" value={`${bb.height.toFixed(1)} ft`} />
+                </>
+              );
+            })()}
+          </>
+        ) : null}
         <DetailRow
           label="Vertical"
           value={space.is_vertical ? 'Yes' : 'No'}
