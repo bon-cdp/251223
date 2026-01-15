@@ -36,6 +36,10 @@ function App() {
 
   // View mode toggle
   const [viewMode, setViewMode] = useState<ViewMode>('floorplan');
+  
+  // Panel collapse states for focus mode
+  const [leftPanelCollapsed, setLeftPanelCollapsed] = useState(false);
+  const [rightPanelCollapsed, setRightPanelCollapsed] = useState(false);
 
   // Handle project change
   const handleProjectChange = useCallback((projectId: string) => {
@@ -97,19 +101,93 @@ function App() {
     clearSelection();
   }, [selectSpaceEditor, clearSelection]);
 
+  // Global keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore if typing in an input
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+
+      switch (e.key) {
+        case 'Escape':
+          // Deselect current space
+          handleClearSelection();
+          break;
+        case 'ArrowUp':
+          // Previous floor
+          e.preventDefault();
+          prevFloor();
+          break;
+        case 'ArrowDown':
+          // Next floor
+          e.preventDefault();
+          nextFloor();
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleClearSelection, prevFloor, nextFloor]);
+
   // Floor metrics
   const floorMetrics = useFloorMetrics(
     currentFloor || { floor_index: 0, floor_type: '', boundary: [], area_sf: 0, spaces: [] },
     editableSpaces
   );
 
-  // Loading state
+  // Loading state with skeleton UI
   if (loading) {
     return (
       <div className="app dark-theme">
-        <div className="loading">
-          <div className="loading-spinner" />
-          <p>Loading floor plan data...</p>
+        {/* Skeleton Header */}
+        <header className="header">
+          <div className="header-left">
+            <h1 className="logo">GLOQ</h1>
+            <div className="skeleton" style={{ width: 180, height: 32, borderRadius: 6 }} />
+          </div>
+          <div className="header-center">
+            <div className="skeleton" style={{ width: 160, height: 28, borderRadius: 6 }} />
+          </div>
+          <div className="header-right" />
+        </header>
+
+        {/* Skeleton Main Layout */}
+        <div className="main-container">
+          {/* Left Panel Skeleton */}
+          <aside className="nav-panel">
+            <div className="skeleton-panel">
+              <div className="skeleton skeleton-title" />
+              <div className="skeleton skeleton-line" style={{ width: '80%' }} />
+              <div className="skeleton skeleton-line" style={{ width: '60%' }} />
+            </div>
+          </aside>
+
+          {/* Center Canvas Skeleton */}
+          <main className="canvas-area">
+            <div style={{ padding: '8px 12px', background: '#2d2d3f', borderBottom: '1px solid #333' }}>
+              <div className="skeleton" style={{ width: 300, height: 40 }} />
+            </div>
+            <div className="floor-plan-container">
+              <div className="skeleton skeleton-canvas" style={{ width: '80%', maxWidth: 600 }} />
+            </div>
+          </main>
+
+          {/* Right Panel Skeleton */}
+          <aside className="properties-panel">
+            <div className="skeleton-panel">
+              <div className="skeleton skeleton-title" />
+              <div className="skeleton skeleton-line" style={{ width: '90%' }} />
+              <div className="skeleton skeleton-line" style={{ width: '75%' }} />
+              <div className="skeleton skeleton-line" style={{ width: '85%' }} />
+            </div>
+            <div className="skeleton-panel">
+              <div className="skeleton skeleton-title" />
+              <div className="skeleton skeleton-line" style={{ width: '70%' }} />
+              <div className="skeleton skeleton-line" style={{ width: '80%' }} />
+            </div>
+          </aside>
         </div>
       </div>
     );

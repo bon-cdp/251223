@@ -333,6 +333,7 @@ const EditableSpace: React.FC<EditableSpaceProps> = ({
   onDragStart,
   onDragEnd,
 }) => {
+  const [isHovered, setIsHovered] = React.useState(false);
   const color = getSpaceColor(space.type);
   const geometry = space.geometry;
 
@@ -366,26 +367,50 @@ const EditableSpace: React.FC<EditableSpaceProps> = ({
     return worldToSvg(cx, cy, transform);
   }, [vertices, transform]);
 
-  // Determine stroke style
+  // Determine stroke style based on hover/selection state
   const strokeColor = space.hasCollision
     ? '#ef4444' // Red for collision
     : isSelected
     ? '#7c3aed' // Purple when selected
+    : isHovered
+    ? '#a78bfa' // Light purple on hover
     : '#4a4a5a'; // Default dark
 
-  const strokeWidth = isSelected ? 2 : 1;
+  const strokeWidth = isSelected ? 2.5 : isHovered ? 2 : 1;
+  
+  // Glow filter for hover/selected state
+  const glowFilter = (isHovered || isSelected) ? 'url(#space-glow)' : undefined;
 
   return (
-    <g style={{ cursor: 'pointer' }}>
+    <g 
+      style={{ cursor: 'pointer' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Glow filter definition */}
+      <defs>
+        <filter id="space-glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
       {/* Space shape */}
       <path
         d={pathD}
         fill={color}
-        fillOpacity={isSelected ? 1 : 0.85}
+        fillOpacity={isSelected ? 1 : isHovered ? 0.95 : 0.85}
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         strokeDasharray={isVertical ? '4,2' : undefined}
         onClick={onClick}
+        filter={glowFilter}
+        style={{
+          transition: 'fill-opacity 0.15s ease, stroke 0.15s ease, stroke-width 0.15s ease',
+        }}
       />
 
       {/* Label */}
@@ -395,11 +420,14 @@ const EditableSpace: React.FC<EditableSpaceProps> = ({
           y={center.y}
           textAnchor="middle"
           dominantBaseline="middle"
-          fontSize={9}
+          fontSize={isHovered || isSelected ? 10 : 9}
           fill="#fff"
-          fontWeight={isSelected ? 'bold' : 'normal'}
+          fontWeight={isSelected ? 'bold' : isHovered ? '600' : 'normal'}
           pointerEvents="none"
-          style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
+          style={{ 
+            textShadow: '0 1px 3px rgba(0,0,0,0.7)',
+            transition: 'font-size 0.15s ease',
+          }}
         >
           {space.name.length > 15 ? space.name.slice(0, 15) + '...' : space.name}
         </text>

@@ -31,6 +31,59 @@ const tools: ToolButton[] = [
   { mode: 'measure', icon: '📏', label: 'Measure', shortcut: 'M' },
 ];
 
+// Tool descriptions for enhanced tooltips
+const toolDescriptions: Record<EditMode, string> = {
+  'select': 'Click to select spaces, drag to pan canvas',
+  'move': 'Drag to pan around the floor plan',
+  'vertex': 'Drag vertices to reshape spaces',
+  'add-space': 'Click to add a new space',
+  'measure': 'Click two points to measure distance',
+  'edge-add': 'Click on edges to add new vertices',
+};
+
+// Tool button with custom tooltip
+interface ToolButtonWithTooltipProps {
+  tool: ToolButton;
+  isActive: boolean;
+  onClick: () => void;
+}
+
+const ToolButtonWithTooltip: React.FC<ToolButtonWithTooltipProps> = ({ tool, isActive, onClick }) => {
+  const [showTooltip, setShowTooltip] = React.useState(false);
+  
+  return (
+    <div 
+      style={{ position: 'relative' }}
+      onMouseEnter={() => setShowTooltip(true)}
+      onMouseLeave={() => setShowTooltip(false)}
+    >
+      <button
+        onClick={onClick}
+        style={{
+          ...styles.toolButton,
+          ...(isActive ? styles.toolButtonActive : {}),
+        }}
+      >
+        <span style={styles.toolIcon}>{tool.icon}</span>
+        <span style={styles.toolLabel}>{tool.label}</span>
+      </button>
+      
+      {/* Custom styled tooltip */}
+      {showTooltip && (
+        <div style={styles.tooltip}>
+          <div style={styles.tooltipHeader}>
+            <span style={styles.tooltipTitle}>{tool.label}</span>
+            <span style={styles.tooltipShortcut}>{tool.shortcut}</span>
+          </div>
+          <div style={styles.tooltipDesc}>
+            {toolDescriptions[tool.mode]}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const CanvasToolbar: React.FC<CanvasToolbarProps> = ({
   activeMode,
   onModeChange,
@@ -78,18 +131,12 @@ export const CanvasToolbar: React.FC<CanvasToolbarProps> = ({
       {/* Tool buttons */}
       <div style={styles.toolGroup}>
         {tools.map(tool => (
-          <button
+          <ToolButtonWithTooltip
             key={tool.mode}
+            tool={tool}
+            isActive={activeMode === tool.mode}
             onClick={() => onModeChange(tool.mode)}
-            style={{
-              ...styles.toolButton,
-              ...(activeMode === tool.mode ? styles.toolButtonActive : {}),
-            }}
-            title={`${tool.label} (${tool.shortcut})`}
-          >
-            <span style={styles.toolIcon}>{tool.icon}</span>
-            <span style={styles.toolLabel}>{tool.label}</span>
-          </button>
+          />
         ))}
       </div>
 
@@ -231,6 +278,46 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '12px',
     color: '#7c3aed',
     fontWeight: 600,
+  },
+  // Tooltip styles
+  tooltip: {
+    position: 'absolute' as const,
+    top: '100%',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    marginTop: 8,
+    padding: '10px 12px',
+    background: '#3d3d4f',
+    border: '1px solid #4a4a5a',
+    borderRadius: '8px',
+    zIndex: 100,
+    boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
+    minWidth: 140,
+    whiteSpace: 'nowrap' as const,
+  },
+  tooltipHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  tooltipTitle: {
+    fontSize: 12,
+    fontWeight: 600,
+    color: '#fff',
+  },
+  tooltipShortcut: {
+    fontSize: 11,
+    fontWeight: 600,
+    color: '#7c3aed',
+    padding: '2px 6px',
+    background: 'rgba(124, 58, 237, 0.2)',
+    borderRadius: 4,
+  },
+  tooltipDesc: {
+    fontSize: 11,
+    color: '#a0a0b0',
+    lineHeight: 1.4,
   },
 };
 
