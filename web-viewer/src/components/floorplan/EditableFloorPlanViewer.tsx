@@ -243,6 +243,7 @@ export const EditableFloorPlanViewer: React.FC<EditableFloorPlanViewerProps> = (
           isVertical={false}
           showLabel={showLabels}
           isEditMode={isEditingVertices && space.id === selectedSpaceId}
+          zoomLevel={zoomLevel}
           onClick={() => onSpaceClick(space)}
           onVertexMove={onVertexMove}
           onVertexRemove={onVertexRemove}
@@ -262,6 +263,7 @@ export const EditableFloorPlanViewer: React.FC<EditableFloorPlanViewerProps> = (
           isVertical={true}
           showLabel={showLabels}
           isEditMode={isEditingVertices && space.id === selectedSpaceId}
+          zoomLevel={zoomLevel}
           onClick={() => onSpaceClick(space)}
           onVertexMove={onVertexMove}
           onVertexRemove={onVertexRemove}
@@ -311,6 +313,7 @@ interface EditableSpaceProps {
   isVertical: boolean;
   showLabel: boolean;
   isEditMode: boolean;
+  zoomLevel?: number;
   onClick: () => void;
   onVertexMove?: (spaceId: string, vertexIndex: number, x: number, y: number) => void;
   onVertexRemove?: (spaceId: string, vertexIndex: number) => void;
@@ -326,6 +329,7 @@ const EditableSpace: React.FC<EditableSpaceProps> = ({
   isVertical,
   showLabel,
   isEditMode,
+  zoomLevel = 1,
   onClick,
   onVertexMove,
   onVertexRemove,
@@ -336,6 +340,9 @@ const EditableSpace: React.FC<EditableSpaceProps> = ({
   const [isHovered, setIsHovered] = React.useState(false);
   const color = getSpaceColor(space.type);
   const geometry = space.geometry;
+  
+  // Auto-hide labels when zoomed out too far
+  const shouldShowLabel = showLabel && (zoomLevel >= 0.7 || isSelected || isHovered);
 
   // Get vertices for rendering and editing
   const vertices = useMemo(() => {
@@ -413,24 +420,36 @@ const EditableSpace: React.FC<EditableSpaceProps> = ({
         }}
       />
 
-      {/* Label */}
-      {showLabel && (
-        <text
-          x={center.x}
-          y={center.y}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontSize={isHovered || isSelected ? 10 : 9}
-          fill="#fff"
-          fontWeight={isSelected ? 'bold' : isHovered ? '600' : 'normal'}
-          pointerEvents="none"
-          style={{ 
-            textShadow: '0 1px 3px rgba(0,0,0,0.7)',
-            transition: 'font-size 0.15s ease',
-          }}
-        >
-          {space.name.length > 15 ? space.name.slice(0, 15) + '...' : space.name}
-        </text>
+      {/* Label with background pill */}
+      {shouldShowLabel && (
+        <g pointerEvents="none">
+          {/* Background pill */}
+          <rect
+            x={center.x - (Math.min(space.name.length, 15) * 3.5) - 6}
+            y={center.y - 8}
+            width={Math.min(space.name.length, 15) * 7 + 12}
+            height={16}
+            rx={8}
+            ry={8}
+            fill="rgba(0, 0, 0, 0.6)"
+            style={{ transition: 'opacity 0.15s ease' }}
+          />
+          {/* Label text */}
+          <text
+            x={center.x}
+            y={center.y}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize={isHovered || isSelected ? 10 : 9}
+            fill="#fff"
+            fontWeight={isSelected ? 'bold' : isHovered ? '600' : 'normal'}
+            style={{ 
+              transition: 'font-size 0.15s ease, opacity 0.15s ease',
+            }}
+          >
+            {space.name.length > 15 ? space.name.slice(0, 15) + '...' : space.name}
+          </text>
+        </g>
       )}
 
       {/* Change indicator */}

@@ -38,7 +38,6 @@ const toolDescriptions: Record<EditMode, string> = {
   'vertex': 'Drag vertices to reshape spaces',
   'add-space': 'Click to add a new space',
   'measure': 'Click two points to measure distance',
-  'edge-add': 'Click on edges to add new vertices',
 };
 
 // Tool button with custom tooltip

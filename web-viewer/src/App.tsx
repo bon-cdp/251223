@@ -15,6 +15,7 @@ import { SpaceDetailsPanel } from './components/panels/SpaceDetailsPanel';
 import { MetricsDashboard } from './components/panels/MetricsDashboard';
 import { LegendPanel } from './components/panels/LegendPanel';
 import { MetricsBar } from './components/panels/MetricsBar';
+import { SpaceSearch } from './components/panels/SpaceSearch';
 import { VerificationCalculator } from './components/verification/VerificationCalculator';
 import { CanvasToolbar } from './components/toolbar/CanvasToolbar';
 import { ParcelMap } from './components/map/ParcelMap';
@@ -246,9 +247,9 @@ function App() {
       </header>
 
       {/* Main Content - 4 Panel Layout */}
-      <div className="main-container">
+      <div className={`main-container ${leftPanelCollapsed ? 'left-collapsed' : ''} ${rightPanelCollapsed ? 'right-collapsed' : ''}`}>
         {/* Left Panel - Navigation Tree */}
-        <aside className="nav-panel">
+        <aside className={`nav-panel ${leftPanelCollapsed ? 'collapsed' : ''}`}>
           <div className="panel-header">Floors</div>
           <FloorNavigation
             floorIndices={floorIndices}
@@ -258,6 +259,22 @@ function App() {
             onPrev={prevFloor}
             onNext={nextFloor}
           />
+          
+          {/* Space Search */}
+          <SpaceSearch
+            spaces={allSpaces}
+            onSpaceSelect={handleSpaceClick}
+            selectedSpaceId={selectedSpaceId}
+          />
+          
+          {/* Collapse toggle */}
+          <button
+            className="panel-toggle panel-toggle-left"
+            onClick={() => setLeftPanelCollapsed(!leftPanelCollapsed)}
+            title={leftPanelCollapsed ? 'Show floor navigation' : 'Hide floor navigation'}
+          >
+            {leftPanelCollapsed ? '›' : '‹'}
+          </button>
         </aside>
 
         {/* Center - Canvas Area */}
@@ -303,7 +320,7 @@ function App() {
         </main>
 
         {/* Right Panel - Properties */}
-        <aside className="properties-panel">
+        <aside className={`properties-panel ${rightPanelCollapsed ? 'collapsed' : ''}`}>
           <div className="panel-header">Properties</div>
 
           <SpaceDetailsPanel
@@ -325,6 +342,15 @@ function App() {
           />
 
           <LegendPanel />
+          
+          {/* Collapse toggle */}
+          <button
+            className="panel-toggle panel-toggle-right"
+            onClick={() => setRightPanelCollapsed(!rightPanelCollapsed)}
+            title={rightPanelCollapsed ? 'Show properties' : 'Hide properties'}
+          >
+            {rightPanelCollapsed ? '‹' : '›'}
+          </button>
         </aside>
       </div>
 
