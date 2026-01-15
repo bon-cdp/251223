@@ -3,13 +3,40 @@
  */
 
 import React from 'react';
-import { getSpaceColor } from '../../constants/colors';
+
+interface Setbacks {
+  front_feet?: number;
+  rear_feet?: number;
+  side_feet?: number;
+  front?: number;
+  rear?: number;
+  side?: number;
+}
+
+interface ExtractedProperties {
+  area_sf?: number;
+  lot_size_sf?: number;
+  total_units?: number;
+  far?: number;
+  [key: string]: string | number | boolean | undefined;
+}
+
+interface ExtractedConstraints {
+  zoning?: string;
+  far?: number;
+  maximum_height_feet?: number;
+  max_height?: number;
+  setbacks?: Setbacks;
+  parking_requirement_per_unit?: number;
+  parking_ratio?: number;
+  [key: string]: string | number | boolean | Setbacks | undefined;
+}
 
 interface ExtractedData {
-  properties?: Record<string, any>;
-  constraints?: Record<string, any>;
+  properties?: ExtractedProperties;
+  constraints?: ExtractedConstraints;
   units?: Array<{ type: string; count: number; area_sf: number }>;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, string | number | boolean>;
 }
 
 interface ExtractedBuildingViewProps {

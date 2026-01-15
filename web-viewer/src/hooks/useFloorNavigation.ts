@@ -2,7 +2,7 @@
  * Hook for floor navigation state
  */
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { FloorData } from '../types/solverOutput';
 
 interface UseFloorNavigationResult {
@@ -17,26 +17,37 @@ interface UseFloorNavigationResult {
 export const useFloorNavigation = (
   floors: FloorData[] | undefined
 ): UseFloorNavigationResult => {
-  const [currentFloorIndex, setCurrentFloorIndex] = useState<number>(0);
-
   // Sort floors by index (highest first for typical building view)
-  const sortedFloors = floors
-    ? [...floors].sort((a, b) => b.floor_index - a.floor_index)
-    : [];
+  const sortedFloors = useMemo(() => 
+    floors ? [...floors].sort((a, b) => b.floor_index - a.floor_index) : [],
+    [floors]
+  );
 
-  const floorIndices = sortedFloors.map(f => f.floor_index);
+  const floorIndices = useMemo(() => 
+    sortedFloors.map(f => f.floor_index),
+    [sortedFloors]
+  );
+
+  // Initialize with lazy function that returns first floor index
+  const [currentFloorIndex, setCurrentFloorIndex] = useState<number>(() => 
+    sortedFloors.length > 0 ? sortedFloors[0].floor_index : 0
+  );
 
   // Get current floor data
-  const currentFloor = sortedFloors.find(
-    f => f.floor_index === currentFloorIndex
-  ) || null;
+  const currentFloor = useMemo(() => 
+    sortedFloors.find(f => f.floor_index === currentFloorIndex) || null,
+    [sortedFloors, currentFloorIndex]
+  );
 
-  // Initialize to first floor in sorted list
+  // Reset floor index when floors data changes and current index is invalid
+  // This is an intentional sync of external prop to internal state
   useEffect(() => {
     if (sortedFloors.length > 0 && !floorIndices.includes(currentFloorIndex)) {
+      // Intentional state sync when data source changes
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCurrentFloorIndex(sortedFloors[0].floor_index);
     }
-  }, [floors]);
+  }, [sortedFloors, floorIndices, currentFloorIndex]);
 
   const goToFloor = useCallback((index: number) => {
     if (floorIndices.includes(index)) {
@@ -58,19 +69,7 @@ export const useFloorNavigation = (
     }
   }, [currentFloorIndex, floorIndices]);
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-        prevFloor();
-      } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-        nextFloor();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [nextFloor, prevFloor]);
+  // Keyboard navigation removed - handled in App.tsx
 
   return {
     currentFloorIndex,

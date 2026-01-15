@@ -5,14 +5,12 @@
 
 import React, { useMemo, useState, useCallback, useRef } from 'react';
 import { FloorData, SpaceData, isPolygonGeometry, rectToPolygon } from '../../types/solverOutput';
-import { getSpaceColor, BOUNDARY_COLOR, BACKGROUND_COLOR } from '../../constants/colors';
+import { getSpaceColor } from '../../constants/colors';
 import {
   getFloorBounds,
   createSvgTransform,
   boundaryToSvgPoints,
-  polygonToSvgPath,
   worldToSvg,
-  getGeometryCenter,
 } from '../../utils/geometry';
 import { PolygonEditor } from '../editor/PolygonEditor';
 import { EditMode } from '../../hooks/usePolygonEditor';
@@ -169,12 +167,12 @@ export const EditableFloorPlanViewer: React.FC<EditableFloorPlanViewerProps> = (
         gap: 4,
       }}>
         <button
-          onClick={() => handleWheel({ deltaY: -100, preventDefault: () => {} } as any)}
+          onClick={() => handleWheel({ deltaY: -100, preventDefault: () => {} } as React.WheelEvent)}
           style={zoomButtonStyle}
           title="Zoom In"
         >+</button>
         <button
-          onClick={() => handleWheel({ deltaY: 100, preventDefault: () => {} } as any)}
+          onClick={() => handleWheel({ deltaY: 100, preventDefault: () => {} } as React.WheelEvent)}
           style={zoomButtonStyle}
           title="Zoom Out"
         >−</button>

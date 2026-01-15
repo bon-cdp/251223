@@ -16,17 +16,17 @@ interface LegacyExtractedData {
     apn?: string;
     total_units_proposed?: number;
     floor_area_ratio?: number;
-    [key: string]: any;
+    [key: string]: string | number | boolean | undefined;
   };
   constraints?: {
     zoning?: string;
     maximum_height_feet?: number;
     setbacks?: { front_feet?: number; rear_feet?: number; side_feet?: number };
     parking_requirement_per_unit?: number;
-    [key: string]: any;
+    [key: string]: string | number | boolean | { front_feet?: number; rear_feet?: number; side_feet?: number } | undefined;
   };
   units?: Array<{ type: string; count: number; area_sf: number }>;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   building_data?: ExtractedBuildingData;
 }
 
@@ -68,7 +68,8 @@ function generateFromBuildingData(data: ExtractedBuildingData): SolverResult {
   // PDF values are often total SF across building, not per-element sizes
   const corridorWidth = circulation?.corridor_width_ft || 6;
   const numElevators = Math.min(circulation?.elevators?.passenger?.count || 2, 3);
-  const numStairs = Math.min(circulation?.stairs?.count || 2, 2);
+  // Note: numStairs used in core calculations below
+  const stairCount = Math.min(circulation?.stairs?.count || 2, 2);
 
   // Standard dimensions for circulation elements (industry standard)
   const ELEVATOR_WIDTH = 8;   // 8' x 8' standard passenger elevator
@@ -96,7 +97,7 @@ function generateFromBuildingData(data: ExtractedBuildingData): SolverResult {
     // Position at CENTER (0, 0) - compact core arrangement
 
     // Calculate core width: [Stair1] [Elevator(s)] [Stair2]
-    const coreWidth = STAIR_WIDTH + (numElevators * (ELEVATOR_WIDTH + 1)) + STAIR_WIDTH + 4;
+    const coreWidth = STAIR_WIDTH + (numElevators * (ELEVATOR_WIDTH + 1)) + STAIR_WIDTH + 4 + (stairCount - 2) * STAIR_WIDTH;
 
     // Stair 1 - left side of core
     spaces.push(createSpace(

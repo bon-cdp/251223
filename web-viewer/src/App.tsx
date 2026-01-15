@@ -7,7 +7,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react';
 import { useSolverData } from './hooks/useSolverData';
 import { useFloorNavigation } from './hooks/useFloorNavigation';
 import { useSpaceSelection } from './hooks/useSpaceSelection';
-import { usePolygonEditor, EditMode } from './hooks/usePolygonEditor';
+import { usePolygonEditor } from './hooks/usePolygonEditor';
 import { useFloorMetrics } from './hooks/useFloorMetrics';
 import { EditableFloorPlanViewer } from './components/floorplan/EditableFloorPlanViewer';
 import { FloorNavigation } from './components/floorplan/FloorNavigation';
@@ -67,7 +67,6 @@ function App() {
     editableSpaces,
     selectedSpaceId,
     editMode,
-    isDragging,
     selectSpace: selectSpaceEditor,
     setEditMode,
     moveVertexTo,
@@ -80,7 +79,6 @@ function App() {
     canUndo,
     canRedo,
     resetToOriginal,
-    getSpace,
   } = usePolygonEditor(allSpaces);
 
   // Space selection (from viewer click)
