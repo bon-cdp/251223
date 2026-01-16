@@ -1,6 +1,8 @@
 {
   "$schema": "gloq_space_allocation_v1",
   "project_name": "P9 - Proposed High-Rise Apartment Project",
+  "address": "350 S. Hill Street, Los Angeles, CA 90013",
+  "apn": "5149-015-036",
 
   "building": {
     "property_type": "apartment",

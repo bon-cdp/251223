@@ -18,6 +18,7 @@ import {
 interface EnvironmentalMapProps {
   initialCenter?: [number, number];
   initialZoom?: number;
+  propertyAddress?: string;  // Auto-search this address on load
 }
 
 // Default center: Los Angeles
@@ -27,6 +28,7 @@ const DEFAULT_ZOOM = 14;
 export const EnvironmentalMap: React.FC<EnvironmentalMapProps> = ({
   initialCenter = DEFAULT_CENTER,
   initialZoom = DEFAULT_ZOOM,
+  propertyAddress,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
@@ -129,6 +131,26 @@ export const EnvironmentalMap: React.FC<EnvironmentalMapProps> = ({
       setLoadingEnvData(false);
     }
   }, []);
+
+  // Auto-search property address when provided
+  useEffect(() => {
+    if (propertyAddress && mapRef.current) {
+      setSearchQuery(propertyAddress);
+      // Trigger search after a short delay to let map initialize
+      const searchTimeout = setTimeout(async () => {
+        try {
+          const result = await geocodeAddress(propertyAddress);
+          if (result) {
+            handleLocationSelect(result.lat, result.lng, result.formattedAddress);
+            setSearchQuery(result.formattedAddress);
+          }
+        } catch (error) {
+          console.error('Error auto-searching property address:', error);
+        }
+      }, 500);
+      return () => clearTimeout(searchTimeout);
+    }
+  }, [propertyAddress, handleLocationSelect]);
 
   // Handle search
   const handleSearch = useCallback(async () => {

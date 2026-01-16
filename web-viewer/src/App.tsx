@@ -72,6 +72,7 @@ function App() {
     moveVertexTo,
     addVertex,
     removeVertexAt,
+    moveSpace,
     startDrag,
     endDrag,
     undo,
@@ -300,20 +301,22 @@ function App() {
                 onVertexMove={(spaceId, idx, x, y) => moveVertexTo(spaceId, idx, [x, y])}
                 onVertexRemove={(spaceId, idx) => removeVertexAt(spaceId, idx)}
                 onVertexAdd={(spaceId, idx) => addVertex(spaceId, idx)}
+                onSpaceMove={(spaceId, dx, dy) => moveSpace(spaceId, dx, dy)}
                 onDragStart={startDrag}
                 onDragEnd={endDrag}
                 scale={3}
                 showLabels={true}
               />
             ) : viewMode === 'map' ? (
-              <EnvironmentalMap />
+              <EnvironmentalMap propertyAddress={buildingInput?.address} />
             ) : (
               <div className="no-floor">No floor selected</div>
             )}
           </div>
         </main>
 
-        {/* Right Panel - Properties */}
+        {/* Right Panel - Properties (hidden for massing visualization contract) */}
+        {/*
         <aside className={`properties-panel ${rightPanelCollapsed ? 'collapsed' : ''}`}>
           <div className="panel-header">Properties</div>
 
@@ -336,8 +339,7 @@ function App() {
           />
 
           <LegendPanel />
-          
-          {/* Collapse toggle */}
+
           <button
             className="panel-toggle panel-toggle-right"
             onClick={() => setRightPanelCollapsed(!rightPanelCollapsed)}
@@ -346,9 +348,11 @@ function App() {
             {rightPanelCollapsed ? '‹' : '›'}
           </button>
         </aside>
+        */}
       </div>
 
-      {/* Bottom Metrics Bar */}
+      {/* Bottom Metrics Bar (hidden for massing visualization contract) */}
+      {/*
       <MetricsBar
         efficiency={floorMetrics.efficiencyRatio}
         totalSpaces={floorMetrics.totalSpaces}
@@ -359,6 +363,7 @@ function App() {
         areaDelta={floorMetrics.areaDelta}
         areaDeltaPercent={floorMetrics.areaDeltaPercent}
       />
+      */}
     </div>
   );
 }

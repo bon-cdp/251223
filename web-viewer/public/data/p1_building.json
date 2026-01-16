@@ -1,6 +1,8 @@
 {
   "$schema": "gloq_space_allocation_v1",
   "project_name": "P1 - Proposed Apartment Project",
+  "address": "5240 North Lankershim Boulevard, North Hollywood, CA 91601",
+  "apn": "2350-018-091",
 
   "building": {
     "property_type": "apartment",

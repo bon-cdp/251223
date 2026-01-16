@@ -25,16 +25,14 @@ interface ToolButton {
 
 const tools: ToolButton[] = [
   { mode: 'select', icon: '⬚', label: 'Select', shortcut: 'V' },
-  { mode: 'move', icon: '✥', label: 'Pan', shortcut: 'H' },
+  { mode: 'move', icon: '✥', label: 'Move', shortcut: 'M' },
   { mode: 'vertex', icon: '✎', label: 'Edit Vertices', shortcut: 'E' },
-  { mode: 'add-space', icon: '⊕', label: 'Add Space', shortcut: 'A' },
-  { mode: 'measure', icon: '📏', label: 'Measure', shortcut: 'M' },
 ];
 
 // Tool descriptions for enhanced tooltips
 const toolDescriptions: Record<EditMode, string> = {
   'select': 'Click to select spaces, drag to pan canvas',
-  'move': 'Drag to pan around the floor plan',
+  'move': 'Select a space, then drag to move it',
   'vertex': 'Drag vertices to reshape spaces',
   'add-space': 'Click to add a new space',
   'measure': 'Click two points to measure distance',

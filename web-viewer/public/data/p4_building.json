@@ -1,6 +1,8 @@
 {
   "$schema": "gloq_space_allocation_v1",
   "project_name": "P4 - Proposed Apartment Project",
+  "address": "1723 Cloverfield Blvd, Santa Monica, CA 90404",
+  "apn": "4268-014-014, 4268-014-025",
 
   "building": {
     "property_type": "apartment",

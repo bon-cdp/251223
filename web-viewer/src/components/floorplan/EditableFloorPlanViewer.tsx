@@ -3,7 +3,7 @@
  * Supports pan and zoom navigation
  */
 
-import React, { useMemo, useState, useCallback, useRef } from 'react';
+import React, { useMemo, useState, useCallback, useRef, useEffect } from 'react';
 import { FloorData, SpaceData, isPolygonGeometry, rectToPolygon } from '../../types/solverOutput';
 import { getSpaceColor } from '../../constants/colors';
 import {
@@ -30,6 +30,7 @@ interface EditableFloorPlanViewerProps {
   onVertexMove?: (spaceId: string, vertexIndex: number, x: number, y: number) => void;
   onVertexRemove?: (spaceId: string, vertexIndex: number) => void;
   onVertexAdd?: (spaceId: string, edgeIndex: number) => void;
+  onSpaceMove?: (spaceId: string, dx: number, dy: number) => void;
   onDragStart?: () => void;
   onDragEnd?: () => void;
   scale?: number;
@@ -45,6 +46,7 @@ export const EditableFloorPlanViewer: React.FC<EditableFloorPlanViewerProps> = (
   onVertexMove,
   onVertexRemove,
   onVertexAdd,
+  onSpaceMove,
   onDragStart,
   onDragEnd,
   scale = 3,
@@ -151,8 +153,9 @@ export const EditableFloorPlanViewer: React.FC<EditableFloorPlanViewerProps> = (
   const nonVerticalSpaces = spaces.filter(s => !s.is_vertical);
   const verticalSpaces = spaces.filter(s => s.is_vertical);
 
-  // Check if we're in vertex editing mode
+  // Check if we're in vertex editing mode or move mode
   const isEditingVertices = editMode === 'vertex';
+  const isMoveMode = editMode === 'move';
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -241,11 +244,13 @@ export const EditableFloorPlanViewer: React.FC<EditableFloorPlanViewerProps> = (
           isVertical={false}
           showLabel={showLabels}
           isEditMode={isEditingVertices && space.id === selectedSpaceId}
+          isMoveMode={isMoveMode && space.id === selectedSpaceId}
           zoomLevel={zoomLevel}
           onClick={() => onSpaceClick(space)}
           onVertexMove={onVertexMove}
           onVertexRemove={onVertexRemove}
           onVertexAdd={onVertexAdd}
+          onSpaceMove={onSpaceMove}
           onDragStart={onDragStart}
           onDragEnd={onDragEnd}
         />
@@ -261,11 +266,13 @@ export const EditableFloorPlanViewer: React.FC<EditableFloorPlanViewerProps> = (
           isVertical={true}
           showLabel={showLabels}
           isEditMode={isEditingVertices && space.id === selectedSpaceId}
+          isMoveMode={isMoveMode && space.id === selectedSpaceId}
           zoomLevel={zoomLevel}
           onClick={() => onSpaceClick(space)}
           onVertexMove={onVertexMove}
           onVertexRemove={onVertexRemove}
           onVertexAdd={onVertexAdd}
+          onSpaceMove={onSpaceMove}
           onDragStart={onDragStart}
           onDragEnd={onDragEnd}
         />
@@ -311,11 +318,13 @@ interface EditableSpaceProps {
   isVertical: boolean;
   showLabel: boolean;
   isEditMode: boolean;
+  isMoveMode?: boolean;
   zoomLevel?: number;
   onClick: () => void;
   onVertexMove?: (spaceId: string, vertexIndex: number, x: number, y: number) => void;
   onVertexRemove?: (spaceId: string, vertexIndex: number) => void;
   onVertexAdd?: (spaceId: string, edgeIndex: number) => void;
+  onSpaceMove?: (spaceId: string, dx: number, dy: number) => void;
   onDragStart?: () => void;
   onDragEnd?: () => void;
 }
@@ -327,17 +336,59 @@ const EditableSpace: React.FC<EditableSpaceProps> = ({
   isVertical,
   showLabel,
   isEditMode,
+  isMoveMode = false,
   zoomLevel = 1,
   onClick,
   onVertexMove,
   onVertexRemove,
   onVertexAdd,
+  onSpaceMove,
   onDragStart,
   onDragEnd,
 }) => {
   const [isHovered, setIsHovered] = React.useState(false);
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [dragStart, setDragStart] = React.useState<{ x: number; y: number } | null>(null);
   const color = getSpaceColor(space.type);
   const geometry = space.geometry;
+
+  // Handle polygon drag for move mode
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    if (isMoveMode && isSelected) {
+      e.stopPropagation();
+      setIsDragging(true);
+      setDragStart({ x: e.clientX, y: e.clientY });
+      onDragStart?.();
+    }
+  }, [isMoveMode, isSelected, onDragStart]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (isDragging && dragStart && onSpaceMove) {
+      e.stopPropagation();
+      // Calculate delta in world coordinates
+      const dx = (e.clientX - dragStart.x) / transform.scale;
+      const dy = -(e.clientY - dragStart.y) / transform.scale; // Invert Y for world coords
+      onSpaceMove(space.id, dx, dy);
+      setDragStart({ x: e.clientX, y: e.clientY });
+    }
+  }, [isDragging, dragStart, onSpaceMove, space.id, transform.scale]);
+
+  const handleMouseUp = useCallback(() => {
+    if (isDragging) {
+      setIsDragging(false);
+      setDragStart(null);
+      onDragEnd?.();
+    }
+  }, [isDragging, onDragEnd]);
+
+  // Handle global mouse up to end drag
+  useEffect(() => {
+    if (isDragging) {
+      const handleGlobalMouseUp = () => handleMouseUp();
+      window.addEventListener('mouseup', handleGlobalMouseUp);
+      return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
+    }
+  }, [isDragging, handleMouseUp]);
   
   // Auto-hide labels when zoomed out too far
   const shouldShowLabel = showLabel && (zoomLevel >= 0.7 || isSelected || isHovered);
@@ -387,10 +438,13 @@ const EditableSpace: React.FC<EditableSpaceProps> = ({
   const glowFilter = (isHovered || isSelected) ? 'url(#space-glow)' : undefined;
 
   return (
-    <g 
-      style={{ cursor: 'pointer' }}
+    <g
+      style={{ cursor: isMoveMode && isSelected ? (isDragging ? 'grabbing' : 'grab') : 'pointer' }}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={() => { setIsHovered(false); if (!isDragging) handleMouseUp(); }}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
     >
       {/* Glow filter definition */}
       <defs>

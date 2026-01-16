@@ -10,6 +10,103 @@
 import { SolverResult, FloorData, SpaceData } from '../types/solverOutput';
 import { ExtractedBuildingData } from '../components/data/PdfUploader';
 
+// ============================================
+// COLLISION DETECTION HELPERS
+// ============================================
+
+interface BoundingBox {
+  x: number;      // center x
+  y: number;      // center y
+  width: number;
+  height: number;
+}
+
+/**
+ * Check if two bounding boxes overlap
+ */
+function spacesOverlap(a: BoundingBox, b: BoundingBox, buffer: number = 0.5): boolean {
+  const aLeft = a.x - a.width / 2 - buffer;
+  const aRight = a.x + a.width / 2 + buffer;
+  const aTop = a.y - a.height / 2 - buffer;
+  const aBottom = a.y + a.height / 2 + buffer;
+
+  const bLeft = b.x - b.width / 2;
+  const bRight = b.x + b.width / 2;
+  const bTop = b.y - b.height / 2;
+  const bBottom = b.y + b.height / 2;
+
+  return !(aRight < bLeft || aLeft > bRight || aBottom < bTop || aTop > bBottom);
+}
+
+/**
+ * Check if a space overlaps with any existing space
+ */
+function hasOverlap(newSpace: BoundingBox, existingSpaces: BoundingBox[]): boolean {
+  return existingSpaces.some(existing => spacesOverlap(newSpace, existing));
+}
+
+/**
+ * Find a non-overlapping position by trying offsets
+ */
+function findNonOverlappingPosition(
+  space: BoundingBox,
+  existingSpaces: BoundingBox[],
+  boundary: { minX: number; maxX: number; minY: number; maxY: number }
+): BoundingBox | null {
+  // Try original position first
+  if (!hasOverlap(space, existingSpaces)) return space;
+
+  // Try offset positions
+  const offsets = [
+    { dx: space.width + 2, dy: 0 },
+    { dx: -space.width - 2, dy: 0 },
+    { dx: 0, dy: space.height + 2 },
+    { dx: 0, dy: -space.height - 2 },
+    { dx: space.width + 2, dy: space.height + 2 },
+    { dx: -space.width - 2, dy: -space.height - 2 },
+    { dx: space.width + 2, dy: -space.height - 2 },
+    { dx: -space.width - 2, dy: space.height + 2 },
+  ];
+
+  for (const offset of offsets) {
+    const candidate = { ...space, x: space.x + offset.dx, y: space.y + offset.dy };
+    if (!hasOverlap(candidate, existingSpaces) &&
+        candidate.x - candidate.width / 2 >= boundary.minX &&
+        candidate.x + candidate.width / 2 <= boundary.maxX &&
+        candidate.y - candidate.height / 2 >= boundary.minY &&
+        candidate.y + candidate.height / 2 <= boundary.maxY) {
+      return candidate;
+    }
+  }
+  return null;
+}
+
+/**
+ * Safely place a space, checking for collisions
+ */
+function safelyPlaceSpace(
+  spaces: SpaceData[],
+  placedBounds: BoundingBox[],
+  id: string,
+  type: string,
+  name: string,
+  floorIndex: number,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  isVertical: boolean,
+  boundary: { minX: number; maxX: number; minY: number; maxY: number }
+): void {
+  const newBounds: BoundingBox = { x, y, width, height };
+  const safeBounds = findNonOverlappingPosition(newBounds, placedBounds, boundary);
+
+  if (safeBounds) {
+    placedBounds.push(safeBounds);
+    spaces.push(createSpace(id, type, name, floorIndex, safeBounds.x, safeBounds.y, safeBounds.width, safeBounds.height, isVertical));
+  }
+}
+
 interface LegacyExtractedData {
   properties?: {
     area_sf?: number;
@@ -407,7 +504,7 @@ function generateParkingFloor(
 /**
  * Generate ground floor with lobby, amenities, and support spaces
  * Layout based on reference screenshot - lobby at entrance, amenities around perimeter
- * Uses CENTER-ORIGIN coordinates
+ * Uses CENTER-ORIGIN coordinates with COLLISION DETECTION
  */
 function generateGroundFloor(
   spaces: SpaceData[],
@@ -417,160 +514,98 @@ function generateGroundFloor(
 ): void {
   const h = halfSide;
   const MARGIN = 2;
+  const boundary = { minX: -h + MARGIN, maxX: h - MARGIN, minY: -h + MARGIN, maxY: h - MARGIN };
+
+  // Track placed spaces for collision detection
+  const placedBounds: BoundingBox[] = [];
 
   // Main LOBBY - at south entrance (front of building)
   const LOBBY_WIDTH = 40;
   const LOBBY_DEPTH = 25;
-  spaces.push(createSpace(
-    `lobby_f${floorIdx}`,
-    'CIRCULATION',
-    'Lobby',
-    floorIdx,
-    0,
-    h - MARGIN - LOBBY_DEPTH / 2,  // South edge (front entrance)
-    LOBBY_WIDTH,
-    LOBBY_DEPTH,
-    false
-  ));
+  safelyPlaceSpace(spaces, placedBounds,
+    `lobby_f${floorIdx}`, 'CIRCULATION', 'Lobby', floorIdx,
+    0, h - MARGIN - LOBBY_DEPTH / 2,
+    LOBBY_WIDTH, LOBBY_DEPTH, false, boundary
+  );
 
   // Corridor from lobby to core
-  spaces.push(createSpace(
-    `corridor_main_f${floorIdx}`,
-    'CIRCULATION',
-    'Corridor',
-    floorIdx,
-    0,
-    0,  // Center
-    6,
-    2 * h - LOBBY_DEPTH - 20,
-    false
-  ));
+  safelyPlaceSpace(spaces, placedBounds,
+    `corridor_main_f${floorIdx}`, 'CIRCULATION', 'Corridor', floorIdx,
+    0, 0,
+    6, 2 * h - LOBBY_DEPTH - 20, false, boundary
+  );
 
   // LEASING OFFICE - right of lobby
-  spaces.push(createSpace(
-    `leasing_f${floorIdx}`,
-    'SUPPORT',
-    'Leasing',
-    floorIdx,
-    LOBBY_WIDTH / 2 + 15,
-    h - MARGIN - 15,
-    25,
-    20,
-    false
-  ));
+  safelyPlaceSpace(spaces, placedBounds,
+    `leasing_f${floorIdx}`, 'SUPPORT', 'Leasing', floorIdx,
+    h - MARGIN - 15, h - MARGIN - 12,
+    25, 20, false, boundary
+  );
 
   // MAIL/PACKAGE ROOM - left of lobby
-  spaces.push(createSpace(
-    `mail_f${floorIdx}`,
-    'SUPPORT',
-    'Mail/Package',
-    floorIdx,
-    -LOBBY_WIDTH / 2 - 12,
-    h - MARGIN - 12,
-    20,
-    18,
-    false
-  ));
+  safelyPlaceSpace(spaces, placedBounds,
+    `mail_f${floorIdx}`, 'SUPPORT', 'Mail/Package', floorIdx,
+    -h + MARGIN + 12, h - MARGIN - 12,
+    20, 18, false, boundary
+  );
 
-  // AMENITY LOUNGE - northwest corner
-  spaces.push(createSpace(
-    `lounge_f${floorIdx}`,
-    'AMENITY',
-    'Lounge',
-    floorIdx,
-    -h + MARGIN + 25,
-    -h + MARGIN + 20,
-    45,
-    35,
-    false
-  ));
+  // AMENITY LOUNGE - southwest corner (away from stairs)
+  safelyPlaceSpace(spaces, placedBounds,
+    `lounge_f${floorIdx}`, 'AMENITY', 'Lounge', floorIdx,
+    -h + MARGIN + 25, h - MARGIN - LOBBY_DEPTH - 25,
+    45, 35, false, boundary
+  );
 
-  // FITNESS CENTER - southwest corner
-  spaces.push(createSpace(
-    `fitness_f${floorIdx}`,
-    'AMENITY',
-    'Fitness',
-    floorIdx,
-    -h + MARGIN + 20,
-    h - MARGIN - LOBBY_DEPTH - 20,
-    35,
-    30,
-    false
-  ));
+  // FITNESS CENTER - northwest corner
+  safelyPlaceSpace(spaces, placedBounds,
+    `fitness_f${floorIdx}`, 'AMENITY', 'Fitness', floorIdx,
+    -h + MARGIN + 20, -h + MARGIN + 20,
+    35, 30, false, boundary
+  );
 
-  // RESTROOMS - near lobby
-  spaces.push(createSpace(
-    `restroom_m_f${floorIdx}`,
-    'SUPPORT',
-    'Restroom M',
-    floorIdx,
-    h - MARGIN - 12,
-    h - MARGIN - 35,
-    15,
-    12,
-    false
-  ));
+  // RESTROOM M - east side, upper (with gap from other spaces)
+  safelyPlaceSpace(spaces, placedBounds,
+    `restroom_m_f${floorIdx}`, 'SUPPORT', 'Restroom M', floorIdx,
+    h - MARGIN - 10, h - MARGIN - 38,
+    15, 12, false, boundary
+  );
 
-  spaces.push(createSpace(
-    `restroom_f_f${floorIdx}`,
-    'SUPPORT',
-    'Restroom F',
-    floorIdx,
-    h - MARGIN - 12,
-    h - MARGIN - 50,
-    15,
-    12,
-    false
-  ));
+  // RESTROOM F - east side, below restroom M (with gap)
+  safelyPlaceSpace(spaces, placedBounds,
+    `restroom_f_f${floorIdx}`, 'SUPPORT', 'Restroom F', floorIdx,
+    h - MARGIN - 10, h - MARGIN - 55,
+    15, 12, false, boundary
+  );
 
-  // TRASH/UTILITY - east side near core
-  spaces.push(createSpace(
-    `trash_f${floorIdx}`,
-    'SUPPORT',
-    'Trash',
-    floorIdx,
-    h - MARGIN - 8,
-    0,
-    12,
-    10,
-    false
-  ));
+  // TRASH/UTILITY - east side, near center (with gap from restrooms)
+  safelyPlaceSpace(spaces, placedBounds,
+    `trash_f${floorIdx}`, 'SUPPORT', 'Trash', floorIdx,
+    h - MARGIN - 10, 0,
+    12, 10, false, boundary
+  );
 
   // BIKE STORAGE - northeast area
-  spaces.push(createSpace(
-    `bike_storage_f${floorIdx}`,
-    'SUPPORT',
-    'Bike Storage',
-    floorIdx,
-    h - MARGIN - 25,
-    -h + MARGIN + 25,
-    40,
-    35,
-    false
-  ));
+  safelyPlaceSpace(spaces, placedBounds,
+    `bike_storage_f${floorIdx}`, 'SUPPORT', 'Bike Storage', floorIdx,
+    h - MARGIN - 25, -h + MARGIN + 25,
+    40, 35, false, boundary
+  );
 
   // Optional: Some ground floor units on north side (if building has them)
-  // Add a few studios/1BRs facing north
   const groundUnits = data.dwelling_units?.filter(u => u.count > 0).slice(0, 2) || [];
-  let unitX = -h + MARGIN + 50;  // Start after lounge
+  let unitX = -h + MARGIN + 60;  // Start after fitness
 
   for (let i = 0; i < 3 && unitX < h - 80; i++) {
     const unit = groundUnits[i % groundUnits.length];
     if (unit) {
-      const unitWidth = unit.width_ft || 25;
-      const unitDepth = unit.depth_ft || 28;
-      spaces.push(createSpace(
-        `unit_ground_${i}_f${floorIdx}`,
-        'DWELLING_UNIT',
-        `${unit.name || unit.type} A${i + 1}`,
-        floorIdx,
-        unitX + unitWidth / 2,
-        -h + MARGIN + unitDepth / 2,
-        unitWidth,
-        unitDepth,
-        false
-      ));
-      unitX += unitWidth + 1;
+      const unitWidth = Math.min(unit.width_ft || 20, 20);
+      const unitDepth = Math.min(unit.depth_ft || 25, 25);
+      safelyPlaceSpace(spaces, placedBounds,
+        `unit_ground_${i}_f${floorIdx}`, 'DWELLING_UNIT', `${unit.name || unit.type} A${i + 1}`, floorIdx,
+        unitX + unitWidth / 2, -h + MARGIN + unitDepth / 2,
+        unitWidth, unitDepth, false, boundary
+      );
+      unitX += unitWidth + 2;
     }
   }
 }
@@ -608,7 +643,7 @@ function generateResidentialFloor(
   const MARGIN = 2;           // Minimal margin from floor plate edge
   const UNIT_GAP = 0.5;       // Minimal gap between units
   const CORRIDOR_WIDTH = 5;   // Narrow corridor
-  const CORE_SIZE = 35;       // Core is ~35' x 35' (elevators, stairs, support)
+  const CORE_SIZE = 45;       // Core is ~45' wide (elevators, stairs, support) - accounts for actual layout
 
   const h = halfSide;         // Half of floor plate side
 
@@ -658,57 +693,57 @@ function generateResidentialFloor(
   }
 
   // Place CORE elements in center (elevators, stairs already placed by caller)
-  // Add support rooms around core
+  // Support rooms INSIDE the 35' x 35' core area (within ±17.5 of center)
 
-  // Trash room - left of core
+  // Trash room - top left of core (inside core bounds)
   spaces.push(createSpace(
     `trash_f${floorIdx}`,
     'SUPPORT',
     'Trash',
     floorIdx,
-    -20,
-    0,
-    12,
-    10,
+    -12,   // Inside core (within ±17.5)
+    10,    // Top of core
+    8,
+    6,
     false
   ));
 
-  // Mech room - further left
+  // Mech room - bottom left of core (inside core bounds)
   spaces.push(createSpace(
     `mech_f${floorIdx}`,
     'SUPPORT',
     'Mech',
     floorIdx,
-    -35,
-    0,
-    10,
-    12,
+    -12,   // Inside core
+    -10,   // Bottom of core
+    8,
+    6,
     false
   ));
 
-  // Storage room - right of core
+  // Storage room - top right of core (inside core bounds)
   spaces.push(createSpace(
     `stor_f${floorIdx}`,
     'SUPPORT',
     'Stor',
     floorIdx,
-    20,
-    0,
-    12,
-    10,
+    12,    // Inside core
+    10,    // Top of core
+    8,
+    6,
     false
   ));
 
-  // Electrical room - further right
+  // Electrical room - bottom right of core (inside core bounds)
   spaces.push(createSpace(
     `elec_f${floorIdx}`,
     'SUPPORT',
     'Elec',
     floorIdx,
-    35,
-    0,
-    10,
-    12,
+    12,    // Inside core
+    -10,   // Bottom of core
+    8,
+    6,
     false
   ));
 
@@ -819,11 +854,12 @@ function generateResidentialFloor(
   }
 
   // ========================================
-  // CORRIDOR - Tight ring around core
+  // CORRIDOR - Ring around core + corner stubs
   // ========================================
   const corridorOuter = CORE_SIZE / 2 + CORRIDOR_WIDTH;
+  const unitInnerEdge = h - MARGIN - UNIT_DEPTH;  // Where units end (inside edge)
 
-  // North corridor segment (horizontal)
+  // North corridor segment (horizontal ring)
   spaces.push(createSpace(
     `corridor_n_f${floorIdx}`,
     'CIRCULATION',
@@ -836,7 +872,7 @@ function generateResidentialFloor(
     false
   ));
 
-  // South corridor segment (horizontal)
+  // South corridor segment (horizontal ring)
   spaces.push(createSpace(
     `corridor_s_f${floorIdx}`,
     'CIRCULATION',
@@ -849,7 +885,7 @@ function generateResidentialFloor(
     false
   ));
 
-  // East corridor segment (vertical)
+  // East corridor segment (vertical ring)
   spaces.push(createSpace(
     `corridor_e_f${floorIdx}`,
     'CIRCULATION',
@@ -862,7 +898,7 @@ function generateResidentialFloor(
     false
   ));
 
-  // West corridor segment (vertical)
+  // West corridor segment (vertical ring)
   spaces.push(createSpace(
     `corridor_w_f${floorIdx}`,
     'CIRCULATION',
@@ -874,6 +910,7 @@ function generateResidentialFloor(
     CORE_SIZE,
     false
   ));
+
 }
 
 /**

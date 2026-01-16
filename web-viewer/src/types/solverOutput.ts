@@ -118,6 +118,8 @@ export interface DwellingUnit {
 
 export interface BuildingInput {
   project_name: string;
+  address?: string;
+  apn?: string;
   building: {
     property_type?: string;
     construction_type?: string;

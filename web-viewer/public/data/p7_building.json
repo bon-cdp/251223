@@ -1,6 +1,8 @@
 {
   "$schema": "gloq_space_allocation_v1",
   "project_name": "P7 - Proposed Apartment Project",
+  "address": "6464 Canoga Ave, Woodland Hills, CA 91367",
+  "apn": "2149-001-030",
 
   "building": {
     "property_type": "apartment",

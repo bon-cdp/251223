@@ -15,6 +15,7 @@ interface VerificationItem {
   expected: string | number;
   actual: string | number;
   pass: boolean;
+  note?: string;  // Optional explanation
 }
 
 export const VerificationCalculator: React.FC<VerificationCalculatorProps> = ({
@@ -49,23 +50,46 @@ export const VerificationCalculator: React.FC<VerificationCalculatorProps> = ({
     .flatMap(f => f.spaces)
     .filter(s => s.type === 'DWELLING_UNIT').length;
 
+  // Calculate perimeter capacity for explanation
+  const floorPlateSf = buildingInput.building.floor_plate_sf || 19000;
+  const sideLength = Math.sqrt(floorPlateSf);
+  const avgUnitWidth = 15;  // Compact unit average
+  const perimeterCapacity = Math.floor((sideLength * 4 - 4 * 45) / avgUnitWidth);
+  const residentialFloors = buildingInput.building.stories_above_grade - 1;  // Exclude ground floor
+  const totalPerimeterCapacity = perimeterCapacity * Math.max(residentialFloors, 1);
+
+  // Determine if we need to show capacity explanation
+  const needsCapacityNote = actualDwellingSpaces < expectedUnits * 0.5;
+
   verifications.push({
     label: 'Dwelling Units',
     expected: expectedUnits,
     actual: actualDwellingSpaces,
     pass: actualDwellingSpaces >= expectedUnits * 0.9, // 90% tolerance
+    note: needsCapacityNote
+      ? `Perimeter layout: ~${totalPerimeterCapacity} max (all with windows)`
+      : undefined,
   });
 
-  // Lot size (compare floor plate area)
+  // Lot Size (from input - this is the land area)
   const lotSizeSf = buildingInput.building.lot_size_sf;
-  const groundFloor = solverResult.building.floors.find(f => f.floor_index === 0);
-  const groundFloorArea = groundFloor?.area_sf || 0;
-
   verifications.push({
     label: 'Lot Size',
     expected: `${lotSizeSf.toLocaleString()} SF`,
+    actual: `${lotSizeSf.toLocaleString()} SF`,  // Same as expected - it's input data
+    pass: true,  // Always passes - it's fixed input
+  });
+
+  // Floor Plate (generated building footprint)
+  const groundFloor = solverResult.building.floors.find(f => f.floor_index === 0);
+  const groundFloorArea = groundFloor?.area_sf || 0;
+  const expectedFloorPlate = buildingInput.building.floor_plate_sf || lotSizeSf;
+
+  verifications.push({
+    label: 'Floor Plate',
+    expected: `${expectedFloorPlate.toLocaleString()} SF`,
     actual: `${groundFloorArea.toLocaleString()} SF`,
-    pass: Math.abs(groundFloorArea - lotSizeSf) / lotSizeSf < 0.35, // 35% tolerance for floor plate
+    pass: Math.abs(groundFloorArea - expectedFloorPlate) / expectedFloorPlate < 0.15,
   });
 
   // FAR check
@@ -119,6 +143,9 @@ export const VerificationCalculator: React.FC<VerificationCalculatorProps> = ({
               <span style={styles.expected}>Expected: {item.expected}</span>
               <span style={styles.actual}>Actual: {item.actual}</span>
             </div>
+            {item.note && (
+              <div style={styles.note}>{item.note}</div>
+            )}
           </div>
         ))}
       </div>
@@ -197,6 +224,16 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: '11px',
     color: '#333',
     fontWeight: 500,
+  },
+  note: {
+    fontSize: '10px',
+    color: '#666',
+    marginLeft: '26px',
+    marginTop: '4px',
+    fontStyle: 'italic',
+    padding: '4px 8px',
+    background: '#f0f0f0',
+    borderRadius: '4px',
   },
 };
 
