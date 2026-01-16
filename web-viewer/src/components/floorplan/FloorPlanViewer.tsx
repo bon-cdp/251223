@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { FloorData, SpaceData, isPolygonGeometry, rectToPolygon } from '../../types/solverOutput';
+import { FloorData, SpaceData, isPolygonGeometry } from '../../types/solverOutput';
 import { getSpaceColor, BOUNDARY_COLOR, BACKGROUND_COLOR } from '../../constants/colors';
 import {
   getFloorBounds,
@@ -15,7 +15,6 @@ import {
   worldToSvg,
   getGeometryCenter,
 } from '../../utils/geometry';
-import { calculateCentroid } from '../../utils/polygon';
 
 interface FloorPlanViewerProps {
   floor: FloorData;

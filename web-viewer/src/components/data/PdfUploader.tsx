@@ -61,10 +61,10 @@ export interface ExtractedBuildingData {
 
 // Legacy interface for backward compatibility
 interface ExtractedData {
-  properties?: Record<string, any>;
-  constraints?: Record<string, any>;
+  properties?: Record<string, string | number | boolean | undefined>;
+  constraints?: Record<string, string | number | boolean | undefined>;
   units?: Array<{ type: string; count: number; area_sf: number }>;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, string | number | boolean | undefined>;
   raw_response?: string;
   // New structured data
   building_data?: ExtractedBuildingData;
@@ -91,7 +91,8 @@ export const PdfUploader: React.FC<PdfUploaderProps> = ({ onDataExtracted }) => 
       const page = await pdf.getPage(i);
       const textContent = await page.getTextContent();
       const pageText = textContent.items
-        .map((item: any) => item.str)
+        .filter((item): item is { str: string } & typeof item => 'str' in item)
+        .map((item) => item.str)
         .join(' ');
       fullText += pageText + '\n\n';
     }

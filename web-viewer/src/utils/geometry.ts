@@ -6,10 +6,8 @@
 import {
   Geometry,
   FloorData,
-  RectGeometry,
   PolygonGeometry,
   isPolygonGeometry,
-  isRectGeometry,
   rectToPolygon,
 } from '../types/solverOutput';
 import { calculateCentroid, calculatePolygonArea } from './polygon';

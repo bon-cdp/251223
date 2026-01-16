@@ -5,14 +5,12 @@
 
 import React, { useMemo, useState, useCallback, useRef } from 'react';
 import { FloorData, SpaceData, isPolygonGeometry, rectToPolygon } from '../../types/solverOutput';
-import { getSpaceColor, BOUNDARY_COLOR, BACKGROUND_COLOR } from '../../constants/colors';
+import { getSpaceColor } from '../../constants/colors';
 import {
   getFloorBounds,
   createSvgTransform,
   boundaryToSvgPoints,
-  polygonToSvgPath,
   worldToSvg,
-  getGeometryCenter,
 } from '../../utils/geometry';
 import { PolygonEditor } from '../editor/PolygonEditor';
 import { EditMode } from '../../hooks/usePolygonEditor';
@@ -169,12 +167,12 @@ export const EditableFloorPlanViewer: React.FC<EditableFloorPlanViewerProps> = (
         gap: 4,
       }}>
         <button
-          onClick={() => handleWheel({ deltaY: -100, preventDefault: () => {} } as any)}
+          onClick={() => handleWheel({ deltaY: -100, preventDefault: () => {} } as React.WheelEvent)}
           style={zoomButtonStyle}
           title="Zoom In"
         >+</button>
         <button
-          onClick={() => handleWheel({ deltaY: 100, preventDefault: () => {} } as any)}
+          onClick={() => handleWheel({ deltaY: 100, preventDefault: () => {} } as React.WheelEvent)}
           style={zoomButtonStyle}
           title="Zoom Out"
         >−</button>
@@ -243,6 +241,7 @@ export const EditableFloorPlanViewer: React.FC<EditableFloorPlanViewerProps> = (
           isVertical={false}
           showLabel={showLabels}
           isEditMode={isEditingVertices && space.id === selectedSpaceId}
+          zoomLevel={zoomLevel}
           onClick={() => onSpaceClick(space)}
           onVertexMove={onVertexMove}
           onVertexRemove={onVertexRemove}
@@ -262,6 +261,7 @@ export const EditableFloorPlanViewer: React.FC<EditableFloorPlanViewerProps> = (
           isVertical={true}
           showLabel={showLabels}
           isEditMode={isEditingVertices && space.id === selectedSpaceId}
+          zoomLevel={zoomLevel}
           onClick={() => onSpaceClick(space)}
           onVertexMove={onVertexMove}
           onVertexRemove={onVertexRemove}
@@ -311,6 +311,7 @@ interface EditableSpaceProps {
   isVertical: boolean;
   showLabel: boolean;
   isEditMode: boolean;
+  zoomLevel?: number;
   onClick: () => void;
   onVertexMove?: (spaceId: string, vertexIndex: number, x: number, y: number) => void;
   onVertexRemove?: (spaceId: string, vertexIndex: number) => void;
@@ -326,6 +327,7 @@ const EditableSpace: React.FC<EditableSpaceProps> = ({
   isVertical,
   showLabel,
   isEditMode,
+  zoomLevel = 1,
   onClick,
   onVertexMove,
   onVertexRemove,
@@ -333,8 +335,12 @@ const EditableSpace: React.FC<EditableSpaceProps> = ({
   onDragStart,
   onDragEnd,
 }) => {
+  const [isHovered, setIsHovered] = React.useState(false);
   const color = getSpaceColor(space.type);
   const geometry = space.geometry;
+  
+  // Auto-hide labels when zoomed out too far
+  const shouldShowLabel = showLabel && (zoomLevel >= 0.7 || isSelected || isHovered);
 
   // Get vertices for rendering and editing
   const vertices = useMemo(() => {
@@ -366,43 +372,82 @@ const EditableSpace: React.FC<EditableSpaceProps> = ({
     return worldToSvg(cx, cy, transform);
   }, [vertices, transform]);
 
-  // Determine stroke style
+  // Determine stroke style based on hover/selection state
   const strokeColor = space.hasCollision
     ? '#ef4444' // Red for collision
     : isSelected
     ? '#7c3aed' // Purple when selected
+    : isHovered
+    ? '#a78bfa' // Light purple on hover
     : '#4a4a5a'; // Default dark
 
-  const strokeWidth = isSelected ? 2 : 1;
+  const strokeWidth = isSelected ? 2.5 : isHovered ? 2 : 1;
+  
+  // Glow filter for hover/selected state
+  const glowFilter = (isHovered || isSelected) ? 'url(#space-glow)' : undefined;
 
   return (
-    <g style={{ cursor: 'pointer' }}>
+    <g 
+      style={{ cursor: 'pointer' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Glow filter definition */}
+      <defs>
+        <filter id="space-glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
       {/* Space shape */}
       <path
         d={pathD}
         fill={color}
-        fillOpacity={isSelected ? 1 : 0.85}
+        fillOpacity={isSelected ? 1 : isHovered ? 0.95 : 0.85}
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         strokeDasharray={isVertical ? '4,2' : undefined}
         onClick={onClick}
+        filter={glowFilter}
+        style={{
+          transition: 'fill-opacity 0.15s ease, stroke 0.15s ease, stroke-width 0.15s ease',
+        }}
       />
 
-      {/* Label */}
-      {showLabel && (
-        <text
-          x={center.x}
-          y={center.y}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontSize={9}
-          fill="#fff"
-          fontWeight={isSelected ? 'bold' : 'normal'}
-          pointerEvents="none"
-          style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
-        >
-          {space.name.length > 15 ? space.name.slice(0, 15) + '...' : space.name}
-        </text>
+      {/* Label with background pill */}
+      {shouldShowLabel && (
+        <g pointerEvents="none">
+          {/* Background pill */}
+          <rect
+            x={center.x - (Math.min(space.name.length, 15) * 3.5) - 6}
+            y={center.y - 8}
+            width={Math.min(space.name.length, 15) * 7 + 12}
+            height={16}
+            rx={8}
+            ry={8}
+            fill="rgba(0, 0, 0, 0.6)"
+            style={{ transition: 'opacity 0.15s ease' }}
+          />
+          {/* Label text */}
+          <text
+            x={center.x}
+            y={center.y}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize={isHovered || isSelected ? 10 : 9}
+            fill="#fff"
+            fontWeight={isSelected ? 'bold' : isHovered ? '600' : 'normal'}
+            style={{ 
+              transition: 'font-size 0.15s ease, opacity 0.15s ease',
+            }}
+          >
+            {space.name.length > 15 ? space.name.slice(0, 15) + '...' : space.name}
+          </text>
+        </g>
       )}
 
       {/* Change indicator */}

@@ -62,18 +62,37 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
   const [geocodingError, setGeocodingError] = useState<string | null>(null);
   const [isGeocoding, setIsGeocoding] = useState(false);
 
+  // Track address to avoid resetting state in effect body
+  const previousAddressRef = useRef<string | undefined>(undefined);
+
   // Geocode address when it changes
   useEffect(() => {
-    if (!address) {
+    // Early return with cleanup callback setup
+    let cancelled = false;
+    
+    const resetGeocodedState = () => {
       setGeocodedCenter(null);
       setGeocodedParcel(null);
       setGeocodedFootprint(null);
       setFormattedAddress(null);
       setGeocodingError(null);
+    };
+
+    // If address changed from something to nothing, reset
+    if (!address) {
+      if (previousAddressRef.current) {
+        resetGeocodedState();
+      }
+      previousAddressRef.current = address;
       return;
     }
 
-    let cancelled = false;
+    // Only geocode if address actually changed
+    if (address === previousAddressRef.current) {
+      return;
+    }
+    previousAddressRef.current = address;
+
     setIsGeocoding(true);
     setGeocodingError(null);
 
@@ -121,8 +140,9 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
     if (!mapContainerRef.current) return;
     if (mapRef.current) return; // Already initialized
 
+    const effectiveCenter = geocodedCenter || center;
     const map = L.map(mapContainerRef.current, {
-      center: geocodedCenter || center,
+      center: effectiveCenter,
       zoom: zoom,
       zoomControl: true,
     });
@@ -145,7 +165,8 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
       map.remove();
       mapRef.current = null;
     };
-  }, []); // Only run once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount - map initialization should happen only once
 
   // Update map when data changes
   useEffect(() => {

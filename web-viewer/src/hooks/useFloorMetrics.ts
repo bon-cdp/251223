@@ -4,7 +4,7 @@
  */
 
 import { useMemo } from 'react';
-import { FloorData, SpaceData, isPolygonGeometry, rectToPolygon } from '../types/solverOutput';
+import { FloorData, SpaceData, Geometry, isPolygonGeometry, rectToPolygon } from '../types/solverOutput';
 import { calculatePolygonArea, polygonsOverlap, Polygon } from '../utils/polygon';
 
 interface SpaceMetrics {
@@ -48,7 +48,7 @@ interface FloorMetrics {
 
 interface EditableSpace extends SpaceData {
   editableVertices?: [number, number][];
-  originalGeometry?: any;
+  originalGeometry?: Geometry;
 }
 
 /**
@@ -96,100 +96,110 @@ function findOverlaps(spaces: EditableSpace[]): string[] {
   return Array.from(overlapping);
 }
 
+/**
+ * Calculate floor metrics (non-hook version for internal use)
+ */
+function calculateFloorMetrics(
+  floor: FloorData,
+  editableSpaces?: EditableSpace[]
+): FloorMetrics {
+  // Use editable spaces if provided, filter to current floor
+  const spaces = editableSpaces
+    ? editableSpaces.filter(s => s.floor_index === floor.floor_index)
+    : floor.spaces;
+
+  // Calculate total floor area from boundary
+  const totalFloorArea = calculatePolygonArea(floor.boundary as Polygon);
+
+  // Calculate usable area (sum of all space areas)
+  let usableArea = 0;
+  const spaceMetrics: SpaceMetrics[] = [];
+
+  for (const space of spaces) {
+    const area = getSpaceArea(space as EditableSpace);
+    usableArea += area;
+    spaceMetrics.push({
+      id: space.id,
+      type: space.type,
+      area,
+    });
+  }
+
+  // Calculate efficiency ratio
+  const efficiencyRatio = totalFloorArea > 0
+    ? (usableArea / totalFloorArea) * 100
+    : 0;
+
+  // Group by type
+  const typeMap = new Map<string, { count: number; totalArea: number }>();
+  for (const sm of spaceMetrics) {
+    const existing = typeMap.get(sm.type) || { count: 0, totalArea: 0 };
+    existing.count++;
+    existing.totalArea += sm.area;
+    typeMap.set(sm.type, existing);
+  }
+
+  const spacesByType: TypeSummary[] = Array.from(typeMap.entries())
+    .map(([type, data]) => ({
+      type,
+      count: data.count,
+      totalArea: data.totalArea,
+      percentage: usableArea > 0 ? (data.totalArea / usableArea) * 100 : 0,
+    }))
+    .sort((a, b) => b.totalArea - a.totalArea);
+
+  // Count specific types
+  const dwellingUnits = spacesByType.find(s => s.type === 'DWELLING_UNIT')?.count || 0;
+  const retailSpaces = spacesByType.find(s => s.type === 'RETAIL')?.count || 0;
+  const parkingSpaces = spacesByType.find(s => s.type === 'PARKING')?.count || 0;
+
+  // Find overlaps
+  const overlappingSpaces = findOverlaps(spaces as EditableSpace[]);
+  const hasOverlaps = overlappingSpaces.length > 0;
+
+  // Build violations list
+  const violations: string[] = [];
+  if (hasOverlaps) {
+    violations.push(`${overlappingSpaces.length} spaces overlap`);
+  }
+  if (efficiencyRatio > 100) {
+    violations.push('Spaces exceed floor boundary');
+  }
+  if (efficiencyRatio < 50) {
+    violations.push('Low space utilization (<50%)');
+  }
+
+  // Calculate area delta from original
+  const originalArea = floor.area_sf || totalFloorArea;
+  const areaDelta = usableArea - originalArea;
+  const areaDeltaPercent = originalArea > 0
+    ? (areaDelta / originalArea) * 100
+    : 0;
+
+  return {
+    totalFloorArea,
+    usableArea,
+    efficiencyRatio,
+    totalSpaces: spaces.length,
+    spacesByType,
+    dwellingUnits,
+    retailSpaces,
+    parkingSpaces,
+    violations,
+    hasOverlaps,
+    overlappingSpaces,
+    originalArea,
+    areaDelta,
+    areaDeltaPercent,
+  };
+}
+
 export function useFloorMetrics(
   floor: FloorData,
   editableSpaces?: EditableSpace[]
 ): FloorMetrics {
   return useMemo(() => {
-    // Use editable spaces if provided, filter to current floor
-    const spaces = editableSpaces
-      ? editableSpaces.filter(s => s.floor_index === floor.floor_index)
-      : floor.spaces;
-
-    // Calculate total floor area from boundary
-    const totalFloorArea = calculatePolygonArea(floor.boundary as Polygon);
-
-    // Calculate usable area (sum of all space areas)
-    let usableArea = 0;
-    const spaceMetrics: SpaceMetrics[] = [];
-
-    for (const space of spaces) {
-      const area = getSpaceArea(space as EditableSpace);
-      usableArea += area;
-      spaceMetrics.push({
-        id: space.id,
-        type: space.type,
-        area,
-      });
-    }
-
-    // Calculate efficiency ratio
-    const efficiencyRatio = totalFloorArea > 0
-      ? (usableArea / totalFloorArea) * 100
-      : 0;
-
-    // Group by type
-    const typeMap = new Map<string, { count: number; totalArea: number }>();
-    for (const sm of spaceMetrics) {
-      const existing = typeMap.get(sm.type) || { count: 0, totalArea: 0 };
-      existing.count++;
-      existing.totalArea += sm.area;
-      typeMap.set(sm.type, existing);
-    }
-
-    const spacesByType: TypeSummary[] = Array.from(typeMap.entries())
-      .map(([type, data]) => ({
-        type,
-        count: data.count,
-        totalArea: data.totalArea,
-        percentage: usableArea > 0 ? (data.totalArea / usableArea) * 100 : 0,
-      }))
-      .sort((a, b) => b.totalArea - a.totalArea);
-
-    // Count specific types
-    const dwellingUnits = spacesByType.find(s => s.type === 'DWELLING_UNIT')?.count || 0;
-    const retailSpaces = spacesByType.find(s => s.type === 'RETAIL')?.count || 0;
-    const parkingSpaces = spacesByType.find(s => s.type === 'PARKING')?.count || 0;
-
-    // Find overlaps
-    const overlappingSpaces = findOverlaps(spaces as EditableSpace[]);
-    const hasOverlaps = overlappingSpaces.length > 0;
-
-    // Build violations list
-    const violations: string[] = [];
-    if (hasOverlaps) {
-      violations.push(`${overlappingSpaces.length} spaces overlap`);
-    }
-    if (efficiencyRatio > 100) {
-      violations.push('Spaces exceed floor boundary');
-    }
-    if (efficiencyRatio < 50) {
-      violations.push('Low space utilization (<50%)');
-    }
-
-    // Calculate area delta from original
-    const originalArea = floor.area_sf || totalFloorArea;
-    const areaDelta = usableArea - originalArea;
-    const areaDeltaPercent = originalArea > 0
-      ? (areaDelta / originalArea) * 100
-      : 0;
-
-    return {
-      totalFloorArea,
-      usableArea,
-      efficiencyRatio,
-      totalSpaces: spaces.length,
-      spacesByType,
-      dwellingUnits,
-      retailSpaces,
-      parkingSpaces,
-      violations,
-      hasOverlaps,
-      overlappingSpaces,
-      originalArea,
-      areaDelta,
-      areaDeltaPercent,
-    };
+    return calculateFloorMetrics(floor, editableSpaces);
   }, [floor, editableSpaces]);
 }
 
@@ -207,8 +217,9 @@ export function useBuildingMetrics(
   floorMetrics: FloorMetrics[];
 } {
   return useMemo(() => {
+    // Use the non-hook version to calculate metrics for each floor
     const floorMetrics = floors.map(floor =>
-      useFloorMetrics(floor, editableSpaces)
+      calculateFloorMetrics(floor, editableSpaces)
     );
 
     const totalUnits = floorMetrics.reduce((sum, m) => sum + m.dwellingUnits, 0);
@@ -229,3 +240,4 @@ export function useBuildingMetrics(
 }
 
 export default useFloorMetrics;
+

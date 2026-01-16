@@ -3,7 +3,7 @@
  * All projects now have pre-computed output files
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { SolverResult, BuildingInput } from '../types/solverOutput';
 
 interface ProjectInfo {
@@ -78,10 +78,14 @@ export const useSolverData = (): UseSolverDataResult => {
     }
   }, []);
 
-  // Load default project on mount
+  // Load default project on mount - using ref to track initial load
+  const hasLoadedInitialProject = useRef(false);
   useEffect(() => {
-    loadProject(currentProjectId);
-  }, []);
+    if (!hasLoadedInitialProject.current) {
+      hasLoadedInitialProject.current = true;
+      loadProject('p1');
+    }
+  }, [loadProject]);
 
   return {
     solverResult,

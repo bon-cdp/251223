@@ -7,7 +7,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react';
 import { useSolverData } from './hooks/useSolverData';
 import { useFloorNavigation } from './hooks/useFloorNavigation';
 import { useSpaceSelection } from './hooks/useSpaceSelection';
-import { usePolygonEditor, EditMode } from './hooks/usePolygonEditor';
+import { usePolygonEditor } from './hooks/usePolygonEditor';
 import { useFloorMetrics } from './hooks/useFloorMetrics';
 import { EditableFloorPlanViewer } from './components/floorplan/EditableFloorPlanViewer';
 import { FloorNavigation } from './components/floorplan/FloorNavigation';
@@ -15,6 +15,7 @@ import { SpaceDetailsPanel } from './components/panels/SpaceDetailsPanel';
 import { MetricsDashboard } from './components/panels/MetricsDashboard';
 import { LegendPanel } from './components/panels/LegendPanel';
 import { MetricsBar } from './components/panels/MetricsBar';
+import { SpaceSearch } from './components/panels/SpaceSearch';
 import { VerificationCalculator } from './components/verification/VerificationCalculator';
 import { CanvasToolbar } from './components/toolbar/CanvasToolbar';
 import { ParcelMap } from './components/map/ParcelMap';
@@ -36,6 +37,10 @@ function App() {
 
   // View mode toggle
   const [viewMode, setViewMode] = useState<ViewMode>('floorplan');
+  
+  // Panel collapse states for focus mode
+  const [leftPanelCollapsed, setLeftPanelCollapsed] = useState(false);
+  const [rightPanelCollapsed, setRightPanelCollapsed] = useState(false);
 
   // Handle project change
   const handleProjectChange = useCallback((projectId: string) => {
@@ -62,7 +67,6 @@ function App() {
     editableSpaces,
     selectedSpaceId,
     editMode,
-    isDragging,
     selectSpace: selectSpaceEditor,
     setEditMode,
     moveVertexTo,
@@ -75,7 +79,6 @@ function App() {
     canUndo,
     canRedo,
     resetToOriginal,
-    getSpace,
   } = usePolygonEditor(allSpaces);
 
   // Space selection (from viewer click)
@@ -97,19 +100,93 @@ function App() {
     clearSelection();
   }, [selectSpaceEditor, clearSelection]);
 
+  // Global keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore if typing in an input
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+
+      switch (e.key) {
+        case 'Escape':
+          // Deselect current space
+          handleClearSelection();
+          break;
+        case 'ArrowUp':
+          // Previous floor
+          e.preventDefault();
+          prevFloor();
+          break;
+        case 'ArrowDown':
+          // Next floor
+          e.preventDefault();
+          nextFloor();
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleClearSelection, prevFloor, nextFloor]);
+
   // Floor metrics
   const floorMetrics = useFloorMetrics(
     currentFloor || { floor_index: 0, floor_type: '', boundary: [], area_sf: 0, spaces: [] },
     editableSpaces
   );
 
-  // Loading state
+  // Loading state with skeleton UI
   if (loading) {
     return (
       <div className="app dark-theme">
-        <div className="loading">
-          <div className="loading-spinner" />
-          <p>Loading floor plan data...</p>
+        {/* Skeleton Header */}
+        <header className="header">
+          <div className="header-left">
+            <h1 className="logo">GLOQ</h1>
+            <div className="skeleton" style={{ width: 180, height: 32, borderRadius: 6 }} />
+          </div>
+          <div className="header-center">
+            <div className="skeleton" style={{ width: 160, height: 28, borderRadius: 6 }} />
+          </div>
+          <div className="header-right" />
+        </header>
+
+        {/* Skeleton Main Layout */}
+        <div className="main-container">
+          {/* Left Panel Skeleton */}
+          <aside className="nav-panel">
+            <div className="skeleton-panel">
+              <div className="skeleton skeleton-title" />
+              <div className="skeleton skeleton-line" style={{ width: '80%' }} />
+              <div className="skeleton skeleton-line" style={{ width: '60%' }} />
+            </div>
+          </aside>
+
+          {/* Center Canvas Skeleton */}
+          <main className="canvas-area">
+            <div style={{ padding: '8px 12px', background: '#2d2d3f', borderBottom: '1px solid #333' }}>
+              <div className="skeleton" style={{ width: 300, height: 40 }} />
+            </div>
+            <div className="floor-plan-container">
+              <div className="skeleton skeleton-canvas" style={{ width: '80%', maxWidth: 600 }} />
+            </div>
+          </main>
+
+          {/* Right Panel Skeleton */}
+          <aside className="properties-panel">
+            <div className="skeleton-panel">
+              <div className="skeleton skeleton-title" />
+              <div className="skeleton skeleton-line" style={{ width: '90%' }} />
+              <div className="skeleton skeleton-line" style={{ width: '75%' }} />
+              <div className="skeleton skeleton-line" style={{ width: '85%' }} />
+            </div>
+            <div className="skeleton-panel">
+              <div className="skeleton skeleton-title" />
+              <div className="skeleton skeleton-line" style={{ width: '70%' }} />
+              <div className="skeleton skeleton-line" style={{ width: '80%' }} />
+            </div>
+          </aside>
         </div>
       </div>
     );
@@ -168,9 +245,9 @@ function App() {
       </header>
 
       {/* Main Content - 4 Panel Layout */}
-      <div className="main-container">
+      <div className={`main-container ${leftPanelCollapsed ? 'left-collapsed' : ''} ${rightPanelCollapsed ? 'right-collapsed' : ''}`}>
         {/* Left Panel - Navigation Tree */}
-        <aside className="nav-panel">
+        <aside className={`nav-panel ${leftPanelCollapsed ? 'collapsed' : ''}`}>
           <div className="panel-header">Floors</div>
           <FloorNavigation
             floorIndices={floorIndices}
@@ -180,6 +257,22 @@ function App() {
             onPrev={prevFloor}
             onNext={nextFloor}
           />
+          
+          {/* Space Search */}
+          <SpaceSearch
+            spaces={allSpaces}
+            onSpaceSelect={handleSpaceClick}
+            selectedSpaceId={selectedSpaceId}
+          />
+          
+          {/* Collapse toggle */}
+          <button
+            className="panel-toggle panel-toggle-left"
+            onClick={() => setLeftPanelCollapsed(!leftPanelCollapsed)}
+            title={leftPanelCollapsed ? 'Show floor navigation' : 'Hide floor navigation'}
+          >
+            {leftPanelCollapsed ? '›' : '‹'}
+          </button>
         </aside>
 
         {/* Center - Canvas Area */}
@@ -225,7 +318,7 @@ function App() {
         </main>
 
         {/* Right Panel - Properties */}
-        <aside className="properties-panel">
+        <aside className={`properties-panel ${rightPanelCollapsed ? 'collapsed' : ''}`}>
           <div className="panel-header">Properties</div>
 
           <SpaceDetailsPanel
@@ -247,6 +340,15 @@ function App() {
           />
 
           <LegendPanel />
+          
+          {/* Collapse toggle */}
+          <button
+            className="panel-toggle panel-toggle-right"
+            onClick={() => setRightPanelCollapsed(!rightPanelCollapsed)}
+            title={rightPanelCollapsed ? 'Show properties' : 'Hide properties'}
+          >
+            {rightPanelCollapsed ? '‹' : '›'}
+          </button>
         </aside>
       </div>
 

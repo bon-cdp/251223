@@ -61,7 +61,9 @@ export const FloorNavigation: React.FC<FloorNavigationProps> = ({
               onClick={() => onFloorChange(idx)}
               style={{
                 ...styles.dot,
-                background: idx === currentFloorIndex ? '#333' : '#ddd',
+                background: idx === currentFloorIndex ? '#7c3aed' : '#3d3d4f',
+                border: idx === currentFloorIndex ? '2px solid #a78bfa' : '2px solid transparent',
+                transform: idx === currentFloorIndex ? 'scale(1.15)' : 'scale(1)',
               }}
               title={`Floor ${idx >= 0 ? '+' : ''}${idx}`}
             />
@@ -91,7 +93,7 @@ export const FloorNavigation: React.FC<FloorNavigationProps> = ({
 const styles: Record<string, React.CSSProperties> = {
   container: {
     padding: '16px',
-    background: '#f8f9fa',
+    background: '#1e1e2e',
     borderRadius: '8px',
     textAlign: 'center',
   },
@@ -104,17 +106,23 @@ const styles: Record<string, React.CSSProperties> = {
   },
   label: {
     fontSize: '14px',
-    color: '#666',
+    color: '#a0a0b0',
   },
   floorIndex: {
-    fontSize: '24px',
+    fontSize: '28px',
     fontWeight: 'bold',
-    color: '#333',
+    color: '#fff',
+    fontVariantNumeric: 'tabular-nums',
   },
   floorType: {
     fontSize: '12px',
-    color: '#666',
-    marginBottom: '12px',
+    color: '#7c3aed',
+    fontWeight: 500,
+    marginBottom: '16px',
+    padding: '4px 12px',
+    background: 'rgba(124, 58, 237, 0.15)',
+    borderRadius: '12px',
+    display: 'inline-block',
   },
   navigation: {
     display: 'flex',
@@ -123,33 +131,40 @@ const styles: Record<string, React.CSSProperties> = {
     gap: '8px',
   },
   navButton: {
-    width: '32px',
-    height: '32px',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-    background: '#fff',
+    width: '36px',
+    height: '36px',
+    border: '1px solid #3a3a4a',
+    borderRadius: '8px',
+    background: '#2d2d3f',
     cursor: 'pointer',
-    fontSize: '12px',
+    fontSize: '14px',
+    color: '#a0a0b0',
+    transition: 'all 0.15s ease',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   dots: {
     display: 'flex',
-    gap: '4px',
+    gap: '6px',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    maxWidth: '120px',
+    maxWidth: '140px',
+    padding: '8px',
   },
   dot: {
-    width: '12px',
-    height: '12px',
+    width: '14px',
+    height: '14px',
     borderRadius: '50%',
-    border: 'none',
+    border: '2px solid transparent',
     cursor: 'pointer',
     padding: 0,
+    transition: 'all 0.15s ease',
   },
   hint: {
-    marginTop: '12px',
+    marginTop: '16px',
     fontSize: '10px',
-    color: '#999',
+    color: '#6c6c80',
   },
 };
 

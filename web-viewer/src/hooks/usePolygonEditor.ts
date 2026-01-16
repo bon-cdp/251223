@@ -3,7 +3,7 @@
  * Supports moving, adding, and removing vertices with undo/redo
  */
 
-import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { SpaceData, Geometry, PolygonGeometry, isPolygonGeometry, rectToPolygon, RectGeometry } from '../types/solverOutput';
 import {
   moveVertex,
@@ -12,8 +12,6 @@ import {
   translatePolygon,
   isValidPolygon,
   calculatePolygonArea,
-  Point,
-  Polygon,
 } from '../utils/polygon';
 
 export type EditMode = 'select' | 'move' | 'vertex' | 'add-space' | 'measure';
@@ -96,6 +94,14 @@ function toEditableSpace(space: SpaceData): EditableSpace {
   };
 }
 
+/**
+ * Get a consistent timestamp (uses a counter to avoid Date.now() during initial render)
+ */
+let timestampCounter = 0;
+function getTimestamp(): number {
+  return ++timestampCounter;
+}
+
 export function usePolygonEditor(initialSpaces: SpaceData[]): UsePolygonEditorResult {
   // Editable spaces state
   const [editableSpaces, setEditableSpaces] = useState<EditableSpace[]>(() =>
@@ -111,9 +117,9 @@ export function usePolygonEditor(initialSpaces: SpaceData[]): UsePolygonEditorRe
   // Drag state
   const [isDragging, setIsDragging] = useState(false);
 
-  // History for undo/redo
-  const [history, setHistory] = useState<HistoryEntry[]>([
-    { spaces: initialSpaces.map(toEditableSpace), timestamp: Date.now() }
+  // History for undo/redo - use lazy initialization to avoid Date.now() during render
+  const [history, setHistory] = useState<HistoryEntry[]>(() => [
+    { spaces: initialSpaces.map(toEditableSpace), timestamp: getTimestamp() }
   ]);
   const [historyIndex, setHistoryIndex] = useState(0);
 
@@ -123,29 +129,32 @@ export function usePolygonEditor(initialSpaces: SpaceData[]): UsePolygonEditorRe
   // Sync editable spaces when initialSpaces changes (e.g., after data loads or PDF upload)
   useEffect(() => {
     // Check if this is a new data source (different space IDs or count)
+    const prevSpaces = prevInitialSpacesRef.current;
     const isNewDataSource = initialSpaces.length > 0 && (
       editableSpaces.length === 0 ||
-      initialSpaces[0]?.id !== prevInitialSpacesRef.current[0]?.id ||
-      initialSpaces.length !== prevInitialSpacesRef.current.length
+      initialSpaces[0]?.id !== prevSpaces[0]?.id ||
+      initialSpaces.length !== prevSpaces.length
     );
 
     if (isNewDataSource) {
       const newEditableSpaces = initialSpaces.map(toEditableSpace);
+      // Intentional state sync when data source changes
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setEditableSpaces(newEditableSpaces);
-      setHistory([{ spaces: newEditableSpaces, timestamp: Date.now() }]);
+      setHistory([{ spaces: newEditableSpaces, timestamp: getTimestamp() }]);
       setHistoryIndex(0);
       setSelectedSpaceId(null); // Clear selection on data change
     }
 
     prevInitialSpacesRef.current = initialSpaces;
-  }, [initialSpaces]);
+  }, [initialSpaces, editableSpaces.length]);
 
   // Push state to history
   const pushHistory = useCallback((spaces: EditableSpace[]) => {
     setHistory(prev => {
       // Remove any forward history when adding new entry
       const newHistory = prev.slice(0, historyIndex + 1);
-      newHistory.push({ spaces: JSON.parse(JSON.stringify(spaces)), timestamp: Date.now() });
+      newHistory.push({ spaces: JSON.parse(JSON.stringify(spaces)), timestamp: getTimestamp() });
       // Keep max 50 history entries
       if (newHistory.length > 50) newHistory.shift();
       return newHistory;
