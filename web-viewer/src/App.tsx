@@ -18,7 +18,7 @@ import { MetricsBar } from './components/panels/MetricsBar';
 import { SpaceSearch } from './components/panels/SpaceSearch';
 import { VerificationCalculator } from './components/verification/VerificationCalculator';
 import { CanvasToolbar } from './components/toolbar/CanvasToolbar';
-import { ParcelMap } from './components/map/ParcelMap';
+import { EnvironmentalMap } from './components/map/EnvironmentalMap';
 import { SpaceData } from './types/solverOutput';
 import './App.css';
 
@@ -306,11 +306,7 @@ function App() {
                 showLabels={true}
               />
             ) : viewMode === 'map' ? (
-              <ParcelMap
-                projectName={projectName}
-                floorArea={currentFloor?.area_sf}
-                parcelArea={buildingInput?.building?.lot_size_sf}
-              />
+              <EnvironmentalMap />
             ) : (
               <div className="no-floor">No floor selected</div>
             )}

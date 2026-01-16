@@ -215,7 +215,8 @@ function generateFromBuildingData(data: ExtractedBuildingData): SolverResult {
 }
 
 /**
- * Generate parking floor with parking stalls
+ * Generate parking floor with proper stall layout and support rooms
+ * Based on reference screenshot - perpendicular stalls with central aisle
  * Uses CENTER-ORIGIN coordinates
  */
 function generateParkingFloor(
@@ -224,78 +225,188 @@ function generateParkingFloor(
   halfSide: number,
   parking: ExtractedBuildingData['parking']
 ): void {
-  const totalStalls = parking?.underground_stalls || 35;
-  const stallWidth = 9; // Standard parking stall width
-  const stallDepth = 18; // Standard parking stall depth
-  const aisleWidth = 24; // Drive aisle width
-  const margin = 10;
+  const totalStalls = parking?.underground_stalls || 45;
+  const h = halfSide;
 
-  // Available width for parking
-  const availableWidth = (halfSide - margin) * 2;
-  const stallsPerRow = Math.floor(availableWidth / stallWidth);
-  const numRows = Math.ceil(totalStalls / (stallsPerRow * 2)); // 2 sides
+  // Standard dimensions
+  const STALL_WIDTH = 9;    // 9' wide
+  const STALL_DEPTH = 18;   // 18' deep
+  const AISLE_WIDTH = 24;   // 24' drive aisle
+  const MARGIN = 5;
 
-  let stallCount = 0;
+  // Support room dimensions
+  const SUPPORT_DEPTH = 15;
 
-  // Place parking on both sides of drive aisle
-  for (let row = 0; row < numRows && stallCount < totalStalls; row++) {
-    // Y position for this row (alternating north and south of center)
-    const rowYNorth = -(aisleWidth / 2 + stallDepth / 2 + row * (stallDepth + 2));
-    const rowYSouth = aisleWidth / 2 + stallDepth / 2 + row * (stallDepth + 2);
+  // Layout: Drive aisle runs East-West through center
+  // Parking stalls on North and South sides
+  // Support rooms along East edge
 
-    for (let col = 0; col < stallsPerRow && stallCount < totalStalls; col++) {
-      const xPos = -halfSide + margin + (col * stallWidth) + stallWidth / 2;
+  // Add support rooms on EAST side (like reference)
+  let supportY = -h + MARGIN;
 
-      // North side stall
-      if (stallCount < totalStalls) {
-        spaces.push(createSpace(
-          `parking_${stallCount + 1}_f${floorIdx}`,
-          'PARKING',
-          `Parking ${stallCount + 1}`,
-          floorIdx,
-          xPos,
-          rowYNorth,
-          stallWidth,
-          stallDepth,
-          false
-        ));
-        stallCount++;
-      }
+  // Storage room
+  spaces.push(createSpace(
+    `storage_f${floorIdx}`,
+    'SUPPORT',
+    'Storage',
+    floorIdx,
+    h - MARGIN - 15,
+    supportY + 12,
+    20,
+    20,
+    false
+  ));
+  supportY += 25;
 
-      // South side stall
-      if (stallCount < totalStalls && row === 0) { // Only first row on south for now
-        spaces.push(createSpace(
-          `parking_${stallCount + 1}_f${floorIdx}`,
-          'PARKING',
-          `Parking ${stallCount + 1}`,
-          floorIdx,
-          xPos,
-          rowYSouth,
-          stallWidth,
-          stallDepth,
-          false
-        ));
-        stallCount++;
-      }
-    }
-  }
+  // Trash/Recycle room
+  spaces.push(createSpace(
+    `trash_recycle_f${floorIdx}`,
+    'SUPPORT',
+    'Trash/Recycle',
+    floorIdx,
+    h - MARGIN - 12,
+    supportY + 10,
+    18,
+    16,
+    false
+  ));
+  supportY += 20;
 
-  // Add drive aisle at center
+  // Fan Room
+  spaces.push(createSpace(
+    `fan_room_f${floorIdx}`,
+    'SUPPORT',
+    'Fan Room',
+    floorIdx,
+    h - MARGIN - 12,
+    supportY + 10,
+    18,
+    16,
+    false
+  ));
+  supportY += 20;
+
+  // Fire Pump Room
+  spaces.push(createSpace(
+    `fire_pump_f${floorIdx}`,
+    'SUPPORT',
+    'Fire Pump',
+    floorIdx,
+    h - MARGIN - 10,
+    h - MARGIN - 10,
+    15,
+    15,
+    false
+  ));
+
+  // Domestic Water
+  spaces.push(createSpace(
+    `domestic_water_f${floorIdx}`,
+    'SUPPORT',
+    'Domestic Water',
+    floorIdx,
+    h - MARGIN - 10,
+    h - MARGIN - 28,
+    15,
+    15,
+    false
+  ));
+
+  // MPOE (Main Point of Entry) - telecom
+  spaces.push(createSpace(
+    `mpoe_f${floorIdx}`,
+    'SUPPORT',
+    'MPOE',
+    floorIdx,
+    h - MARGIN - 8,
+    -h + MARGIN + 40,
+    12,
+    10,
+    false
+  ));
+
+  // Add drive aisle (runs East-West through center)
   spaces.push(createSpace(
     `drive_aisle_f${floorIdx}`,
     'CIRCULATION',
     'Drive Aisle',
     floorIdx,
+    -10,  // Offset slightly west to make room for support
     0,
-    0,
-    halfSide * 2 - margin * 2,
-    aisleWidth,
+    2 * h - 60,  // Leave room for support rooms
+    AISLE_WIDTH,
     false
   ));
+
+  // Calculate parking area (west of support rooms)
+  const parkingAreaWidth = 2 * h - 60;  // Leave room for support rooms
+  const parkingStartX = -h + MARGIN;
+
+  // Calculate stalls per row
+  const stallsPerRow = Math.floor(parkingAreaWidth / STALL_WIDTH);
+
+  let stallCount = 0;
+
+  // NORTH side parking (above drive aisle)
+  const northY = -AISLE_WIDTH / 2 - STALL_DEPTH / 2;
+  for (let col = 0; col < stallsPerRow && stallCount < totalStalls; col++) {
+    const x = parkingStartX + col * STALL_WIDTH + STALL_WIDTH / 2;
+    spaces.push(createSpace(
+      `parking_${stallCount + 1}_f${floorIdx}`,
+      'PARKING',
+      `P${stallCount + 1}`,
+      floorIdx,
+      x,
+      northY,
+      STALL_WIDTH - 0.5,
+      STALL_DEPTH,
+      false
+    ));
+    stallCount++;
+  }
+
+  // SOUTH side parking (below drive aisle)
+  const southY = AISLE_WIDTH / 2 + STALL_DEPTH / 2;
+  for (let col = 0; col < stallsPerRow && stallCount < totalStalls; col++) {
+    const x = parkingStartX + col * STALL_WIDTH + STALL_WIDTH / 2;
+    spaces.push(createSpace(
+      `parking_${stallCount + 1}_f${floorIdx}`,
+      'PARKING',
+      `P${stallCount + 1}`,
+      floorIdx,
+      x,
+      southY,
+      STALL_WIDTH - 0.5,
+      STALL_DEPTH,
+      false
+    ));
+    stallCount++;
+  }
+
+  // If we need more stalls, add another row further out
+  if (stallCount < totalStalls) {
+    const northY2 = northY - STALL_DEPTH - 2;
+    for (let col = 0; col < stallsPerRow && stallCount < totalStalls; col++) {
+      const x = parkingStartX + col * STALL_WIDTH + STALL_WIDTH / 2;
+      spaces.push(createSpace(
+        `parking_${stallCount + 1}_f${floorIdx}`,
+        'PARKING',
+        `P${stallCount + 1}`,
+        floorIdx,
+        x,
+        northY2,
+        STALL_WIDTH - 0.5,
+        STALL_DEPTH,
+        false
+      ));
+      stallCount++;
+    }
+  }
 }
 
 /**
- * Generate ground floor with lobby, retail, and support spaces
+ * Generate ground floor with lobby, amenities, and support spaces
+ * Layout based on reference screenshot - lobby at entrance, amenities around perimeter
  * Uses CENTER-ORIGIN coordinates
  */
 function generateGroundFloor(
@@ -304,395 +415,463 @@ function generateGroundFloor(
   halfSide: number,
   data: ExtractedBuildingData
 ): void {
-  const support = data.support || [];
-  const amenities = data.amenities_indoor || [];
+  const h = halfSide;
+  const MARGIN = 2;
 
-  // Lobby - at front (negative Y in center-origin)
-  const lobbyArea = support.find(s => s.name.toLowerCase().includes('lobby'))?.area_sf || 500;
-  const lobbyWidth = Math.sqrt(lobbyArea * 1.5);
-  const lobbyDepth = lobbyArea / lobbyWidth;
-
+  // Main LOBBY - at south entrance (front of building)
+  const LOBBY_WIDTH = 40;
+  const LOBBY_DEPTH = 25;
   spaces.push(createSpace(
     `lobby_f${floorIdx}`,
     'CIRCULATION',
-    'Entry Lobby',
+    'Lobby',
     floorIdx,
-    0,  // Centered on X
-    -halfSide + lobbyDepth / 2 + 5,  // Near front edge
-    lobbyWidth,
-    lobbyDepth,
+    0,
+    h - MARGIN - LOBBY_DEPTH / 2,  // South edge (front entrance)
+    LOBBY_WIDTH,
+    LOBBY_DEPTH,
     false
   ));
 
-  // Mail room - near lobby
-  const mailRoom = support.find(s => s.name.toLowerCase().includes('mail'));
-  if (mailRoom) {
-    spaces.push(createSpace(
-      `mail_f${floorIdx}`,
-      'SUPPORT',
-      'Mail Room',
-      floorIdx,
-      -lobbyWidth / 2 - 20,
-      -halfSide + 20,
-      15,
-      15,
-      false
-    ));
-  }
+  // Corridor from lobby to core
+  spaces.push(createSpace(
+    `corridor_main_f${floorIdx}`,
+    'CIRCULATION',
+    'Corridor',
+    floorIdx,
+    0,
+    0,  // Center
+    6,
+    2 * h - LOBBY_DEPTH - 20,
+    false
+  ));
 
-  // Retail spaces on ground floor sides
-  const retailSpaces = amenities.filter(a =>
-    a.name.toLowerCase().includes('retail') ||
-    a.name.toLowerCase().includes('café') ||
-    a.name.toLowerCase().includes('cafe') ||
-    a.name.toLowerCase().includes('bar')
-  );
-
-  // If no retail found in amenities, add default retail
-  if (retailSpaces.length === 0) {
-    retailSpaces.push({ name: 'Retail Space', area_sf: 2500, floor: 'ground' });
-  }
-
-  let xOffset = -halfSide + 20;
-  for (const retail of retailSpaces) {
-    const retailWidth = Math.sqrt((retail.area_sf || 1000) * 0.8);
-    const retailDepth = (retail.area_sf || 1000) / retailWidth;
-
-    spaces.push(createSpace(
-      `retail_${retail.name.replace(/\s+/g, '_').toLowerCase()}_f${floorIdx}`,
-      'RETAIL',
-      retail.name,
-      floorIdx,
-      xOffset + retailWidth / 2,
-      0,  // Center Y
-      retailWidth,
-      retailDepth,
-      false
-    ));
-    xOffset += retailWidth + 10;
-  }
-
-  // Leasing office - near front right
+  // LEASING OFFICE - right of lobby
   spaces.push(createSpace(
     `leasing_f${floorIdx}`,
     'SUPPORT',
-    'Leasing Office',
+    'Leasing',
     floorIdx,
-    halfSide - 25,
-    -halfSide + 20,
+    LOBBY_WIDTH / 2 + 15,
+    h - MARGIN - 15,
+    25,
     20,
-    15,
     false
   ));
 
-  // Bicycle room - at back
-  const bikeRoom = support.find(s => s.name.toLowerCase().includes('bicycle'));
-  if (bikeRoom) {
-    spaces.push(createSpace(
-      `bicycle_f${floorIdx}`,
-      'SUPPORT',
-      'Bicycle Room',
-      floorIdx,
-      halfSide - 35,
-      halfSide - 25,
-      40,
-      30,
-      false
-    ));
+  // MAIL/PACKAGE ROOM - left of lobby
+  spaces.push(createSpace(
+    `mail_f${floorIdx}`,
+    'SUPPORT',
+    'Mail/Package',
+    floorIdx,
+    -LOBBY_WIDTH / 2 - 12,
+    h - MARGIN - 12,
+    20,
+    18,
+    false
+  ));
+
+  // AMENITY LOUNGE - northwest corner
+  spaces.push(createSpace(
+    `lounge_f${floorIdx}`,
+    'AMENITY',
+    'Lounge',
+    floorIdx,
+    -h + MARGIN + 25,
+    -h + MARGIN + 20,
+    45,
+    35,
+    false
+  ));
+
+  // FITNESS CENTER - southwest corner
+  spaces.push(createSpace(
+    `fitness_f${floorIdx}`,
+    'AMENITY',
+    'Fitness',
+    floorIdx,
+    -h + MARGIN + 20,
+    h - MARGIN - LOBBY_DEPTH - 20,
+    35,
+    30,
+    false
+  ));
+
+  // RESTROOMS - near lobby
+  spaces.push(createSpace(
+    `restroom_m_f${floorIdx}`,
+    'SUPPORT',
+    'Restroom M',
+    floorIdx,
+    h - MARGIN - 12,
+    h - MARGIN - 35,
+    15,
+    12,
+    false
+  ));
+
+  spaces.push(createSpace(
+    `restroom_f_f${floorIdx}`,
+    'SUPPORT',
+    'Restroom F',
+    floorIdx,
+    h - MARGIN - 12,
+    h - MARGIN - 50,
+    15,
+    12,
+    false
+  ));
+
+  // TRASH/UTILITY - east side near core
+  spaces.push(createSpace(
+    `trash_f${floorIdx}`,
+    'SUPPORT',
+    'Trash',
+    floorIdx,
+    h - MARGIN - 8,
+    0,
+    12,
+    10,
+    false
+  ));
+
+  // BIKE STORAGE - northeast area
+  spaces.push(createSpace(
+    `bike_storage_f${floorIdx}`,
+    'SUPPORT',
+    'Bike Storage',
+    floorIdx,
+    h - MARGIN - 25,
+    -h + MARGIN + 25,
+    40,
+    35,
+    false
+  ));
+
+  // Optional: Some ground floor units on north side (if building has them)
+  // Add a few studios/1BRs facing north
+  const groundUnits = data.dwelling_units?.filter(u => u.count > 0).slice(0, 2) || [];
+  let unitX = -h + MARGIN + 50;  // Start after lounge
+
+  for (let i = 0; i < 3 && unitX < h - 80; i++) {
+    const unit = groundUnits[i % groundUnits.length];
+    if (unit) {
+      const unitWidth = unit.width_ft || 25;
+      const unitDepth = unit.depth_ft || 28;
+      spaces.push(createSpace(
+        `unit_ground_${i}_f${floorIdx}`,
+        'DWELLING_UNIT',
+        `${unit.name || unit.type} A${i + 1}`,
+        floorIdx,
+        unitX + unitWidth / 2,
+        -h + MARGIN + unitDepth / 2,
+        unitWidth,
+        unitDepth,
+        false
+      ));
+      unitX += unitWidth + 1;
+    }
   }
 }
 
 /**
- * Generate residential floor using ALGEBRAIC approach
+ * Generate residential floor using CONTINUOUS PERIMETER PACKING
  *
- * COORDINATE SYSTEM (center-origin):
- *   Floor plate: [-h, -h] to [+h, +h] where h = halfSide
- *   Corridor: Y from -Wc/2 to +Wc/2, X from -h+margin to +h-margin
+ * LAYOUT (like Canoga reference):
+ *   ┌──────────────────────────────────────────────────┐
+ *   │ 2BR │ 1BR │ 1BR │ Studio │ 1BR │ 1BR │ 2BR      │ ← NORTH (6-7 units)
+ *   ├─────┼─────────────────────────────────────┼──────┤
+ *   │ 1BR │                                     │ 1BR  │
+ *   ├─────┤      ┌─────────────────────┐        ├──────┤ ← EAST/WEST (3-4 each)
+ *   │ 1BR │      │   TRASH  MECH      │        │ 1BR  │
+ *   ├─────┤      │   ELEV ELEV STAIR  │        ├──────┤
+ *   │ Stu │      │   STOR   ELEC      │        │ Stu  │
+ *   ├─────┤      └─────────────────────┘        ├──────┤
+ *   │ 1BR │                                     │ 1BR  │
+ *   ├─────┼─────────────────────────────────────┼──────┤
+ *   │ 2BR │ 1BR │ 1BR │ Studio │ 1BR │ 1BR │ 2BR      │ ← SOUTH (6-7 units)
+ *   └──────────────────────────────────────────────────┘
  *
- * UNIT PLACEMENT:
- *   North side (negative Y): units above corridor
- *   South side (positive Y): units below corridor
- *
- * CONSTRAINTS:
- *   - Unit top edge >= -halfSide + margin
- *   - Unit bottom edge <= -corridorWidth/2 - gap (for north)
- *   - Unit left edge >= -halfSide + margin
- *   - Unit right edge <= +halfSide - margin
+ * KEY: Every unit MUST touch exterior wall (windows). ~18-20 units per floor.
  */
 function generateResidentialFloor(
   spaces: SpaceData[],
   floorIdx: number,
   halfSide: number,
   units: ExtractedBuildingData['dwelling_units'],
-  corridorWidth: number,
+  _corridorWidth: number,
   _unitsPerFloor: number,
   totalResidentialFloors: number
 ): void {
-  // Constants
-  const MARGIN = 5;           // Margin from floor plate edge
-  const GAP = 2;              // Gap between units and corridor
-  const UNIT_GAP = 1;         // Gap between adjacent units
-  const CORE_ZONE = 25;       // X zone reserved for circulation core at center
+  // Constants - MAXIMUM DENSITY PACKING
+  const MARGIN = 2;           // Minimal margin from floor plate edge
+  const UNIT_GAP = 0.5;       // Minimal gap between units
+  const CORRIDOR_WIDTH = 5;   // Narrow corridor
+  const CORE_SIZE = 35;       // Core is ~35' x 35' (elevators, stairs, support)
 
-  // Calculate available space
-  const Wc = corridorWidth;   // Corridor width
   const h = halfSide;         // Half of floor plate side
 
-  // Available depth for units on each side
-  // North: from -h+MARGIN to -Wc/2-GAP
-  // South: from +Wc/2+GAP to +h-MARGIN
-  const availableDepth = h - MARGIN - Wc / 2 - GAP;
+  // DYNAMIC UNIT DEPTH: Units extend from perimeter to corridor
+  // Corridor hugs the core, so unit depth = (halfSide - margin) - (core/2 + corridor)
+  const UNIT_DEPTH = Math.max(20, h - MARGIN - CORE_SIZE / 2 - CORRIDOR_WIDTH);
 
-  // Add corridor at center (Y=0)
-  const corridorLength = 2 * h - 2 * MARGIN;
-  spaces.push(createSpace(
-    `corridor_f${floorIdx}`,
-    'CIRCULATION',
-    'Corridor',
-    floorIdx,
-    0,              // X center
-    0,              // Y center
-    corridorLength, // width (along X)
-    Wc,             // height (corridor width)
-    false
-  ));
+  // SKINNY UNITS for maximum packing
+  // Studios: 12', 1BR: 14', 2BR: 18', 3BR: 22'
+  const COMPACT_WIDTHS: Record<string, number> = {
+    'studio': 12,
+    '1br': 14,
+    '2br': 18,
+    '3br': 22,
+  };
 
-  // Get unit allocation for this floor
-  const unitAllocation = distributeUnitsToFloor(units, floorIdx, totalResidentialFloors);
-  if (unitAllocation.length === 0) return;
+  // Calculate how many units fit on each side with skinny widths
+  const avgWidth = 15;  // Average of compact widths
+  const sideLength = 2 * h - 2 * MARGIN;
+  const unitsPerLongSide = Math.floor(sideLength / (avgWidth + UNIT_GAP));
+  const shortSideLength = sideLength - 2 * UNIT_DEPTH;
+  const unitsPerShortSide = Math.floor(shortSideLength / (avgWidth + UNIT_GAP));
 
-  // Get average unit dimensions for capacity calculation
-  const avgWidth = units.reduce((s, u) => s + (u.width_ft || 25), 0) / units.length || 25;
-  const avgDepth = units.reduce((s, u) => s + (u.depth_ft || 28), 0) / units.length || 28;
+  // Total perimeter capacity
+  const perimeterCapacity = 2 * unitsPerLongSide + 2 * unitsPerShortSide;
 
-  // Cap unit depth to available space
-  const maxUnitDepth = Math.min(avgDepth, availableDepth);
+  // Calculate target - aim to fill perimeter completely
+  const totalUnits = units.reduce((sum, u) => sum + u.count, 0);
+  const targetUnitsPerFloor = Math.ceil(totalUnits / totalResidentialFloors);
+  const unitsToPlace = Math.max(targetUnitsPerFloor, perimeterCapacity, 24);
 
-  // Calculate unit Y positions (center of unit)
-  // IMPORTANT: Units need EXTERIOR WINDOWS, so position at perimeter not corridor
-  //
-  // North side: exterior (window) edge at top, interior edge faces corridor
-  //   - Top edge (exterior) at: -h + MARGIN
-  //   - Unit center at: -h + MARGIN + depth/2
-  //   - Bottom edge (interior) at: -h + MARGIN + depth (must be < -Wc/2 - GAP)
-  //
-  // South side: exterior (window) edge at bottom, interior edge faces corridor
-  //   - Bottom edge (exterior) at: +h - MARGIN
-  //   - Unit center at: +h - MARGIN - depth/2
-  //   - Top edge (interior) at: +h - MARGIN - depth (must be > +Wc/2 + GAP)
-  const northY = -h + MARGIN + maxUnitDepth / 2;  // Positioned at north perimeter
-  const southY = +h - MARGIN - maxUnitDepth / 2;  // Positioned at south perimeter
-
-  // Verify units stay in bounds and don't overlap corridor
-  const northBottomEdge = northY + maxUnitDepth / 2;  // Interior edge
-  const southTopEdge = southY - maxUnitDepth / 2;     // Interior edge
-
-  // Verify units don't overlap corridor
-  if (northBottomEdge > -Wc / 2 - GAP) {
-    console.warn(`North units may overlap corridor. Interior edge: ${northBottomEdge}, Corridor: ${-Wc/2}`);
-  }
-  if (southTopEdge < Wc / 2 + GAP) {
-    console.warn(`South units may overlap corridor. Interior edge: ${southTopEdge}, Corridor: ${Wc/2}`);
-  }
-
-  // Calculate X range for units (avoid core zone in center)
-  const xStart = -h + MARGIN;
-  const xEnd = h - MARGIN;
-  const coreStart = -CORE_ZONE / 2;
-  const coreEnd = CORE_ZONE / 2;
-
-  // Units per side: left zone + right zone (excluding core)
-  const leftZoneWidth = coreStart - xStart - MARGIN;
-  const rightZoneWidth = xEnd - coreEnd - MARGIN;
-  const unitsLeftPerSide = Math.floor(leftZoneWidth / (avgWidth + UNIT_GAP));
-  const unitsRightPerSide = Math.floor(rightZoneWidth / (avgWidth + UNIT_GAP));
-  const maxUnitsPerFloor = (unitsLeftPerSide + unitsRightPerSide) * 2;
-
-  // Track X positions for each zone and side
-  let xNorthLeft = xStart;
-  let xNorthRight = coreEnd + MARGIN;
-  let xSouthLeft = xStart;
-  let xSouthRight = coreEnd + MARGIN;
-
-  let unitIndex = 0;
-  let unitsPlaced = 0;
-
-  for (const allocation of unitAllocation) {
-    const unitType = allocation.unitType;
-    const countOnFloor = allocation.count;
-
-    for (let i = 0; i < countOnFloor && unitsPlaced < maxUnitsPerFloor; i++) {
-      const unitWidth = unitType.width_ft || 25;
-      const unitDepth = Math.min(unitType.depth_ft || 28, maxUnitDepth);
-
-      // Recalculate Y for this specific unit depth
-      // Position at PERIMETER for exterior windows
-      const thisNorthY = -h + MARGIN + unitDepth / 2;  // North perimeter (exterior windows face north)
-      const thisSouthY = +h - MARGIN - unitDepth / 2;  // South perimeter (exterior windows face south)
-
-      // Alternate: even units north, odd units south
-      const goNorth = unitIndex % 2 === 0;
-      let placed = false;
-
-      if (goNorth) {
-        // Try north left zone first
-        if (xNorthLeft + unitWidth <= coreStart - MARGIN) {
-          spaces.push(createSpace(
-            `unit_${unitType.type}_${unitIndex}_f${floorIdx}`,
-            'DWELLING_UNIT',
-            unitType.name || `${unitType.type}`,
-            floorIdx,
-            xNorthLeft + unitWidth / 2,
-            thisNorthY,
-            unitWidth,
-            unitDepth,
-            false
-          ));
-          xNorthLeft += unitWidth + UNIT_GAP;
-          placed = true;
-        }
-        // Try north right zone
-        else if (xNorthRight + unitWidth <= xEnd) {
-          spaces.push(createSpace(
-            `unit_${unitType.type}_${unitIndex}_f${floorIdx}`,
-            'DWELLING_UNIT',
-            unitType.name || `${unitType.type}`,
-            floorIdx,
-            xNorthRight + unitWidth / 2,
-            thisNorthY,
-            unitWidth,
-            unitDepth,
-            false
-          ));
-          xNorthRight += unitWidth + UNIT_GAP;
-          placed = true;
-        }
-      } else {
-        // Try south left zone first
-        if (xSouthLeft + unitWidth <= coreStart - MARGIN) {
-          spaces.push(createSpace(
-            `unit_${unitType.type}_${unitIndex}_f${floorIdx}`,
-            'DWELLING_UNIT',
-            unitType.name || `${unitType.type}`,
-            floorIdx,
-            xSouthLeft + unitWidth / 2,
-            thisSouthY,
-            unitWidth,
-            unitDepth,
-            false
-          ));
-          xSouthLeft += unitWidth + UNIT_GAP;
-          placed = true;
-        }
-        // Try south right zone
-        else if (xSouthRight + unitWidth <= xEnd) {
-          spaces.push(createSpace(
-            `unit_${unitType.type}_${unitIndex}_f${floorIdx}`,
-            'DWELLING_UNIT',
-            unitType.name || `${unitType.type}`,
-            floorIdx,
-            xSouthRight + unitWidth / 2,
-            thisSouthY,
-            unitWidth,
-            unitDepth,
-            false
-          ));
-          xSouthRight += unitWidth + UNIT_GAP;
-          placed = true;
-        }
-      }
-
-      // If preferred side full, try other side
-      if (!placed) {
-        // Try any available spot
-        if (xSouthLeft + unitWidth <= coreStart - MARGIN) {
-          spaces.push(createSpace(
-            `unit_${unitType.type}_${unitIndex}_f${floorIdx}`,
-            'DWELLING_UNIT',
-            unitType.name || `${unitType.type}`,
-            floorIdx,
-            xSouthLeft + unitWidth / 2,
-            thisSouthY,
-            unitWidth,
-            unitDepth,
-            false
-          ));
-          xSouthLeft += unitWidth + UNIT_GAP;
-          placed = true;
-        } else if (xSouthRight + unitWidth <= xEnd) {
-          spaces.push(createSpace(
-            `unit_${unitType.type}_${unitIndex}_f${floorIdx}`,
-            'DWELLING_UNIT',
-            unitType.name || `${unitType.type}`,
-            floorIdx,
-            xSouthRight + unitWidth / 2,
-            thisSouthY,
-            unitWidth,
-            unitDepth,
-            false
-          ));
-          xSouthRight += unitWidth + UNIT_GAP;
-          placed = true;
-        } else if (xNorthLeft + unitWidth <= coreStart - MARGIN) {
-          spaces.push(createSpace(
-            `unit_${unitType.type}_${unitIndex}_f${floorIdx}`,
-            'DWELLING_UNIT',
-            unitType.name || `${unitType.type}`,
-            floorIdx,
-            xNorthLeft + unitWidth / 2,
-            thisNorthY,
-            unitWidth,
-            unitDepth,
-            false
-          ));
-          xNorthLeft += unitWidth + UNIT_GAP;
-          placed = true;
-        } else if (xNorthRight + unitWidth <= xEnd) {
-          spaces.push(createSpace(
-            `unit_${unitType.type}_${unitIndex}_f${floorIdx}`,
-            'DWELLING_UNIT',
-            unitType.name || `${unitType.type}`,
-            floorIdx,
-            xNorthRight + unitWidth / 2,
-            thisNorthY,
-            unitWidth,
-            unitDepth,
-            false
-          ));
-          xNorthRight += unitWidth + UNIT_GAP;
-          placed = true;
-        }
-      }
-
-      if (placed) {
-        unitIndex++;
-        unitsPlaced++;
-      }
+  // Create unit queue with skinny units
+  const unitQueue: Array<{ type: string; name: string; width: number; depth: number }> = [];
+  let typeIdx = 0;
+  for (let i = 0; i < unitsToPlace; i++) {
+    const unitType = units[typeIdx % units.length];
+    if (unitType) {
+      const compactWidth = COMPACT_WIDTHS[unitType.type.toLowerCase()] || 14;
+      unitQueue.push({
+        type: unitType.type,
+        name: unitType.name || unitType.type,
+        width: compactWidth,
+        depth: UNIT_DEPTH,
+      });
     }
+    typeIdx++;
   }
 
-  // Support spaces - place at ends of corridor
-  spaces.push(createSpace(
-    `laundry_f${floorIdx}`,
-    'SUPPORT',
-    'Laundry',
-    floorIdx,
-    h - MARGIN - 7.5,  // Near right edge
-    0,
-    15,
-    12,
-    false
-  ));
+  // Place CORE elements in center (elevators, stairs already placed by caller)
+  // Add support rooms around core
 
+  // Trash room - left of core
   spaces.push(createSpace(
     `trash_f${floorIdx}`,
     'SUPPORT',
     'Trash',
     floorIdx,
-    -h + MARGIN + 6,  // Near left edge
+    -20,
     0,
     12,
     10,
+    false
+  ));
+
+  // Mech room - further left
+  spaces.push(createSpace(
+    `mech_f${floorIdx}`,
+    'SUPPORT',
+    'Mech',
+    floorIdx,
+    -35,
+    0,
+    10,
+    12,
+    false
+  ));
+
+  // Storage room - right of core
+  spaces.push(createSpace(
+    `stor_f${floorIdx}`,
+    'SUPPORT',
+    'Stor',
+    floorIdx,
+    20,
+    0,
+    12,
+    10,
+    false
+  ));
+
+  // Electrical room - further right
+  spaces.push(createSpace(
+    `elec_f${floorIdx}`,
+    'SUPPORT',
+    'Elec',
+    floorIdx,
+    35,
+    0,
+    10,
+    12,
+    false
+  ));
+
+  // ========================================
+  // PLACE UNITS CONTINUOUSLY AROUND PERIMETER
+  // All units touch exterior wall (windows)
+  // ========================================
+
+  let unitIndex = 0;
+
+  // NORTH SIDE - units facing north (windows on north edge)
+  // Unit exterior edge at: -h + MARGIN
+  // Unit center Y: -h + MARGIN + UNIT_DEPTH/2
+  const northY = -h + MARGIN + UNIT_DEPTH / 2;
+  let northX = -h + MARGIN;
+
+  while (unitIndex < unitQueue.length && northX + unitQueue[unitIndex].width <= h - MARGIN) {
+    const unit = unitQueue[unitIndex];
+    spaces.push(createSpace(
+      `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
+      'DWELLING_UNIT',
+      unit.name,
+      floorIdx,
+      northX + unit.width / 2,
+      northY,
+      unit.width,
+      UNIT_DEPTH,
+      false
+    ));
+    northX += unit.width + UNIT_GAP;
+    unitIndex++;
+  }
+
+  // EAST SIDE - units facing east (windows on east edge)
+  // Unit exterior edge at: h - MARGIN
+  // Unit center X: h - MARGIN - UNIT_DEPTH/2
+  // Start Y: right below north corner units (at -h + MARGIN + UNIT_DEPTH)
+  const eastX = h - MARGIN - UNIT_DEPTH / 2;
+  let eastY = -h + MARGIN + UNIT_DEPTH;  // Start right after north units
+
+  while (unitIndex < unitQueue.length && eastY + unitQueue[unitIndex].width <= h - MARGIN - UNIT_DEPTH) {
+    const unit = unitQueue[unitIndex];
+    // East units are rotated 90° - width becomes height
+    spaces.push(createSpace(
+      `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
+      'DWELLING_UNIT',
+      unit.name,
+      floorIdx,
+      eastX,
+      eastY + unit.width / 2,
+      UNIT_DEPTH,   // depth becomes width (facing east)
+      unit.width,   // width becomes height
+      false
+    ));
+    eastY += unit.width + UNIT_GAP;
+    unitIndex++;
+  }
+
+  // SOUTH SIDE - units facing south (windows on south edge)
+  // Unit exterior edge at: h - MARGIN
+  // Unit center Y: h - MARGIN - UNIT_DEPTH/2
+  // Start from right corner, go left
+  const southY = h - MARGIN - UNIT_DEPTH / 2;
+  let southX = h - MARGIN;
+
+  while (unitIndex < unitQueue.length && southX - unitQueue[unitIndex].width >= -h + MARGIN) {
+    const unit = unitQueue[unitIndex];
+    southX -= unit.width;
+    spaces.push(createSpace(
+      `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
+      'DWELLING_UNIT',
+      unit.name,
+      floorIdx,
+      southX + unit.width / 2,
+      southY,
+      unit.width,
+      UNIT_DEPTH,
+      false
+    ));
+    southX -= UNIT_GAP;
+    unitIndex++;
+  }
+
+  // WEST SIDE - units facing west (windows on west edge)
+  // Unit exterior edge at: -h + MARGIN
+  // Unit center X: -h + MARGIN + UNIT_DEPTH/2
+  // Start from bottom (above south units), go up
+  const westX = -h + MARGIN + UNIT_DEPTH / 2;
+  let westY = h - MARGIN - UNIT_DEPTH;  // Start right above south units
+
+  while (unitIndex < unitQueue.length && westY - unitQueue[unitIndex].width >= -h + MARGIN + UNIT_DEPTH) {
+    const unit = unitQueue[unitIndex];
+    westY -= unit.width;
+    // West units are rotated 90° - width becomes height
+    spaces.push(createSpace(
+      `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
+      'DWELLING_UNIT',
+      unit.name,
+      floorIdx,
+      westX,
+      westY + unit.width / 2,
+      UNIT_DEPTH,   // depth becomes width (facing west)
+      unit.width,   // width becomes height
+      false
+    ));
+    westY -= UNIT_GAP;
+    unitIndex++;
+  }
+
+  // ========================================
+  // CORRIDOR - Tight ring around core
+  // ========================================
+  const corridorOuter = CORE_SIZE / 2 + CORRIDOR_WIDTH;
+
+  // North corridor segment (horizontal)
+  spaces.push(createSpace(
+    `corridor_n_f${floorIdx}`,
+    'CIRCULATION',
+    'Corridor',
+    floorIdx,
+    0,
+    -corridorOuter + CORRIDOR_WIDTH / 2,
+    CORE_SIZE + 2 * CORRIDOR_WIDTH,
+    CORRIDOR_WIDTH,
+    false
+  ));
+
+  // South corridor segment (horizontal)
+  spaces.push(createSpace(
+    `corridor_s_f${floorIdx}`,
+    'CIRCULATION',
+    'Corridor',
+    floorIdx,
+    0,
+    corridorOuter - CORRIDOR_WIDTH / 2,
+    CORE_SIZE + 2 * CORRIDOR_WIDTH,
+    CORRIDOR_WIDTH,
+    false
+  ));
+
+  // East corridor segment (vertical)
+  spaces.push(createSpace(
+    `corridor_e_f${floorIdx}`,
+    'CIRCULATION',
+    'Corridor',
+    floorIdx,
+    corridorOuter - CORRIDOR_WIDTH / 2,
+    0,
+    CORRIDOR_WIDTH,
+    CORE_SIZE,
+    false
+  ));
+
+  // West corridor segment (vertical)
+  spaces.push(createSpace(
+    `corridor_w_f${floorIdx}`,
+    'CIRCULATION',
+    'Corridor',
+    floorIdx,
+    -corridorOuter + CORRIDOR_WIDTH / 2,
+    0,
+    CORRIDOR_WIDTH,
+    CORE_SIZE,
     false
   ));
 }
