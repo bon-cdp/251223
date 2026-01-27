@@ -643,7 +643,7 @@ function generateResidentialFloor(
   const MARGIN = 5;           // 5ft setback from property line
   const UNIT_GAP = 0.5;       // Minimal gap between units
   const CORRIDOR_WIDTH = 5;   // Narrow corridor
-  const CORE_SIZE = 45;       // Core is ~45' wide (elevators, stairs, support) - accounts for actual layout
+  const CORE_SIZE = 45;       // Core footprint (stairs + elevators)
 
   const h = halfSide;         // Half of floor plate side
 
@@ -750,7 +750,18 @@ function generateResidentialFloor(
   // ========================================
   // PLACE UNITS CONTINUOUSLY AROUND PERIMETER
   // All units touch exterior wall (windows)
+  // WITH COLLISION DETECTION against core
   // ========================================
+
+  // Initialize collision detection with core bounds
+  const placedBounds: BoundingBox[] = [
+    { x: 0, y: 0, width: CORE_SIZE, height: CORE_SIZE }  // Core occupies center
+  ];
+
+  // Helper to check if a unit would overlap any placed bounds
+  const wouldOverlap = (bounds: BoundingBox): boolean => {
+    return placedBounds.some(existing => spacesOverlap(bounds, existing, 1));
+  };
 
   let unitIndex = 0;
 
@@ -762,13 +773,21 @@ function generateResidentialFloor(
 
   while (unitIndex < unitQueue.length && northX + unitQueue[unitIndex].width <= h - MARGIN) {
     const unit = unitQueue[unitIndex];
+    const unitBounds: BoundingBox = {
+      x: northX + unit.width / 2,
+      y: northY,
+      width: unit.width,
+      height: UNIT_DEPTH
+    };
+
+    placedBounds.push(unitBounds);
     spaces.push(createSpace(
       `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
       'DWELLING_UNIT',
       unit.name,
       floorIdx,
-      northX + unit.width / 2,
-      northY,
+      unitBounds.x,
+      unitBounds.y,
       unit.width,
       UNIT_DEPTH,
       false
@@ -786,16 +805,23 @@ function generateResidentialFloor(
 
   while (unitIndex < unitQueue.length && eastY + unitQueue[unitIndex].width <= h - MARGIN - UNIT_DEPTH) {
     const unit = unitQueue[unitIndex];
-    // East units are rotated 90° - width becomes height
+    const unitBounds: BoundingBox = {
+      x: eastX,
+      y: eastY + unit.width / 2,
+      width: UNIT_DEPTH,
+      height: unit.width
+    };
+
+    placedBounds.push(unitBounds);
     spaces.push(createSpace(
       `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
       'DWELLING_UNIT',
       unit.name,
       floorIdx,
-      eastX,
-      eastY + unit.width / 2,
-      UNIT_DEPTH,   // depth becomes width (facing east)
-      unit.width,   // width becomes height
+      unitBounds.x,
+      unitBounds.y,
+      UNIT_DEPTH,
+      unit.width,
       false
     ));
     eastY += unit.width + UNIT_GAP;
@@ -812,13 +838,21 @@ function generateResidentialFloor(
   while (unitIndex < unitQueue.length && southX - unitQueue[unitIndex].width >= -h + MARGIN) {
     const unit = unitQueue[unitIndex];
     southX -= unit.width;
+    const unitBounds: BoundingBox = {
+      x: southX + unit.width / 2,
+      y: southY,
+      width: unit.width,
+      height: UNIT_DEPTH
+    };
+
+    placedBounds.push(unitBounds);
     spaces.push(createSpace(
       `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
       'DWELLING_UNIT',
       unit.name,
       floorIdx,
-      southX + unit.width / 2,
-      southY,
+      unitBounds.x,
+      unitBounds.y,
       unit.width,
       UNIT_DEPTH,
       false
@@ -837,16 +871,23 @@ function generateResidentialFloor(
   while (unitIndex < unitQueue.length && westY - unitQueue[unitIndex].width >= -h + MARGIN + UNIT_DEPTH) {
     const unit = unitQueue[unitIndex];
     westY -= unit.width;
-    // West units are rotated 90° - width becomes height
+    const unitBounds: BoundingBox = {
+      x: westX,
+      y: westY + unit.width / 2,
+      width: UNIT_DEPTH,
+      height: unit.width
+    };
+
+    placedBounds.push(unitBounds);
     spaces.push(createSpace(
       `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
       'DWELLING_UNIT',
       unit.name,
       floorIdx,
-      westX,
-      westY + unit.width / 2,
-      UNIT_DEPTH,   // depth becomes width (facing west)
-      unit.width,   // width becomes height
+      unitBounds.x,
+      unitBounds.y,
+      UNIT_DEPTH,
+      unit.width,
       false
     ));
     westY -= UNIT_GAP;
