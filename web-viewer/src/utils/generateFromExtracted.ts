@@ -253,7 +253,8 @@ function generateFromBuildingData(data: ExtractedBuildingData): SolverResult {
         units,
         corridorWidth,
         unitsPerFloor,
-        residentialFloors
+        residentialFloors,
+        coreWidth  // Pass dynamic core width
       );
     }
 
@@ -637,19 +638,31 @@ function generateResidentialFloor(
   units: ExtractedBuildingData['dwelling_units'],
   _corridorWidth: number,
   _unitsPerFloor: number,
-  totalResidentialFloors: number
+  totalResidentialFloors: number,
+  coreWidth: number  // Dynamic core width based on actual stairs/elevators
 ): void {
-  // Constants - MAXIMUM DENSITY PACKING
+  // Constants
   const MARGIN = 5;           // 5ft setback from property line
   const UNIT_GAP = 0.5;       // Minimal gap between units
   const CORRIDOR_WIDTH = 5;   // Narrow corridor
-  const CORE_SIZE = 45;       // Core footprint (stairs + elevators)
 
   const h = halfSide;         // Half of floor plate side
 
-  // DYNAMIC UNIT DEPTH: Units extend from perimeter to corridor
-  // Corridor hugs the core, so unit depth = (halfSide - margin) - (core/2 + corridor)
-  const UNIT_DEPTH = Math.max(20, h - MARGIN - CORE_SIZE / 2 - CORRIDOR_WIDTH);
+  // ========================================
+  // INSIDE-OUT ZONE COMPUTATION
+  // Each zone is computed from the previous one's boundary
+  // ========================================
+  
+  // Zone 1: CORE - defined by actual stair/elevator layout
+  const coreHalf = coreWidth / 2;
+  
+  // Zone 2: CORRIDOR - wraps around core
+  const corridorInner = coreHalf;
+  const corridorOuter = coreHalf + CORRIDOR_WIDTH;
+  
+  // Zone 3: UNITS - fill space from corridor to property line
+  const unitOuter = h - MARGIN;  // Outer edge at property setback
+  const UNIT_DEPTH = Math.max(15, unitOuter - corridorOuter);  // Dynamic depth!
 
   // SKINNY UNITS for maximum packing
   // Studios: 12', 1BR: 14', 2BR: 18', 3BR: 22'
@@ -755,7 +768,7 @@ function generateResidentialFloor(
 
   // Initialize collision detection with core bounds
   const placedBounds: BoundingBox[] = [
-    { x: 0, y: 0, width: CORE_SIZE, height: CORE_SIZE }  // Core occupies center
+    { x: 0, y: 0, width: coreWidth, height: coreWidth }  // Core occupies center
   ];
 
   // Helper to check if a unit would overlap any placed bounds
@@ -895,10 +908,8 @@ function generateResidentialFloor(
   }
 
   // ========================================
-  // CORRIDOR - Ring around core + corner stubs
+  // CORRIDOR - Ring around core (using dynamic zone boundaries)
   // ========================================
-  const corridorOuter = CORE_SIZE / 2 + CORRIDOR_WIDTH;
-  const unitInnerEdge = h - MARGIN - UNIT_DEPTH;  // Where units end (inside edge)
 
   // North corridor segment (horizontal ring)
   spaces.push(createSpace(
@@ -908,7 +919,7 @@ function generateResidentialFloor(
     floorIdx,
     0,
     -corridorOuter + CORRIDOR_WIDTH / 2,
-    CORE_SIZE + 2 * CORRIDOR_WIDTH,
+    coreWidth + 2 * CORRIDOR_WIDTH,
     CORRIDOR_WIDTH,
     false
   ));
@@ -921,7 +932,7 @@ function generateResidentialFloor(
     floorIdx,
     0,
     corridorOuter - CORRIDOR_WIDTH / 2,
-    CORE_SIZE + 2 * CORRIDOR_WIDTH,
+    coreWidth + 2 * CORRIDOR_WIDTH,
     CORRIDOR_WIDTH,
     false
   ));
@@ -935,7 +946,7 @@ function generateResidentialFloor(
     corridorOuter - CORRIDOR_WIDTH / 2,
     0,
     CORRIDOR_WIDTH,
-    CORE_SIZE,
+    coreWidth,
     false
   ));
 
@@ -948,7 +959,7 @@ function generateResidentialFloor(
     -corridorOuter + CORRIDOR_WIDTH / 2,
     0,
     CORRIDOR_WIDTH,
-    CORE_SIZE,
+    coreWidth,
     false
   ));
 

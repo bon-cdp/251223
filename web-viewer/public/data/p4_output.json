@@ -2061,13 +2061,13 @@
             "floor_index": 1,
             "geometry": {
               "x": -66.71261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2079,13 +2079,13 @@
             "floor_index": 1,
             "geometry": {
               "x": -53.21261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 14,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2097,13 +2097,13 @@
             "floor_index": 1,
             "geometry": {
               "x": -36.71261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2115,13 +2115,13 @@
             "floor_index": 1,
             "geometry": {
               "x": -18.212611589110807,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2133,13 +2133,13 @@
             "floor_index": 1,
             "geometry": {
               "x": 0.28738841088919287,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2151,13 +2151,13 @@
             "floor_index": 1,
             "geometry": {
               "x": 20.787388410889193,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2169,13 +2169,13 @@
             "floor_index": 1,
             "geometry": {
               "x": 43.28738841088919,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2187,13 +2187,13 @@
             "floor_index": 1,
             "geometry": {
               "x": 60.78738841088919,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2204,14 +2204,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 1,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": -20.5,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": -23.5,
+              "width": 42.21261158911081,
               "height": 14,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2222,14 +2222,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 1,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": -4,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": -7,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2240,14 +2240,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 1,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": 14.5,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": 11.5,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2259,13 +2259,13 @@
             "floor_index": 1,
             "geometry": {
               "x": 63.71261158911081,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2277,13 +2277,13 @@
             "floor_index": 1,
             "geometry": {
               "x": 43.21261158911081,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2295,13 +2295,13 @@
             "floor_index": 1,
             "geometry": {
               "x": 20.712611589110807,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2313,13 +2313,13 @@
             "floor_index": 1,
             "geometry": {
               "x": 3.212611589110807,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2331,13 +2331,13 @@
             "floor_index": 1,
             "geometry": {
               "x": -10.287388410889193,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 14,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2349,13 +2349,13 @@
             "floor_index": 1,
             "geometry": {
               "x": -26.787388410889193,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2367,13 +2367,13 @@
             "floor_index": 1,
             "geometry": {
               "x": -45.28738841088919,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2384,14 +2384,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 1,
             "geometry": {
-              "x": -50.106305794555404,
-              "y": 18.5,
-              "width": 45.21261158911081,
+              "x": -51.606305794555404,
+              "y": 21.5,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2402,14 +2402,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 1,
             "geometry": {
-              "x": -50.106305794555404,
-              "y": -2,
-              "width": 45.21261158911081,
+              "x": -51.606305794555404,
+              "y": 1,
+              "width": 42.21261158911081,
               "height": 22,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2421,13 +2421,13 @@
             "floor_index": 1,
             "geometry": {
               "x": 0,
-              "y": -25,
-              "width": 55,
+              "y": -28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2439,13 +2439,13 @@
             "floor_index": 1,
             "geometry": {
               "x": 0,
-              "y": 25,
-              "width": 55,
+              "y": 28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2456,14 +2456,14 @@
             "name": "Corridor",
             "floor_index": 1,
             "geometry": {
-              "x": 25,
+              "x": 28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2474,14 +2474,14 @@
             "name": "Corridor",
             "floor_index": 1,
             "geometry": {
-              "x": -25,
+              "x": -28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2680,13 +2680,13 @@
             "floor_index": 2,
             "geometry": {
               "x": -66.71261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2698,13 +2698,13 @@
             "floor_index": 2,
             "geometry": {
               "x": -53.21261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 14,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2716,13 +2716,13 @@
             "floor_index": 2,
             "geometry": {
               "x": -36.71261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2734,13 +2734,13 @@
             "floor_index": 2,
             "geometry": {
               "x": -18.212611589110807,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2752,13 +2752,13 @@
             "floor_index": 2,
             "geometry": {
               "x": 0.28738841088919287,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2770,13 +2770,13 @@
             "floor_index": 2,
             "geometry": {
               "x": 20.787388410889193,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2788,13 +2788,13 @@
             "floor_index": 2,
             "geometry": {
               "x": 43.28738841088919,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2806,13 +2806,13 @@
             "floor_index": 2,
             "geometry": {
               "x": 60.78738841088919,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2823,14 +2823,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": -20.5,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": -23.5,
+              "width": 42.21261158911081,
               "height": 14,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2841,14 +2841,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": -4,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": -7,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2859,14 +2859,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 2,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": 14.5,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": 11.5,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2878,13 +2878,13 @@
             "floor_index": 2,
             "geometry": {
               "x": 63.71261158911081,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2896,13 +2896,13 @@
             "floor_index": 2,
             "geometry": {
               "x": 43.21261158911081,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2914,13 +2914,13 @@
             "floor_index": 2,
             "geometry": {
               "x": 20.712611589110807,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2932,13 +2932,13 @@
             "floor_index": 2,
             "geometry": {
               "x": 3.212611589110807,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2950,13 +2950,13 @@
             "floor_index": 2,
             "geometry": {
               "x": -10.287388410889193,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 14,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2968,13 +2968,13 @@
             "floor_index": 2,
             "geometry": {
               "x": -26.787388410889193,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2986,13 +2986,13 @@
             "floor_index": 2,
             "geometry": {
               "x": -45.28738841088919,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3003,14 +3003,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 2,
             "geometry": {
-              "x": -50.106305794555404,
-              "y": 18.5,
-              "width": 45.21261158911081,
+              "x": -51.606305794555404,
+              "y": 21.5,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3021,14 +3021,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 2,
             "geometry": {
-              "x": -50.106305794555404,
-              "y": -2,
-              "width": 45.21261158911081,
+              "x": -51.606305794555404,
+              "y": 1,
+              "width": 42.21261158911081,
               "height": 22,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3040,13 +3040,13 @@
             "floor_index": 2,
             "geometry": {
               "x": 0,
-              "y": -25,
-              "width": 55,
+              "y": -28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3058,13 +3058,13 @@
             "floor_index": 2,
             "geometry": {
               "x": 0,
-              "y": 25,
-              "width": 55,
+              "y": 28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3075,14 +3075,14 @@
             "name": "Corridor",
             "floor_index": 2,
             "geometry": {
-              "x": 25,
+              "x": 28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3093,14 +3093,14 @@
             "name": "Corridor",
             "floor_index": 2,
             "geometry": {
-              "x": -25,
+              "x": -28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3299,13 +3299,13 @@
             "floor_index": 3,
             "geometry": {
               "x": -66.71261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3317,13 +3317,13 @@
             "floor_index": 3,
             "geometry": {
               "x": -53.21261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 14,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3335,13 +3335,13 @@
             "floor_index": 3,
             "geometry": {
               "x": -36.71261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3353,13 +3353,13 @@
             "floor_index": 3,
             "geometry": {
               "x": -18.212611589110807,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3371,13 +3371,13 @@
             "floor_index": 3,
             "geometry": {
               "x": 0.28738841088919287,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3389,13 +3389,13 @@
             "floor_index": 3,
             "geometry": {
               "x": 20.787388410889193,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3407,13 +3407,13 @@
             "floor_index": 3,
             "geometry": {
               "x": 43.28738841088919,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3425,13 +3425,13 @@
             "floor_index": 3,
             "geometry": {
               "x": 60.78738841088919,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3442,14 +3442,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": -20.5,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": -23.5,
+              "width": 42.21261158911081,
               "height": 14,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3460,14 +3460,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": -4,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": -7,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3478,14 +3478,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 3,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": 14.5,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": 11.5,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3497,13 +3497,13 @@
             "floor_index": 3,
             "geometry": {
               "x": 63.71261158911081,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3515,13 +3515,13 @@
             "floor_index": 3,
             "geometry": {
               "x": 43.21261158911081,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3533,13 +3533,13 @@
             "floor_index": 3,
             "geometry": {
               "x": 20.712611589110807,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3551,13 +3551,13 @@
             "floor_index": 3,
             "geometry": {
               "x": 3.212611589110807,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3569,13 +3569,13 @@
             "floor_index": 3,
             "geometry": {
               "x": -10.287388410889193,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 14,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3587,13 +3587,13 @@
             "floor_index": 3,
             "geometry": {
               "x": -26.787388410889193,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3605,13 +3605,13 @@
             "floor_index": 3,
             "geometry": {
               "x": -45.28738841088919,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3622,14 +3622,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 3,
             "geometry": {
-              "x": -50.106305794555404,
-              "y": 18.5,
-              "width": 45.21261158911081,
+              "x": -51.606305794555404,
+              "y": 21.5,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3640,14 +3640,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 3,
             "geometry": {
-              "x": -50.106305794555404,
-              "y": -2,
-              "width": 45.21261158911081,
+              "x": -51.606305794555404,
+              "y": 1,
+              "width": 42.21261158911081,
               "height": 22,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3659,13 +3659,13 @@
             "floor_index": 3,
             "geometry": {
               "x": 0,
-              "y": -25,
-              "width": 55,
+              "y": -28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3677,13 +3677,13 @@
             "floor_index": 3,
             "geometry": {
               "x": 0,
-              "y": 25,
-              "width": 55,
+              "y": 28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3694,14 +3694,14 @@
             "name": "Corridor",
             "floor_index": 3,
             "geometry": {
-              "x": 25,
+              "x": 28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3712,14 +3712,14 @@
             "name": "Corridor",
             "floor_index": 3,
             "geometry": {
-              "x": -25,
+              "x": -28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3918,13 +3918,13 @@
             "floor_index": 4,
             "geometry": {
               "x": -66.71261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3936,13 +3936,13 @@
             "floor_index": 4,
             "geometry": {
               "x": -53.21261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 14,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3954,13 +3954,13 @@
             "floor_index": 4,
             "geometry": {
               "x": -36.71261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3972,13 +3972,13 @@
             "floor_index": 4,
             "geometry": {
               "x": -18.212611589110807,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3990,13 +3990,13 @@
             "floor_index": 4,
             "geometry": {
               "x": 0.28738841088919287,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4008,13 +4008,13 @@
             "floor_index": 4,
             "geometry": {
               "x": 20.787388410889193,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4026,13 +4026,13 @@
             "floor_index": 4,
             "geometry": {
               "x": 43.28738841088919,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4044,13 +4044,13 @@
             "floor_index": 4,
             "geometry": {
               "x": 60.78738841088919,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4061,14 +4061,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": -20.5,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": -23.5,
+              "width": 42.21261158911081,
               "height": 14,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4079,14 +4079,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": -4,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": -7,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4097,14 +4097,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 4,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": 14.5,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": 11.5,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4116,13 +4116,13 @@
             "floor_index": 4,
             "geometry": {
               "x": 63.71261158911081,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4134,13 +4134,13 @@
             "floor_index": 4,
             "geometry": {
               "x": 43.21261158911081,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4152,13 +4152,13 @@
             "floor_index": 4,
             "geometry": {
               "x": 20.712611589110807,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4170,13 +4170,13 @@
             "floor_index": 4,
             "geometry": {
               "x": 3.212611589110807,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4188,13 +4188,13 @@
             "floor_index": 4,
             "geometry": {
               "x": -10.287388410889193,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 14,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4206,13 +4206,13 @@
             "floor_index": 4,
             "geometry": {
               "x": -26.787388410889193,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4224,13 +4224,13 @@
             "floor_index": 4,
             "geometry": {
               "x": -45.28738841088919,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4241,14 +4241,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 4,
             "geometry": {
-              "x": -50.106305794555404,
-              "y": 18.5,
-              "width": 45.21261158911081,
+              "x": -51.606305794555404,
+              "y": 21.5,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4259,14 +4259,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 4,
             "geometry": {
-              "x": -50.106305794555404,
-              "y": -2,
-              "width": 45.21261158911081,
+              "x": -51.606305794555404,
+              "y": 1,
+              "width": 42.21261158911081,
               "height": 22,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4278,13 +4278,13 @@
             "floor_index": 4,
             "geometry": {
               "x": 0,
-              "y": -25,
-              "width": 55,
+              "y": -28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4296,13 +4296,13 @@
             "floor_index": 4,
             "geometry": {
               "x": 0,
-              "y": 25,
-              "width": 55,
+              "y": 28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4313,14 +4313,14 @@
             "name": "Corridor",
             "floor_index": 4,
             "geometry": {
-              "x": 25,
+              "x": 28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4331,14 +4331,14 @@
             "name": "Corridor",
             "floor_index": 4,
             "geometry": {
-              "x": -25,
+              "x": -28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4537,13 +4537,13 @@
             "floor_index": 5,
             "geometry": {
               "x": -66.71261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4555,13 +4555,13 @@
             "floor_index": 5,
             "geometry": {
               "x": -53.21261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 14,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4573,13 +4573,13 @@
             "floor_index": 5,
             "geometry": {
               "x": -36.71261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4591,13 +4591,13 @@
             "floor_index": 5,
             "geometry": {
               "x": -18.212611589110807,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4609,13 +4609,13 @@
             "floor_index": 5,
             "geometry": {
               "x": 0.28738841088919287,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4627,13 +4627,13 @@
             "floor_index": 5,
             "geometry": {
               "x": 20.787388410889193,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4645,13 +4645,13 @@
             "floor_index": 5,
             "geometry": {
               "x": 43.28738841088919,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4663,13 +4663,13 @@
             "floor_index": 5,
             "geometry": {
               "x": 60.78738841088919,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4680,14 +4680,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": -20.5,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": -23.5,
+              "width": 42.21261158911081,
               "height": 14,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4698,14 +4698,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": -4,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": -7,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4716,14 +4716,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 5,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": 14.5,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": 11.5,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4735,13 +4735,13 @@
             "floor_index": 5,
             "geometry": {
               "x": 63.71261158911081,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4753,13 +4753,13 @@
             "floor_index": 5,
             "geometry": {
               "x": 43.21261158911081,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4771,13 +4771,13 @@
             "floor_index": 5,
             "geometry": {
               "x": 20.712611589110807,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4789,13 +4789,13 @@
             "floor_index": 5,
             "geometry": {
               "x": 3.212611589110807,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4807,13 +4807,13 @@
             "floor_index": 5,
             "geometry": {
               "x": -10.287388410889193,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 14,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4825,13 +4825,13 @@
             "floor_index": 5,
             "geometry": {
               "x": -26.787388410889193,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4843,13 +4843,13 @@
             "floor_index": 5,
             "geometry": {
               "x": -45.28738841088919,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4860,14 +4860,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 5,
             "geometry": {
-              "x": -50.106305794555404,
-              "y": 18.5,
-              "width": 45.21261158911081,
+              "x": -51.606305794555404,
+              "y": 21.5,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4878,14 +4878,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 5,
             "geometry": {
-              "x": -50.106305794555404,
-              "y": -2,
-              "width": 45.21261158911081,
+              "x": -51.606305794555404,
+              "y": 1,
+              "width": 42.21261158911081,
               "height": 22,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4897,13 +4897,13 @@
             "floor_index": 5,
             "geometry": {
               "x": 0,
-              "y": -25,
-              "width": 55,
+              "y": -28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4915,13 +4915,13 @@
             "floor_index": 5,
             "geometry": {
               "x": 0,
-              "y": 25,
-              "width": 55,
+              "y": 28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4932,14 +4932,14 @@
             "name": "Corridor",
             "floor_index": 5,
             "geometry": {
-              "x": 25,
+              "x": 28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4950,14 +4950,14 @@
             "name": "Corridor",
             "floor_index": 5,
             "geometry": {
-              "x": -25,
+              "x": -28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5156,13 +5156,13 @@
             "floor_index": 6,
             "geometry": {
               "x": -66.71261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5174,13 +5174,13 @@
             "floor_index": 6,
             "geometry": {
               "x": -53.21261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 14,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5192,13 +5192,13 @@
             "floor_index": 6,
             "geometry": {
               "x": -36.71261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5210,13 +5210,13 @@
             "floor_index": 6,
             "geometry": {
               "x": -18.212611589110807,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5228,13 +5228,13 @@
             "floor_index": 6,
             "geometry": {
               "x": 0.28738841088919287,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5246,13 +5246,13 @@
             "floor_index": 6,
             "geometry": {
               "x": 20.787388410889193,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5264,13 +5264,13 @@
             "floor_index": 6,
             "geometry": {
               "x": 43.28738841088919,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5282,13 +5282,13 @@
             "floor_index": 6,
             "geometry": {
               "x": 60.78738841088919,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5299,14 +5299,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 6,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": -20.5,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": -23.5,
+              "width": 42.21261158911081,
               "height": 14,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5317,14 +5317,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 6,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": -4,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": -7,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5335,14 +5335,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 6,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": 14.5,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": 11.5,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5354,13 +5354,13 @@
             "floor_index": 6,
             "geometry": {
               "x": 63.71261158911081,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5372,13 +5372,13 @@
             "floor_index": 6,
             "geometry": {
               "x": 43.21261158911081,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5390,13 +5390,13 @@
             "floor_index": 6,
             "geometry": {
               "x": 20.712611589110807,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5408,13 +5408,13 @@
             "floor_index": 6,
             "geometry": {
               "x": 3.212611589110807,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5426,13 +5426,13 @@
             "floor_index": 6,
             "geometry": {
               "x": -10.287388410889193,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 14,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5444,13 +5444,13 @@
             "floor_index": 6,
             "geometry": {
               "x": -26.787388410889193,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5462,13 +5462,13 @@
             "floor_index": 6,
             "geometry": {
               "x": -45.28738841088919,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5479,14 +5479,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 6,
             "geometry": {
-              "x": -50.106305794555404,
-              "y": 18.5,
-              "width": 45.21261158911081,
+              "x": -51.606305794555404,
+              "y": 21.5,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5497,14 +5497,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 6,
             "geometry": {
-              "x": -50.106305794555404,
-              "y": -2,
-              "width": 45.21261158911081,
+              "x": -51.606305794555404,
+              "y": 1,
+              "width": 42.21261158911081,
               "height": 22,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5516,13 +5516,13 @@
             "floor_index": 6,
             "geometry": {
               "x": 0,
-              "y": -25,
-              "width": 55,
+              "y": -28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5534,13 +5534,13 @@
             "floor_index": 6,
             "geometry": {
               "x": 0,
-              "y": 25,
-              "width": 55,
+              "y": 28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5551,14 +5551,14 @@
             "name": "Corridor",
             "floor_index": 6,
             "geometry": {
-              "x": 25,
+              "x": 28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5569,14 +5569,14 @@
             "name": "Corridor",
             "floor_index": 6,
             "geometry": {
-              "x": -25,
+              "x": -28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5775,13 +5775,13 @@
             "floor_index": 7,
             "geometry": {
               "x": -66.71261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5793,13 +5793,13 @@
             "floor_index": 7,
             "geometry": {
               "x": -53.21261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 14,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5811,13 +5811,13 @@
             "floor_index": 7,
             "geometry": {
               "x": -36.71261158911081,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5829,13 +5829,13 @@
             "floor_index": 7,
             "geometry": {
               "x": -18.212611589110807,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5847,13 +5847,13 @@
             "floor_index": 7,
             "geometry": {
               "x": 0.28738841088919287,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5865,13 +5865,13 @@
             "floor_index": 7,
             "geometry": {
               "x": 20.787388410889193,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5883,13 +5883,13 @@
             "floor_index": 7,
             "geometry": {
               "x": 43.28738841088919,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5901,13 +5901,13 @@
             "floor_index": 7,
             "geometry": {
               "x": 60.78738841088919,
-              "y": -50.106305794555404,
+              "y": -51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5918,14 +5918,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 7,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": -20.5,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": -23.5,
+              "width": 42.21261158911081,
               "height": 14,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5936,14 +5936,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 7,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": -4,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": -7,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5954,14 +5954,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 7,
             "geometry": {
-              "x": 50.106305794555404,
-              "y": 14.5,
-              "width": 45.21261158911081,
+              "x": 51.606305794555404,
+              "y": 11.5,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5973,13 +5973,13 @@
             "floor_index": 7,
             "geometry": {
               "x": 63.71261158911081,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5991,13 +5991,13 @@
             "floor_index": 7,
             "geometry": {
               "x": 43.21261158911081,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6009,13 +6009,13 @@
             "floor_index": 7,
             "geometry": {
               "x": 20.712611589110807,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 22,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6027,13 +6027,13 @@
             "floor_index": 7,
             "geometry": {
               "x": 3.212611589110807,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 12,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 542.5513390693297,
-            "actual_area_sf": 542.5513390693297,
+            "target_area_sf": 506.5513390693297,
+            "actual_area_sf": 506.5513390693297,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6045,13 +6045,13 @@
             "floor_index": 7,
             "geometry": {
               "x": -10.287388410889193,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 14,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 632.9765622475513,
-            "actual_area_sf": 632.9765622475513,
+            "target_area_sf": 590.9765622475513,
+            "actual_area_sf": 590.9765622475513,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6063,13 +6063,13 @@
             "floor_index": 7,
             "geometry": {
               "x": -26.787388410889193,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6081,13 +6081,13 @@
             "floor_index": 7,
             "geometry": {
               "x": -45.28738841088919,
-              "y": 50.106305794555404,
+              "y": 51.606305794555404,
               "width": 18,
-              "height": 45.21261158911081,
+              "height": 42.21261158911081,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6098,14 +6098,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 7,
             "geometry": {
-              "x": -50.106305794555404,
-              "y": 18.5,
-              "width": 45.21261158911081,
+              "x": -51.606305794555404,
+              "y": 21.5,
+              "width": 42.21261158911081,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 813.8270086039945,
-            "actual_area_sf": 813.8270086039945,
+            "target_area_sf": 759.8270086039945,
+            "actual_area_sf": 759.8270086039945,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6116,14 +6116,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 7,
             "geometry": {
-              "x": -50.106305794555404,
-              "y": -2,
-              "width": 45.21261158911081,
+              "x": -51.606305794555404,
+              "y": 1,
+              "width": 42.21261158911081,
               "height": 22,
               "rotation": 0
             },
-            "target_area_sf": 994.6774549604378,
-            "actual_area_sf": 994.6774549604378,
+            "target_area_sf": 928.6774549604378,
+            "actual_area_sf": 928.6774549604378,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6135,13 +6135,13 @@
             "floor_index": 7,
             "geometry": {
               "x": 0,
-              "y": -25,
-              "width": 55,
+              "y": -28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6153,13 +6153,13 @@
             "floor_index": 7,
             "geometry": {
               "x": 0,
-              "y": 25,
-              "width": 55,
+              "y": 28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6170,14 +6170,14 @@
             "name": "Corridor",
             "floor_index": 7,
             "geometry": {
-              "x": 25,
+              "x": 28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6188,14 +6188,14 @@
             "name": "Corridor",
             "floor_index": 7,
             "geometry": {
-              "x": -25,
+              "x": -28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
