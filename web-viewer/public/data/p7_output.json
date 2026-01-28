@@ -1910,7 +1910,7 @@
             "floor_index": 0,
             "geometry": {
               "x": 0,
-              "y": 71.53197080155725,
+              "y": 68.53197080155725,
               "width": 40,
               "height": 25,
               "rotation": 0
@@ -1927,8 +1927,8 @@
             "name": "Leasing",
             "floor_index": 0,
             "geometry": {
-              "x": 69.03197080155725,
-              "y": 72.03197080155725,
+              "x": 66.03197080155725,
+              "y": 69.03197080155725,
               "width": 25,
               "height": 20,
               "rotation": 0
@@ -1945,8 +1945,8 @@
             "name": "Mail/Package",
             "floor_index": 0,
             "geometry": {
-              "x": -72.03197080155725,
-              "y": 72.03197080155725,
+              "x": -69.03197080155725,
+              "y": 69.03197080155725,
               "width": 20,
               "height": 18,
               "rotation": 0
@@ -1963,8 +1963,8 @@
             "name": "Lounge",
             "floor_index": 0,
             "geometry": {
-              "x": -59.03197080155725,
-              "y": 34.03197080155725,
+              "x": -56.03197080155725,
+              "y": 31.03197080155725,
               "width": 45,
               "height": 35,
               "rotation": 0
@@ -1981,8 +1981,8 @@
             "name": "Fitness",
             "floor_index": 0,
             "geometry": {
-              "x": -64.03197080155725,
-              "y": -64.03197080155725,
+              "x": -61.03197080155725,
+              "y": -61.03197080155725,
               "width": 35,
               "height": 30,
               "rotation": 0
@@ -1999,8 +1999,8 @@
             "name": "Restroom M",
             "floor_index": 0,
             "geometry": {
-              "x": 74.03197080155725,
-              "y": 46.03197080155725,
+              "x": 71.03197080155725,
+              "y": 43.03197080155725,
               "width": 15,
               "height": 12,
               "rotation": 0
@@ -2017,8 +2017,8 @@
             "name": "Restroom F",
             "floor_index": 0,
             "geometry": {
-              "x": 74.03197080155725,
-              "y": 29.03197080155725,
+              "x": 71.03197080155725,
+              "y": 26.03197080155725,
               "width": 15,
               "height": 12,
               "rotation": 0
@@ -2035,7 +2035,7 @@
             "name": "Trash",
             "floor_index": 0,
             "geometry": {
-              "x": 74.03197080155725,
+              "x": 71.03197080155725,
               "y": 0,
               "width": 12,
               "height": 10,
@@ -2053,8 +2053,8 @@
             "name": "Bike Storage",
             "floor_index": 0,
             "geometry": {
-              "x": 59.03197080155725,
-              "y": -59.03197080155725,
+              "x": 56.03197080155725,
+              "y": -56.03197080155725,
               "width": 40,
               "height": 35,
               "rotation": 0
@@ -2071,8 +2071,8 @@
             "name": "Studio + 1 Bath (Typical) A1",
             "floor_index": 0,
             "geometry": {
-              "x": -15.331970801557251,
-              "y": -71.53197080155725,
+              "x": -12.331970801557251,
+              "y": -68.53197080155725,
               "width": 17.4,
               "height": 25,
               "rotation": 0
@@ -2089,8 +2089,8 @@
             "name": "1 Bedroom + 1 Bath (Typical) A2",
             "floor_index": 0,
             "geometry": {
-              "x": 5.368029198442748,
-              "y": -71.63197080155724,
+              "x": 8.368029198442748,
+              "y": -68.63197080155724,
               "width": 20,
               "height": 24.8,
               "rotation": 0
@@ -2294,14 +2294,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 1,
             "geometry": {
-              "x": -78.03197080155725,
+              "x": -75.03197080155725,
               "y": -55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2312,14 +2312,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 1,
             "geometry": {
-              "x": -64.53197080155725,
+              "x": -61.53197080155725,
               "y": -55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2330,14 +2330,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 1,
             "geometry": {
-              "x": -48.03197080155725,
+              "x": -45.03197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2348,14 +2348,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 1,
             "geometry": {
-              "x": -29.53197080155725,
+              "x": -26.53197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2366,14 +2366,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 1,
             "geometry": {
-              "x": -11.03197080155725,
+              "x": -8.03197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2384,14 +2384,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 1,
             "geometry": {
-              "x": 9.46802919844275,
+              "x": 12.46802919844275,
               "y": -55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2402,14 +2402,14 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 1,
             "geometry": {
-              "x": 31.96802919844275,
+              "x": 34.96802919844275,
               "y": -55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2420,14 +2420,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 1,
             "geometry": {
-              "x": 49.46802919844275,
+              "x": 52.46802919844275,
               "y": -55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2438,14 +2438,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 1,
             "geometry": {
-              "x": 62.96802919844275,
+              "x": 65.96802919844275,
               "y": -55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2457,13 +2457,13 @@
             "floor_index": 1,
             "geometry": {
               "x": 55.765985400778625,
-              "y": -18.5,
-              "width": 56.53197080155725,
+              "y": -21.5,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2475,13 +2475,13 @@
             "floor_index": 1,
             "geometry": {
               "x": 55.765985400778625,
-              "y": 0,
-              "width": 56.53197080155725,
+              "y": -3,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2493,13 +2493,13 @@
             "floor_index": 1,
             "geometry": {
               "x": 55.765985400778625,
-              "y": 18.5,
-              "width": 56.53197080155725,
+              "y": 15.5,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2510,14 +2510,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 1,
             "geometry": {
-              "x": 73.03197080155725,
+              "x": 70.03197080155725,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2528,14 +2528,14 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 1,
             "geometry": {
-              "x": 50.53197080155725,
+              "x": 47.53197080155725,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2546,14 +2546,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 1,
             "geometry": {
-              "x": 33.03197080155725,
+              "x": 30.03197080155725,
               "y": 55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2564,14 +2564,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 1,
             "geometry": {
-              "x": 19.53197080155725,
+              "x": 16.53197080155725,
               "y": 55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2582,14 +2582,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 1,
             "geometry": {
-              "x": 3.03197080155725,
+              "x": 0.031970801557250184,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2600,14 +2600,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 1,
             "geometry": {
-              "x": -15.46802919844275,
+              "x": -18.46802919844275,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2618,14 +2618,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 1,
             "geometry": {
-              "x": -33.96802919844275,
+              "x": -36.96802919844275,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2636,14 +2636,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 1,
             "geometry": {
-              "x": -54.46802919844275,
+              "x": -57.46802919844275,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2655,13 +2655,13 @@
             "floor_index": 1,
             "geometry": {
               "x": -55.765985400778625,
-              "y": 16.5,
-              "width": 56.53197080155725,
+              "y": 19.5,
+              "width": 50.53197080155725,
               "height": 22,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2673,13 +2673,13 @@
             "floor_index": 1,
             "geometry": {
               "x": -55.765985400778625,
-              "y": -1,
-              "width": 56.53197080155725,
+              "y": 2,
+              "width": 50.53197080155725,
               "height": 12,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2691,13 +2691,13 @@
             "floor_index": 1,
             "geometry": {
               "x": -55.765985400778625,
-              "y": -14.5,
-              "width": 56.53197080155725,
+              "y": -11.5,
+              "width": 50.53197080155725,
               "height": 14,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2709,13 +2709,13 @@
             "floor_index": 1,
             "geometry": {
               "x": 0,
-              "y": -25,
-              "width": 55,
+              "y": -28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2727,13 +2727,13 @@
             "floor_index": 1,
             "geometry": {
               "x": 0,
-              "y": 25,
-              "width": 55,
+              "y": 28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2744,14 +2744,14 @@
             "name": "Corridor",
             "floor_index": 1,
             "geometry": {
-              "x": 25,
+              "x": 28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2762,14 +2762,14 @@
             "name": "Corridor",
             "floor_index": 1,
             "geometry": {
-              "x": -25,
+              "x": -28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2967,14 +2967,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": -78.03197080155725,
+              "x": -75.03197080155725,
               "y": -55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -2985,14 +2985,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": -64.53197080155725,
+              "x": -61.53197080155725,
               "y": -55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3003,14 +3003,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": -48.03197080155725,
+              "x": -45.03197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3021,14 +3021,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 2,
             "geometry": {
-              "x": -29.53197080155725,
+              "x": -26.53197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3039,14 +3039,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 2,
             "geometry": {
-              "x": -11.03197080155725,
+              "x": -8.03197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3057,14 +3057,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 2,
             "geometry": {
-              "x": 9.46802919844275,
+              "x": 12.46802919844275,
               "y": -55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3075,14 +3075,14 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 2,
             "geometry": {
-              "x": 31.96802919844275,
+              "x": 34.96802919844275,
               "y": -55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3093,14 +3093,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": 49.46802919844275,
+              "x": 52.46802919844275,
               "y": -55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3111,14 +3111,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": 62.96802919844275,
+              "x": 65.96802919844275,
               "y": -55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3130,13 +3130,13 @@
             "floor_index": 2,
             "geometry": {
               "x": 55.765985400778625,
-              "y": -18.5,
-              "width": 56.53197080155725,
+              "y": -21.5,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3148,13 +3148,13 @@
             "floor_index": 2,
             "geometry": {
               "x": 55.765985400778625,
-              "y": 0,
-              "width": 56.53197080155725,
+              "y": -3,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3166,13 +3166,13 @@
             "floor_index": 2,
             "geometry": {
               "x": 55.765985400778625,
-              "y": 18.5,
-              "width": 56.53197080155725,
+              "y": 15.5,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3183,14 +3183,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 2,
             "geometry": {
-              "x": 73.03197080155725,
+              "x": 70.03197080155725,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3201,14 +3201,14 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 2,
             "geometry": {
-              "x": 50.53197080155725,
+              "x": 47.53197080155725,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3219,14 +3219,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": 33.03197080155725,
+              "x": 30.03197080155725,
               "y": 55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3237,14 +3237,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": 19.53197080155725,
+              "x": 16.53197080155725,
               "y": 55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3255,14 +3255,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 2,
             "geometry": {
-              "x": 3.03197080155725,
+              "x": 0.031970801557250184,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3273,14 +3273,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 2,
             "geometry": {
-              "x": -15.46802919844275,
+              "x": -18.46802919844275,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3291,14 +3291,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 2,
             "geometry": {
-              "x": -33.96802919844275,
+              "x": -36.96802919844275,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3309,14 +3309,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 2,
             "geometry": {
-              "x": -54.46802919844275,
+              "x": -57.46802919844275,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3328,13 +3328,13 @@
             "floor_index": 2,
             "geometry": {
               "x": -55.765985400778625,
-              "y": 16.5,
-              "width": 56.53197080155725,
+              "y": 19.5,
+              "width": 50.53197080155725,
               "height": 22,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3346,13 +3346,13 @@
             "floor_index": 2,
             "geometry": {
               "x": -55.765985400778625,
-              "y": -1,
-              "width": 56.53197080155725,
+              "y": 2,
+              "width": 50.53197080155725,
               "height": 12,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3364,13 +3364,13 @@
             "floor_index": 2,
             "geometry": {
               "x": -55.765985400778625,
-              "y": -14.5,
-              "width": 56.53197080155725,
+              "y": -11.5,
+              "width": 50.53197080155725,
               "height": 14,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3382,13 +3382,13 @@
             "floor_index": 2,
             "geometry": {
               "x": 0,
-              "y": -25,
-              "width": 55,
+              "y": -28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3400,13 +3400,13 @@
             "floor_index": 2,
             "geometry": {
               "x": 0,
-              "y": 25,
-              "width": 55,
+              "y": 28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3417,14 +3417,14 @@
             "name": "Corridor",
             "floor_index": 2,
             "geometry": {
-              "x": 25,
+              "x": 28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3435,14 +3435,14 @@
             "name": "Corridor",
             "floor_index": 2,
             "geometry": {
-              "x": -25,
+              "x": -28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3640,14 +3640,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": -78.03197080155725,
+              "x": -75.03197080155725,
               "y": -55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3658,14 +3658,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": -64.53197080155725,
+              "x": -61.53197080155725,
               "y": -55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3676,14 +3676,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": -48.03197080155725,
+              "x": -45.03197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3694,14 +3694,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 3,
             "geometry": {
-              "x": -29.53197080155725,
+              "x": -26.53197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3712,14 +3712,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 3,
             "geometry": {
-              "x": -11.03197080155725,
+              "x": -8.03197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3730,14 +3730,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 3,
             "geometry": {
-              "x": 9.46802919844275,
+              "x": 12.46802919844275,
               "y": -55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3748,14 +3748,14 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 3,
             "geometry": {
-              "x": 31.96802919844275,
+              "x": 34.96802919844275,
               "y": -55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3766,14 +3766,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": 49.46802919844275,
+              "x": 52.46802919844275,
               "y": -55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3784,14 +3784,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": 62.96802919844275,
+              "x": 65.96802919844275,
               "y": -55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3803,13 +3803,13 @@
             "floor_index": 3,
             "geometry": {
               "x": 55.765985400778625,
-              "y": -18.5,
-              "width": 56.53197080155725,
+              "y": -21.5,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3821,13 +3821,13 @@
             "floor_index": 3,
             "geometry": {
               "x": 55.765985400778625,
-              "y": 0,
-              "width": 56.53197080155725,
+              "y": -3,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3839,13 +3839,13 @@
             "floor_index": 3,
             "geometry": {
               "x": 55.765985400778625,
-              "y": 18.5,
-              "width": 56.53197080155725,
+              "y": 15.5,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3856,14 +3856,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 3,
             "geometry": {
-              "x": 73.03197080155725,
+              "x": 70.03197080155725,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3874,14 +3874,14 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 3,
             "geometry": {
-              "x": 50.53197080155725,
+              "x": 47.53197080155725,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3892,14 +3892,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": 33.03197080155725,
+              "x": 30.03197080155725,
               "y": 55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3910,14 +3910,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": 19.53197080155725,
+              "x": 16.53197080155725,
               "y": 55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3928,14 +3928,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 3,
             "geometry": {
-              "x": 3.03197080155725,
+              "x": 0.031970801557250184,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3946,14 +3946,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 3,
             "geometry": {
-              "x": -15.46802919844275,
+              "x": -18.46802919844275,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3964,14 +3964,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 3,
             "geometry": {
-              "x": -33.96802919844275,
+              "x": -36.96802919844275,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -3982,14 +3982,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 3,
             "geometry": {
-              "x": -54.46802919844275,
+              "x": -57.46802919844275,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4001,13 +4001,13 @@
             "floor_index": 3,
             "geometry": {
               "x": -55.765985400778625,
-              "y": 16.5,
-              "width": 56.53197080155725,
+              "y": 19.5,
+              "width": 50.53197080155725,
               "height": 22,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4019,13 +4019,13 @@
             "floor_index": 3,
             "geometry": {
               "x": -55.765985400778625,
-              "y": -1,
-              "width": 56.53197080155725,
+              "y": 2,
+              "width": 50.53197080155725,
               "height": 12,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4037,13 +4037,13 @@
             "floor_index": 3,
             "geometry": {
               "x": -55.765985400778625,
-              "y": -14.5,
-              "width": 56.53197080155725,
+              "y": -11.5,
+              "width": 50.53197080155725,
               "height": 14,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4055,13 +4055,13 @@
             "floor_index": 3,
             "geometry": {
               "x": 0,
-              "y": -25,
-              "width": 55,
+              "y": -28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4073,13 +4073,13 @@
             "floor_index": 3,
             "geometry": {
               "x": 0,
-              "y": 25,
-              "width": 55,
+              "y": 28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4090,14 +4090,14 @@
             "name": "Corridor",
             "floor_index": 3,
             "geometry": {
-              "x": 25,
+              "x": 28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4108,14 +4108,14 @@
             "name": "Corridor",
             "floor_index": 3,
             "geometry": {
-              "x": -25,
+              "x": -28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4313,14 +4313,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": -78.03197080155725,
+              "x": -75.03197080155725,
               "y": -55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4331,14 +4331,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": -64.53197080155725,
+              "x": -61.53197080155725,
               "y": -55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4349,14 +4349,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": -48.03197080155725,
+              "x": -45.03197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4367,14 +4367,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 4,
             "geometry": {
-              "x": -29.53197080155725,
+              "x": -26.53197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4385,14 +4385,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 4,
             "geometry": {
-              "x": -11.03197080155725,
+              "x": -8.03197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4403,14 +4403,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 4,
             "geometry": {
-              "x": 9.46802919844275,
+              "x": 12.46802919844275,
               "y": -55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4421,14 +4421,14 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 4,
             "geometry": {
-              "x": 31.96802919844275,
+              "x": 34.96802919844275,
               "y": -55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4439,14 +4439,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": 49.46802919844275,
+              "x": 52.46802919844275,
               "y": -55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4457,14 +4457,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": 62.96802919844275,
+              "x": 65.96802919844275,
               "y": -55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4476,13 +4476,13 @@
             "floor_index": 4,
             "geometry": {
               "x": 55.765985400778625,
-              "y": -18.5,
-              "width": 56.53197080155725,
+              "y": -21.5,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4494,13 +4494,13 @@
             "floor_index": 4,
             "geometry": {
               "x": 55.765985400778625,
-              "y": 0,
-              "width": 56.53197080155725,
+              "y": -3,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4512,13 +4512,13 @@
             "floor_index": 4,
             "geometry": {
               "x": 55.765985400778625,
-              "y": 18.5,
-              "width": 56.53197080155725,
+              "y": 15.5,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4529,14 +4529,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 4,
             "geometry": {
-              "x": 73.03197080155725,
+              "x": 70.03197080155725,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4547,14 +4547,14 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 4,
             "geometry": {
-              "x": 50.53197080155725,
+              "x": 47.53197080155725,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4565,14 +4565,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": 33.03197080155725,
+              "x": 30.03197080155725,
               "y": 55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4583,14 +4583,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": 19.53197080155725,
+              "x": 16.53197080155725,
               "y": 55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4601,14 +4601,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 4,
             "geometry": {
-              "x": 3.03197080155725,
+              "x": 0.031970801557250184,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4619,14 +4619,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 4,
             "geometry": {
-              "x": -15.46802919844275,
+              "x": -18.46802919844275,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4637,14 +4637,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 4,
             "geometry": {
-              "x": -33.96802919844275,
+              "x": -36.96802919844275,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4655,14 +4655,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 4,
             "geometry": {
-              "x": -54.46802919844275,
+              "x": -57.46802919844275,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4674,13 +4674,13 @@
             "floor_index": 4,
             "geometry": {
               "x": -55.765985400778625,
-              "y": 16.5,
-              "width": 56.53197080155725,
+              "y": 19.5,
+              "width": 50.53197080155725,
               "height": 22,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4692,13 +4692,13 @@
             "floor_index": 4,
             "geometry": {
               "x": -55.765985400778625,
-              "y": -1,
-              "width": 56.53197080155725,
+              "y": 2,
+              "width": 50.53197080155725,
               "height": 12,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4710,13 +4710,13 @@
             "floor_index": 4,
             "geometry": {
               "x": -55.765985400778625,
-              "y": -14.5,
-              "width": 56.53197080155725,
+              "y": -11.5,
+              "width": 50.53197080155725,
               "height": 14,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4728,13 +4728,13 @@
             "floor_index": 4,
             "geometry": {
               "x": 0,
-              "y": -25,
-              "width": 55,
+              "y": -28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4746,13 +4746,13 @@
             "floor_index": 4,
             "geometry": {
               "x": 0,
-              "y": 25,
-              "width": 55,
+              "y": 28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4763,14 +4763,14 @@
             "name": "Corridor",
             "floor_index": 4,
             "geometry": {
-              "x": 25,
+              "x": 28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4781,14 +4781,14 @@
             "name": "Corridor",
             "floor_index": 4,
             "geometry": {
-              "x": -25,
+              "x": -28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -4986,14 +4986,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": -78.03197080155725,
+              "x": -75.03197080155725,
               "y": -55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5004,14 +5004,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": -64.53197080155725,
+              "x": -61.53197080155725,
               "y": -55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5022,14 +5022,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": -48.03197080155725,
+              "x": -45.03197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5040,14 +5040,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 5,
             "geometry": {
-              "x": -29.53197080155725,
+              "x": -26.53197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5058,14 +5058,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 5,
             "geometry": {
-              "x": -11.03197080155725,
+              "x": -8.03197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5076,14 +5076,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 5,
             "geometry": {
-              "x": 9.46802919844275,
+              "x": 12.46802919844275,
               "y": -55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5094,14 +5094,14 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 5,
             "geometry": {
-              "x": 31.96802919844275,
+              "x": 34.96802919844275,
               "y": -55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5112,14 +5112,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": 49.46802919844275,
+              "x": 52.46802919844275,
               "y": -55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5130,14 +5130,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": 62.96802919844275,
+              "x": 65.96802919844275,
               "y": -55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5149,13 +5149,13 @@
             "floor_index": 5,
             "geometry": {
               "x": 55.765985400778625,
-              "y": -18.5,
-              "width": 56.53197080155725,
+              "y": -21.5,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5167,13 +5167,13 @@
             "floor_index": 5,
             "geometry": {
               "x": 55.765985400778625,
-              "y": 0,
-              "width": 56.53197080155725,
+              "y": -3,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5185,13 +5185,13 @@
             "floor_index": 5,
             "geometry": {
               "x": 55.765985400778625,
-              "y": 18.5,
-              "width": 56.53197080155725,
+              "y": 15.5,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5202,14 +5202,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 5,
             "geometry": {
-              "x": 73.03197080155725,
+              "x": 70.03197080155725,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5220,14 +5220,14 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 5,
             "geometry": {
-              "x": 50.53197080155725,
+              "x": 47.53197080155725,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5238,14 +5238,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": 33.03197080155725,
+              "x": 30.03197080155725,
               "y": 55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5256,14 +5256,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": 19.53197080155725,
+              "x": 16.53197080155725,
               "y": 55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5274,14 +5274,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 5,
             "geometry": {
-              "x": 3.03197080155725,
+              "x": 0.031970801557250184,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5292,14 +5292,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 5,
             "geometry": {
-              "x": -15.46802919844275,
+              "x": -18.46802919844275,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5310,14 +5310,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 5,
             "geometry": {
-              "x": -33.96802919844275,
+              "x": -36.96802919844275,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5328,14 +5328,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 5,
             "geometry": {
-              "x": -54.46802919844275,
+              "x": -57.46802919844275,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5347,13 +5347,13 @@
             "floor_index": 5,
             "geometry": {
               "x": -55.765985400778625,
-              "y": 16.5,
-              "width": 56.53197080155725,
+              "y": 19.5,
+              "width": 50.53197080155725,
               "height": 22,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5365,13 +5365,13 @@
             "floor_index": 5,
             "geometry": {
               "x": -55.765985400778625,
-              "y": -1,
-              "width": 56.53197080155725,
+              "y": 2,
+              "width": 50.53197080155725,
               "height": 12,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5383,13 +5383,13 @@
             "floor_index": 5,
             "geometry": {
               "x": -55.765985400778625,
-              "y": -14.5,
-              "width": 56.53197080155725,
+              "y": -11.5,
+              "width": 50.53197080155725,
               "height": 14,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5401,13 +5401,13 @@
             "floor_index": 5,
             "geometry": {
               "x": 0,
-              "y": -25,
-              "width": 55,
+              "y": -28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5419,13 +5419,13 @@
             "floor_index": 5,
             "geometry": {
               "x": 0,
-              "y": 25,
-              "width": 55,
+              "y": 28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5436,14 +5436,14 @@
             "name": "Corridor",
             "floor_index": 5,
             "geometry": {
-              "x": 25,
+              "x": 28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5454,14 +5454,14 @@
             "name": "Corridor",
             "floor_index": 5,
             "geometry": {
-              "x": -25,
+              "x": -28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5659,14 +5659,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 6,
             "geometry": {
-              "x": -78.03197080155725,
+              "x": -75.03197080155725,
               "y": -55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5677,14 +5677,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 6,
             "geometry": {
-              "x": -64.53197080155725,
+              "x": -61.53197080155725,
               "y": -55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5695,14 +5695,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 6,
             "geometry": {
-              "x": -48.03197080155725,
+              "x": -45.03197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5713,14 +5713,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 6,
             "geometry": {
-              "x": -29.53197080155725,
+              "x": -26.53197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5731,14 +5731,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 6,
             "geometry": {
-              "x": -11.03197080155725,
+              "x": -8.03197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5749,14 +5749,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 6,
             "geometry": {
-              "x": 9.46802919844275,
+              "x": 12.46802919844275,
               "y": -55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5767,14 +5767,14 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 6,
             "geometry": {
-              "x": 31.96802919844275,
+              "x": 34.96802919844275,
               "y": -55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5785,14 +5785,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 6,
             "geometry": {
-              "x": 49.46802919844275,
+              "x": 52.46802919844275,
               "y": -55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5803,14 +5803,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 6,
             "geometry": {
-              "x": 62.96802919844275,
+              "x": 65.96802919844275,
               "y": -55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5822,13 +5822,13 @@
             "floor_index": 6,
             "geometry": {
               "x": 55.765985400778625,
-              "y": -18.5,
-              "width": 56.53197080155725,
+              "y": -21.5,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5840,13 +5840,13 @@
             "floor_index": 6,
             "geometry": {
               "x": 55.765985400778625,
-              "y": 0,
-              "width": 56.53197080155725,
+              "y": -3,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5858,13 +5858,13 @@
             "floor_index": 6,
             "geometry": {
               "x": 55.765985400778625,
-              "y": 18.5,
-              "width": 56.53197080155725,
+              "y": 15.5,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5875,14 +5875,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 6,
             "geometry": {
-              "x": 73.03197080155725,
+              "x": 70.03197080155725,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5893,14 +5893,14 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 6,
             "geometry": {
-              "x": 50.53197080155725,
+              "x": 47.53197080155725,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5911,14 +5911,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 6,
             "geometry": {
-              "x": 33.03197080155725,
+              "x": 30.03197080155725,
               "y": 55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5929,14 +5929,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 6,
             "geometry": {
-              "x": 19.53197080155725,
+              "x": 16.53197080155725,
               "y": 55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5947,14 +5947,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 6,
             "geometry": {
-              "x": 3.03197080155725,
+              "x": 0.031970801557250184,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5965,14 +5965,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 6,
             "geometry": {
-              "x": -15.46802919844275,
+              "x": -18.46802919844275,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -5983,14 +5983,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 6,
             "geometry": {
-              "x": -33.96802919844275,
+              "x": -36.96802919844275,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6001,14 +6001,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 6,
             "geometry": {
-              "x": -54.46802919844275,
+              "x": -57.46802919844275,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6020,13 +6020,13 @@
             "floor_index": 6,
             "geometry": {
               "x": -55.765985400778625,
-              "y": 16.5,
-              "width": 56.53197080155725,
+              "y": 19.5,
+              "width": 50.53197080155725,
               "height": 22,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6038,13 +6038,13 @@
             "floor_index": 6,
             "geometry": {
               "x": -55.765985400778625,
-              "y": -1,
-              "width": 56.53197080155725,
+              "y": 2,
+              "width": 50.53197080155725,
               "height": 12,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6056,13 +6056,13 @@
             "floor_index": 6,
             "geometry": {
               "x": -55.765985400778625,
-              "y": -14.5,
-              "width": 56.53197080155725,
+              "y": -11.5,
+              "width": 50.53197080155725,
               "height": 14,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6074,13 +6074,13 @@
             "floor_index": 6,
             "geometry": {
               "x": 0,
-              "y": -25,
-              "width": 55,
+              "y": -28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6092,13 +6092,13 @@
             "floor_index": 6,
             "geometry": {
               "x": 0,
-              "y": 25,
-              "width": 55,
+              "y": 28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6109,14 +6109,14 @@
             "name": "Corridor",
             "floor_index": 6,
             "geometry": {
-              "x": 25,
+              "x": 28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6127,14 +6127,14 @@
             "name": "Corridor",
             "floor_index": 6,
             "geometry": {
-              "x": -25,
+              "x": -28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6332,14 +6332,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 7,
             "geometry": {
-              "x": -78.03197080155725,
+              "x": -75.03197080155725,
               "y": -55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6350,14 +6350,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 7,
             "geometry": {
-              "x": -64.53197080155725,
+              "x": -61.53197080155725,
               "y": -55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6368,14 +6368,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 7,
             "geometry": {
-              "x": -48.03197080155725,
+              "x": -45.03197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6386,14 +6386,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 7,
             "geometry": {
-              "x": -29.53197080155725,
+              "x": -26.53197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6404,14 +6404,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 7,
             "geometry": {
-              "x": -11.03197080155725,
+              "x": -8.03197080155725,
               "y": -55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6422,14 +6422,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 7,
             "geometry": {
-              "x": 9.46802919844275,
+              "x": 12.46802919844275,
               "y": -55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6440,14 +6440,14 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 7,
             "geometry": {
-              "x": 31.96802919844275,
+              "x": 34.96802919844275,
               "y": -55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6458,14 +6458,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 7,
             "geometry": {
-              "x": 49.46802919844275,
+              "x": 52.46802919844275,
               "y": -55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6476,14 +6476,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 7,
             "geometry": {
-              "x": 62.96802919844275,
+              "x": 65.96802919844275,
               "y": -55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6495,13 +6495,13 @@
             "floor_index": 7,
             "geometry": {
               "x": 55.765985400778625,
-              "y": -18.5,
-              "width": 56.53197080155725,
+              "y": -21.5,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6513,13 +6513,13 @@
             "floor_index": 7,
             "geometry": {
               "x": 55.765985400778625,
-              "y": 0,
-              "width": 56.53197080155725,
+              "y": -3,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6531,13 +6531,13 @@
             "floor_index": 7,
             "geometry": {
               "x": 55.765985400778625,
-              "y": 18.5,
-              "width": 56.53197080155725,
+              "y": 15.5,
+              "width": 50.53197080155725,
               "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6548,14 +6548,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 7,
             "geometry": {
-              "x": 73.03197080155725,
+              "x": 70.03197080155725,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6566,14 +6566,14 @@
             "name": "3 Bedroom + 2 Bath + Powder",
             "floor_index": 7,
             "geometry": {
-              "x": 50.53197080155725,
+              "x": 47.53197080155725,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6584,14 +6584,14 @@
             "name": "Studio + 1 Bath (Typical)",
             "floor_index": 7,
             "geometry": {
-              "x": 33.03197080155725,
+              "x": 30.03197080155725,
               "y": 55.765985400778625,
               "width": 12,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6602,14 +6602,14 @@
             "name": "1 Bedroom + 1 Bath (Typical)",
             "floor_index": 7,
             "geometry": {
-              "x": 19.53197080155725,
+              "x": 16.53197080155725,
               "y": 55.765985400778625,
               "width": 14,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6620,14 +6620,14 @@
             "name": "2 Bedroom + 2 Bath (Typical)",
             "floor_index": 7,
             "geometry": {
-              "x": 3.03197080155725,
+              "x": 0.031970801557250184,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6638,14 +6638,14 @@
             "name": "2 Bedroom + 1 Bath",
             "floor_index": 7,
             "geometry": {
-              "x": -15.46802919844275,
+              "x": -18.46802919844275,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6656,14 +6656,14 @@
             "name": "2 Bedroom + 2 Bath + Powder",
             "floor_index": 7,
             "geometry": {
-              "x": -33.96802919844275,
+              "x": -36.96802919844275,
               "y": 55.765985400778625,
               "width": 18,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1017.5754744280305,
-            "actual_area_sf": 1017.5754744280305,
+            "target_area_sf": 909.5754744280305,
+            "actual_area_sf": 909.5754744280305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6674,14 +6674,14 @@
             "name": "3 Bedroom + 2 Bath",
             "floor_index": 7,
             "geometry": {
-              "x": -54.46802919844275,
+              "x": -57.46802919844275,
               "y": 55.765985400778625,
               "width": 22,
-              "height": 56.53197080155725,
+              "height": 50.53197080155725,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6693,13 +6693,13 @@
             "floor_index": 7,
             "geometry": {
               "x": -55.765985400778625,
-              "y": 16.5,
-              "width": 56.53197080155725,
+              "y": 19.5,
+              "width": 50.53197080155725,
               "height": 22,
               "rotation": 0
             },
-            "target_area_sf": 1243.7033576342594,
-            "actual_area_sf": 1243.7033576342594,
+            "target_area_sf": 1111.7033576342594,
+            "actual_area_sf": 1111.7033576342594,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6711,13 +6711,13 @@
             "floor_index": 7,
             "geometry": {
               "x": -55.765985400778625,
-              "y": -1,
-              "width": 56.53197080155725,
+              "y": 2,
+              "width": 50.53197080155725,
               "height": 12,
               "rotation": 0
             },
-            "target_area_sf": 678.3836496186871,
-            "actual_area_sf": 678.3836496186871,
+            "target_area_sf": 606.3836496186871,
+            "actual_area_sf": 606.3836496186871,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6729,13 +6729,13 @@
             "floor_index": 7,
             "geometry": {
               "x": -55.765985400778625,
-              "y": -14.5,
-              "width": 56.53197080155725,
+              "y": -11.5,
+              "width": 50.53197080155725,
               "height": 14,
               "rotation": 0
             },
-            "target_area_sf": 791.4475912218015,
-            "actual_area_sf": 791.4475912218015,
+            "target_area_sf": 707.4475912218015,
+            "actual_area_sf": 707.4475912218015,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6747,13 +6747,13 @@
             "floor_index": 7,
             "geometry": {
               "x": 0,
-              "y": -25,
-              "width": 55,
+              "y": -28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6765,13 +6765,13 @@
             "floor_index": 7,
             "geometry": {
               "x": 0,
-              "y": 25,
-              "width": 55,
+              "y": 28,
+              "width": 61,
               "height": 5,
               "rotation": 0
             },
-            "target_area_sf": 275,
-            "actual_area_sf": 275,
+            "target_area_sf": 305,
+            "actual_area_sf": 305,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6782,14 +6782,14 @@
             "name": "Corridor",
             "floor_index": 7,
             "geometry": {
-              "x": 25,
+              "x": 28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -6800,14 +6800,14 @@
             "name": "Corridor",
             "floor_index": 7,
             "geometry": {
-              "x": -25,
+              "x": -28,
               "y": 0,
               "width": 5,
-              "height": 45,
+              "height": 51,
               "rotation": 0
             },
-            "target_area_sf": 225,
-            "actual_area_sf": 225,
+            "target_area_sf": 255,
+            "actual_area_sf": 255,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
