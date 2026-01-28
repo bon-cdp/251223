@@ -1,10 +1,26 @@
-# GLOQ Massing Solver
+# GLOQ Massing Solver - Monorepo Overview
 
-## Project Overview
+This is a **sheaf-theoretic building massing solver** monorepo containing a Python backend solver and a React web viewer.
 
-This is a **sheaf-theoretic building massing solver** that places building spaces (apartments, MEP, circulation, etc.) onto floor plates using algebraic topology concepts. The system ingests GLOQ Space Allocation Analysis data (JSON) and outputs placed floor plans with SVG visualization.
+## Repository Structure
 
-### Core Mathematical Model
+```
+251223/
+├── src/gloq_massing/          # Python solver package (see src/gloq_massing/AGENTS.md)
+├── web-viewer/                # React web viewer (see web-viewer/AGENTS.md)
+├── examples/                  # Example scripts and test data
+├── data/                      # Sample PDFs and input data
+└── .github/                   # GitHub configuration and Copilot instructions
+```
+
+## Projects Overview
+
+| Project | Location | Technology | Purpose |
+|---------|----------|------------|---------|
+| **GLOQ Massing Solver** | `src/gloq_massing/` | Python 3.13+, uv | Core solver using sheaf theory |
+| **GLOQ Floorplan Viewer** | `web-viewer/` | React 19, TypeScript, Vite | Interactive floor plan editor |
+
+## Core Mathematical Model
 
 The building is modeled as a **sheaf over discrete floor indices**:
 - **Patches (FloorPatch)**: Local sections representing each floor with spaces to place
@@ -12,112 +28,100 @@ The building is modeled as a **sheaf over discrete floor indices**:
 - **Gluing constraints**: Ensure vertical alignment across floors via stalk consistency
 - **Cohomology**: Measures obstruction to valid placement (0 = perfect solution)
 
-### Mathematical Theory
+### Mathematical Summary
+- **Base Space ($X$)**: The set of discrete floors $\{F_{-1}, F_0, \dots, F_n\}$
+- **Sheaf ($F$)**: Assigns valid space configurations to each floor
+- **Čech Cohomology**: $H^1(X, F)$ measures vertical misalignment (obstruction)
+- **Fuzzy Logic**: Spaces can deviate ±25% from target area with membership function $\mu(A) \in [0,1]$
 
-The solver implements a **sheaf-theoretic** approach to massing:
-
-#### Sheaf Structure
-- **Base Space ($X$)**: The set of discrete floors $\{F_{-1}, F_0, \dots, F_n\}$.
-- **Sheaf ($F$)**: Assigns a set of valid space configurations to each floor.
-- **Stalks**: Vertical elements (elevators, stairs) that exist across all floors in the stalk's support.
-- **Sections**: A global section $s \in \Gamma(X, F)$ is a valid building massing.
-
-#### Cohomology & Obstruction
-We compute the **Čech cohomology** $H^1(X, F)$ to measure obstruction:
-- **$C^0$ (0-cochains)**: Independent valid layouts for each floor.
-- **$C^1$ (1-cochains)**: Differences in vertical element positions between adjacent floors.
-- **Obstruction**: Non-zero $H^1$ indicates vertical misalignment (gluing failure).
-- **Goal**: Minimize obstruction to 0 while maximizing placement rate.
-
-#### Fuzzy Logic Integration
-To handle real-world constraints, we use fuzzy set theory:
-- **Membership $\mu(A)$**: Measures how well a space's area fits the target (1.0 = perfect, 0.0 = >25% deviation).
-- **Soft Constraints**: Allows spaces to stretch/shrink within tolerance to resolve packing conflicts.
-
-## Architecture
+## Data Flow (End-to-End)
 
 ```
-src/gloq_massing/
-├── core/               # Solver and domain logic
-│   ├── building.py     # Domain types: BuildingSpec, SpaceSpec, DwellingUnit
-│   ├── sheaf.py        # Sheaf structures: Space, FloorPatch, VerticalStalk, Sheaf
-│   ├── solver.py       # Main solver: solve_massing(), placement algorithms
-│   ├── constraints.py  # Constraint system: boundary, overlap, adjacency
-│   ├── geometry.py     # Primitives: Point, Rectangle, Polygon
-│   └── fuzzy.py        # Fuzzy scaling: area tolerance (±25%) for flexible placement
-├── parsing/
-│   └── json_loader.py  # GLOQ JSON → BuildingSpec conversion
-└── visualization/
-    └── renderer.py     # Floor plan → SVG rendering
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           PYTHON SOLVER                                  │
+│  GLOQ JSON → json_loader.py → BuildingSpec → solver.py → SolverResult  │
+│                                    ↓                                     │
+│                         schemas/solver_output.py (Pydantic)             │
+└──────────────────────────────────┬──────────────────────────────────────┘
+                                   ↓
+                            JSON interchange
+                                   ↓
+┌──────────────────────────────────┴──────────────────────────────────────┐
+│                           WEB VIEWER                                     │
+│  public/data/*.json → useSolverData.ts → FloorPlanViewer.tsx → Canvas  │
+│                                    ↓                                     │
+│                        types/solverOutput.ts (TypeScript)               │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Key Patterns
+## Quick Start
 
-### Space Categories and Floor Assignment
-Spaces use `SpaceCategory` enum and `FloorAssignment` to control placement:
-```python
-# From building.py - spaces are assigned to specific floor types
-class FloorAssignment(Enum):
-    GROUND = "ground"     # Ground floor only
-    TYPICAL = "typical"   # Typical residential floors
-    VERTICAL = "vertical" # Spans multiple floors (elevator, stair)
-```
-
-### The Solve Algorithm (solver.py)
-1. **Construct sheaf** from BuildingSpec → creates patches and stalks
-2. **Place vertical core** first (elevators, stairs at floor center)
-3. **Place floor spaces** using strip-packing with double-loaded corridor
-4. **Propagate stalk positions** to floor instances
-5. **Verify constraints** and compute cohomological obstruction
-
-### Fuzzy Scaling for Area Tolerance
-Spaces can deviate ±25% from target area for better fit (see `fuzzy.py`):
-```python
-# Spaces track actual vs target dimensions
-space.set_fuzzy_dimensions(width, height, membership)  # membership ∈ [0,1]
-space.area_deviation  # Returns percentage deviation from target
-```
-
-### Data Flow
-```
-GLOQ JSON → json_loader.parse_gloq_data() → BuildingSpec
-  → construct_sheaf() → Sheaf
-  → solve_massing() → SolverResult (with placed Sheaf)
-  → render_floor_svg() → SVG visualization
-```
-
-## Running the Solver
-
-This project uses `uv` for dependency management.
-
+### Python Solver
 ```bash
-# Run the basic solver
+# Install dependencies
+uv sync
+
+# Run solver
 uv run examples/run_solver.py
 
 # Run with visualization
 uv run examples/run_with_viz.py
 ```
 
-Example input: `examples/p1_building.json` (GLOQ schema)  
-Example output: `examples/p1_output.json`, `examples/p1_floors.html`
+### Web Viewer
+```bash
+cd web-viewer
+npm install
+npm run dev
+```
 
-## Conventions
+## Key Conventions
 
 - **Coordinate system**: Center-based rectangles, Y-up, units in feet
 - **Rotation**: 0, 90, 180, 270 degrees only (90-degree snap)
 - **Placement order**: Vertical stalks → dwelling units → support → MEP
-- **Naming**: `space.id` format is `{category}_{type}_{index}_f{floor}` (e.g., `unit_studio_5_f3`)
-- **Violations**: Tracked as constraint violations with magnitude (0 = satisfied)
+- **Space ID format**: `{category}_{type}_{index}_f{floor}` (e.g., `unit_studio_5_f3`)
+- **Schema sync**: Python `schemas/solver_output.py` ↔ TypeScript `types/solverOutput.ts`
 
-## Adding New Space Types
+## Space Categories
 
-1. Add to `SpaceCategory` enum in `src/gloq_massing/core/building.py`
-2. Add color mapping in `CATEGORY_COLORS` in `src/gloq_massing/visualization/renderer.py`
-3. Handle in `place_floor_spaces()` category routing in `src/gloq_massing/core/solver.py`
+| Category | Description | Floor Assignment |
+|----------|-------------|------------------|
+| `DWELLING` | Apartments (studio, 1BR, 2BR, 3BR) | Typical floors |
+| `MEP` | Mechanical/Electrical/Plumbing | All floors |
+| `CIRCULATION` | Corridors, lobbies | All floors |
+| `VERTICAL` | Elevators, stairs, shafts | Vertical (spans floors) |
+| `RETAIL` | Ground floor retail | Ground floor |
+| `AMENITY` | Shared amenities | Ground/typical |
 
-## Debugging Tips
+## Agent-Specific Documentation
 
-- Check `SolverResult.violations` for constraint failures with magnitudes
-- Use `sheaf.get_all_spaces()` to iterate all placed/unplaced spaces
-- `space.is_placed` and `space.geometry` reveal placement state
-- Cohomological obstruction > 0 indicates gluing failures
+- **Python solver development**: See `src/gloq_massing/AGENTS.md`
+- **Web viewer development**: See `web-viewer/AGENTS.md`
+- **GitHub Copilot instructions**: See `.github/copilot-instructions.md`
+
+## Example Files
+
+| File | Purpose |
+|------|---------|
+| `examples/p1_building.json` | Sample input (GLOQ schema) |
+| `examples/p1_output.json` | Sample solver output |
+| `examples/p1_floors.html` | Interactive HTML viewer |
+| `web-viewer/public/data/` | Pre-computed floor plans (P1, P4, P7, P9) |
+
+## Development Guidelines
+
+1. **Keep schemas in sync**: Changes to Python output schema must be reflected in TypeScript types
+2. **Protocol-based rendering**: Extend existing protocols instead of ad-hoc utilities
+3. **Fuzzy scaling**: Built into algorithm; spaces track `membership` score
+4. **Constraint violations**: Tracked with magnitude (0 = satisfied)
+5. **Testing**: Use example files for validation before/after changes
+
+## Recent Updates
+
+- Polygon editor with undo/redo support
+- Space search and filtering
+- Collapsible side panels
+- Keyboard shortcuts (Escape, arrows, V/E/H/A/M)
+- Loading skeleton UI with shimmer animation
+- Floor navigation improvements

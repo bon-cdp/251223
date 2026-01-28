@@ -513,7 +513,7 @@ function generateGroundFloor(
   data: ExtractedBuildingData
 ): void {
   const h = halfSide;
-  const MARGIN = 2;
+  const MARGIN = 5;
   const boundary = { minX: -h + MARGIN, maxX: h - MARGIN, minY: -h + MARGIN, maxY: h - MARGIN };
 
   // Track placed spaces for collision detection
@@ -640,7 +640,7 @@ function generateResidentialFloor(
   totalResidentialFloors: number
 ): void {
   // Constants - MAXIMUM DENSITY PACKING
-  const MARGIN = 2;           // Minimal margin from floor plate edge
+  const MARGIN = 5;           // 5ft setback from property line
   const UNIT_GAP = 0.5;       // Minimal gap between units
   const CORRIDOR_WIDTH = 5;   // Narrow corridor
   const CORE_SIZE = 45;       // Core is ~45' wide (elevators, stairs, support) - accounts for actual layout
