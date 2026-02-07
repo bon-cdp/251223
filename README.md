@@ -14,154 +14,42 @@ For detailed mathematical background, see [Mathematical Exploration](./Deep%20Ma
 
 ---
 
-## Project Setup
 
-### Prerequisites
-
-- **Python**: ≥ 3.13 (see [.python-version](./.python-version))
-- **uv**: Package manager ([install guide](https://github.com/astral-sh/uv))
-
-### Installation
-
-```bash
-# Clone the repository
-git clone <repo-url>
-cd 251223
-
-# Install dependencies with uv
-uv sync
-
-## Optionally activate the virtual environment
-## in your current terminal shell
-# On Mac or Linux
-source .venv/bin/activate
-
-# On Windows
-.venv\Scripts\activate
-```
-
-### Dependencies
-
-Core dependencies (see [pyproject.toml](./pyproject.toml)):
 
 ---
 
-## Project Structure
-
 ```
 251223/
-├── src/gloq_massing/          # Main package
-│   ├── core/                  # Solver and domain logic
-│   │   ├── solver.py          # solve_massing(), placement algorithms
-│   ├── parsing/
-│   │   └── json_loader.py     # GLOQ JSON → BuildingSpec conversion
-│   ├── schemas/               # Pydantic models for data interchange
-│   │   └── solver_output.py   # SolverResult, FloorData, SpaceData types
-│   └── visualization/         # Rendering and visualization
-│       └── protocols.py       # Abstract renderer interfaces
-├── examples/                  # Example scripts and data
-│   ├── p1_building.json       # Input: GLOQ building specification
-│   ├── p1_output.json         # Output: Solver result
-│   ├── run_solver.py          # Run the solver
-│   ├── run_with_viz.py        # Run solver + SVG visualization
-│   └── render_from_json.py    # Render from output JSON
-└── data/                      # Additional data files
+├── web-viewer/                # Floorplan Viewer (React/Vite)
+│   ├── src/                   # Source code
+│   │   ├── utils/             # Massing logic & geometry
+│   │   └── components/        # UI components
+│   └── public/data/           # Input/Output JSONs
+├── data/                      # Additional data files
+└── .github/                   # Configuration
 ```
 
 ---
 
 ## Running the Project
 
-### 1. Run the Solver
+### Web Viewer
 
-Process a building specification and generate a placement solution:
-
-```bash
-uv run examples/run_solver.py
-```
-
-**Output**:
-- Console output with placement statistics
-- `examples/p1_output.json` - Full solver result in JSON format
-
-### 2. Run with Visualization (SVG)
+The web viewer serves as both the interface and the solver execution environment.
 
 ```bash
-uv run examples/run_with_viz.py
+cd web-viewer
+npm install
+npm run dev
 ```
 
-**Output**:
-- `examples/p1_floors.html` - Interactive HTML with all floor SVGs
-- Individual SVG files for each floor
+### Regenerating Outputs
 
-### 3. Render from JSON (New Visualization Module)
-
-Use the new configurable matplotlib renderer:
+To run the solver logic (TypeScript) and regenerate output files in `public/data`:
 
 ```bash
-PYTHONPATH=src uv run python examples/render_from_json.py
-```
-
-**Output** (in `examples/rendered_floors/`):
-- PNG files for each floor: `floor_-1.png`, `floor_+0.png`, etc.
-- SVG files for each floor (vector format)
-- `building_grid.png` - All floors in a grid layout
-
-**Configurable options with sane defaults**: See [visualization/config.py](./src/gloq_massing/visualization/config.py) for:
-- Output formats: PNG, SVG, PDF
-- Color schemes
-- DPI, scale, labels, margins
-
----
-
-## Running Tests (TODO)
-
-> **Note**: No formal test suite currently exists. 
-
-To verify the installation and run basic validation:
-
-```bash
-# Test schema parsing
-uv run python -c "
-import json
-from pathlib import Path
-from gloq_massing.schemas import SolverResult
-
-data = json.loads(Path('examples/p1_output.json').read_text())
-result = SolverResult.model_validate(data)
-print(f'✓ Parsed {len(result.building.floors)} floors, {result.metrics.total_spaces} spaces')
-"
-
-# Test visualization
-PYTHONPATH=src uv run python examples/render_from_json.py
-```
-
-### Quick Example
-
-```python
-from gloq_massing.visualization import (
-    MatplotlibFloorRenderer,
-    RenderConfig,
-    OutputFormat,
-    load_solver_result,
-)
-
-# Load solver output
-result = load_solver_result("examples/p1_output.json")
-
-# Configure renderer
-config = RenderConfig(
-    output_format=OutputFormat.PNG,
-    scale=3.0,
-    show_labels=True,
-    dpi=150,
-)
-
-# Render a floor
-floor = result.building.get_floor(-1)
-renderer = MatplotlibFloorRenderer(config)
-renderer.render_floor(floor)
-renderer.save("output/floor_-1.png")
+cd web-viewer
+npx tsx scripts/regenerate-outputs.ts
 ```
 
 ---
@@ -180,25 +68,10 @@ renderer.save("output/floor_-1.png")
 
 ### Add a New Space Type
 
-1. Add to `SpaceCategory` enum in [src/gloq_massing/core/building.py](./src/gloq_massing/core/building.py)
-2. Add color mapping in [src/gloq_massing/visualization/config.py](./src/gloq_massing/visualization/config.py)
-3. Handle in `place_floor_spaces()` in [src/gloq_massing/core/solver.py](./src/gloq_massing/core/solver.py)
+1. Add to configuration in `web-viewer/src/constants` or relevant config.
+2. Handle in `web-viewer/src/utils/massingGenerator.ts` (or equivalent).
 
-### Add a New Renderer (e.g., HTML)
 
-Implement the protocol interfaces:
-
-```python
-from gloq_massing.visualization.protocols import FloorRenderer
-from gloq_massing.visualization.config import RenderConfig
-
-class HTMLFloorRenderer:
-    def __init__(self, config: RenderConfig): ...
-    def render_floor(self, floor: FloorData): ...
-    def save(self, path: Path): ...
-```
-
-No modifications needed to existing code!
 
 ---
 
