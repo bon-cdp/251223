@@ -6,18 +6,15 @@ This is a **sheaf-theoretic building massing solver** monorepo containing a Pyth
 
 ```
 251223/
-├── src/gloq_massing/          # Python solver package (see src/gloq_massing/AGENTS.md)
 ├── web-viewer/                # React web viewer (see web-viewer/AGENTS.md)
-├── examples/                  # Example scripts and test data
 ├── data/                      # Sample PDFs and input data
 └── .github/                   # GitHub configuration and Copilot instructions
 ```
 
 ## Projects Overview
 
-| Project | Location | Technology | Purpose |
-|---------|----------|------------|---------|
-| **GLOQ Massing Solver** | `src/gloq_massing/` | Python 3.13+, uv | Core solver using sheaf theory |
+| Project                   | Location      | Technology                 | Purpose                       |
+| ------------------------- | ------------- | -------------------------- | ----------------------------- |
 | **GLOQ Floorplan Viewer** | `web-viewer/` | React 19, TypeScript, Vite | Interactive floor plan editor |
 
 ## Core Mathematical Model
@@ -38,15 +35,6 @@ The building is modeled as a **sheaf over discrete floor indices**:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                           PYTHON SOLVER                                  │
-│  GLOQ JSON → json_loader.py → BuildingSpec → solver.py → SolverResult  │
-│                                    ↓                                     │
-│                         schemas/solver_output.py (Pydantic)             │
-└──────────────────────────────────┬──────────────────────────────────────┘
-                                   ↓
-                            JSON interchange
-                                   ↓
-┌──────────────────────────────────┴──────────────────────────────────────┐
 │                           WEB VIEWER                                     │
 │  public/data/*.json → useSolverData.ts → FloorPlanViewer.tsx → Canvas  │
 │                                    ↓                                     │
@@ -55,18 +43,6 @@ The building is modeled as a **sheaf over discrete floor indices**:
 ```
 
 ## Quick Start
-
-### Python Solver
-```bash
-# Install dependencies
-uv sync
-
-# Run solver
-uv run examples/run_solver.py
-
-# Run with visualization
-uv run examples/run_with_viz.py
-```
 
 ### Web Viewer
 ```bash
@@ -81,41 +57,34 @@ npm run dev
 - **Rotation**: 0, 90, 180, 270 degrees only (90-degree snap)
 - **Placement order**: Vertical stalks → dwelling units → support → MEP
 - **Space ID format**: `{category}_{type}_{index}_f{floor}` (e.g., `unit_studio_5_f3`)
-- **Schema sync**: Python `schemas/solver_output.py` ↔ TypeScript `types/solverOutput.ts`
 
 ## Space Categories
 
-| Category | Description | Floor Assignment |
-|----------|-------------|------------------|
-| `DWELLING` | Apartments (studio, 1BR, 2BR, 3BR) | Typical floors |
-| `MEP` | Mechanical/Electrical/Plumbing | All floors |
-| `CIRCULATION` | Corridors, lobbies | All floors |
-| `VERTICAL` | Elevators, stairs, shafts | Vertical (spans floors) |
-| `RETAIL` | Ground floor retail | Ground floor |
-| `AMENITY` | Shared amenities | Ground/typical |
+| Category      | Description                        | Floor Assignment        |
+| ------------- | ---------------------------------- | ----------------------- |
+| `DWELLING`    | Apartments (studio, 1BR, 2BR, 3BR) | Typical floors          |
+| `MEP`         | Mechanical/Electrical/Plumbing     | All floors              |
+| `CIRCULATION` | Corridors, lobbies                 | All floors              |
+| `VERTICAL`    | Elevators, stairs, shafts          | Vertical (spans floors) |
+| `RETAIL`      | Ground floor retail                | Ground floor            |
+| `AMENITY`     | Shared amenities                   | Ground/typical          |
 
 ## Agent-Specific Documentation
 
-- **Python solver development**: See `src/gloq_massing/AGENTS.md`
 - **Web viewer development**: See `web-viewer/AGENTS.md`
 - **GitHub Copilot instructions**: See `.github/copilot-instructions.md`
 
 ## Example Files
 
-| File | Purpose |
-|------|---------|
-| `examples/p1_building.json` | Sample input (GLOQ schema) |
-| `examples/p1_output.json` | Sample solver output |
-| `examples/p1_floors.html` | Interactive HTML viewer |
+| File                      | Purpose                                   |
+| ------------------------- | ----------------------------------------- |
 | `web-viewer/public/data/` | Pre-computed floor plans (P1, P4, P7, P9) |
 
 ## Development Guidelines
 
-1. **Keep schemas in sync**: Changes to Python output schema must be reflected in TypeScript types
-2. **Protocol-based rendering**: Extend existing protocols instead of ad-hoc utilities
-3. **Fuzzy scaling**: Built into algorithm; spaces track `membership` score
-4. **Constraint violations**: Tracked with magnitude (0 = satisfied)
-5. **Testing**: Use example files for validation before/after changes
+1. **Protocol-based rendering**: Extend existing protocols instead of ad-hoc utilities
+2. **Fuzzy scaling**: Built into algorithm; spaces track `membership` score
+3. **Constraint violations**: Tracked with magnitude (0 = satisfied)
 
 ## Recent Updates
 
