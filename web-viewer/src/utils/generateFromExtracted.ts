@@ -7,8 +7,22 @@
  * Origin (0,0) is at the center of the floor plate
  */
 
-import { SolverResult, FloorData, SpaceData } from '../types/solverOutput';
+import { SolverResult, FloorData, SpaceData, PolygonGeometry } from '../types/solverOutput';
 import { ExtractedBuildingData } from '../components/data/PdfUploader';
+import {
+  generateFloorBoundary,
+  lineLineIntersection,
+  type Polygon,
+  type Point,
+} from './parcelGeometry';
+import {
+  pointInPolygon,
+  getBoundingBox,
+  calculatePolygonArea,
+  computePerimeter,
+  rayBoundaryIntersection,
+  interiorAngle,
+} from './polygon';
 
 // ============================================
 // COLLISION DETECTION HELPERS
@@ -41,22 +55,72 @@ function spacesOverlap(a: BoundingBox, b: BoundingBox, buffer: number = 0.5): bo
 /**
  * Check if a space overlaps with any existing space
  */
-function hasOverlap(newSpace: BoundingBox, existingSpaces: BoundingBox[]): boolean {
-  return existingSpaces.some(existing => spacesOverlap(newSpace, existing));
+function hasOverlap(newSpace: BoundingBox, existingSpaces: BoundingBox[], buffer: number = 0.5): boolean {
+  return existingSpaces.some(existing => spacesOverlap(newSpace, existing, buffer));
 }
 
 /**
- * Find a non-overlapping position by trying offsets
+ * Check if all 4 corners of a rectangle lie inside a polygon boundary.
+ */
+function rectInsidePolygon(rect: BoundingBox, polygon: Polygon): boolean {
+  const hw = rect.width / 2;
+  const hh = rect.height / 2;
+  const corners: Point[] = [
+    [rect.x - hw, rect.y - hh],
+    [rect.x + hw, rect.y - hh],
+    [rect.x + hw, rect.y + hh],
+    [rect.x - hw, rect.y + hh],
+  ];
+  return corners.every(c => pointInPolygon(c, polygon));
+}
+
+/**
+ * Find a non-overlapping position by trying offsets.
+ * When a boundaryPolygon is provided, does a grid scan across the polygon BB
+ * to find a position where the entire rect fits inside the polygon.
  */
 function findNonOverlappingPosition(
   space: BoundingBox,
   existingSpaces: BoundingBox[],
-  boundary: { minX: number; maxX: number; minY: number; maxY: number }
+  boundary: { minX: number; maxX: number; minY: number; maxY: number },
+  boundaryPolygon?: Polygon
 ): BoundingBox | null {
-  // Try original position first
-  if (!hasOverlap(space, existingSpaces)) return space;
+  const fitsInBounds = (c: BoundingBox): boolean => {
+    if (boundaryPolygon) return rectInsidePolygon(c, boundaryPolygon);
+    return c.x - c.width / 2 >= boundary.minX &&
+           c.x + c.width / 2 <= boundary.maxX &&
+           c.y - c.height / 2 >= boundary.minY &&
+           c.y + c.height / 2 <= boundary.maxY;
+  };
 
-  // Try offset positions
+  // Try original position first
+  if (!hasOverlap(space, existingSpaces) && fitsInBounds(space)) return space;
+
+  // For polygon boundaries, do a grid scan across the polygon BB
+  if (boundaryPolygon) {
+    const bb = getBoundingBox(boundaryPolygon);
+    const stepX = Math.max(space.width / 2, 4);
+    const stepY = Math.max(space.height / 2, 4);
+    let bestCandidate: BoundingBox | null = null;
+    let bestDist = Infinity;
+
+    for (let gx = bb.minX + space.width / 2; gx <= bb.maxX - space.width / 2; gx += stepX) {
+      for (let gy = bb.minY + space.height / 2; gy <= bb.maxY - space.height / 2; gy += stepY) {
+        const candidate = { ...space, x: gx, y: gy };
+        if (fitsInBounds(candidate) && !hasOverlap(candidate, existingSpaces)) {
+          // Prefer candidate closest to the original requested position
+          const dist = Math.hypot(gx - space.x, gy - space.y);
+          if (dist < bestDist) {
+            bestDist = dist;
+            bestCandidate = candidate;
+          }
+        }
+      }
+    }
+    return bestCandidate;
+  }
+
+  // For square boundaries, try offset positions
   const offsets = [
     { dx: space.width + 2, dy: 0 },
     { dx: -space.width - 2, dy: 0 },
@@ -70,11 +134,7 @@ function findNonOverlappingPosition(
 
   for (const offset of offsets) {
     const candidate = { ...space, x: space.x + offset.dx, y: space.y + offset.dy };
-    if (!hasOverlap(candidate, existingSpaces) &&
-        candidate.x - candidate.width / 2 >= boundary.minX &&
-        candidate.x + candidate.width / 2 <= boundary.maxX &&
-        candidate.y - candidate.height / 2 >= boundary.minY &&
-        candidate.y + candidate.height / 2 <= boundary.maxY) {
+    if (!hasOverlap(candidate, existingSpaces) && fitsInBounds(candidate)) {
       return candidate;
     }
   }
@@ -96,10 +156,11 @@ function safelyPlaceSpace(
   width: number,
   height: number,
   isVertical: boolean,
-  boundary: { minX: number; maxX: number; minY: number; maxY: number }
+  boundary: { minX: number; maxX: number; minY: number; maxY: number },
+  boundaryPolygon?: Polygon
 ): void {
   const newBounds: BoundingBox = { x, y, width, height };
-  const safeBounds = findNonOverlappingPosition(newBounds, placedBounds, boundary);
+  const safeBounds = findNonOverlappingPosition(newBounds, placedBounds, boundary, boundaryPolygon);
 
   if (safeBounds) {
     placedBounds.push(safeBounds);
@@ -140,6 +201,7 @@ export function generateSolverResultFromExtracted(extracted: LegacyExtractedData
 /**
  * Generate floor plans using actual unit dimensions from extraction
  * Uses CENTER-ORIGIN coordinate system for proper rendering
+ * Supports irregular parcel shapes via fill-and-cut algorithm
  */
 function generateFromBuildingData(data: ExtractedBuildingData): SolverResult {
   const building = data.building;
@@ -147,10 +209,22 @@ function generateFromBuildingData(data: ExtractedBuildingData): SolverResult {
   const circulation = data.circulation;
   const parking = data.parking;
 
-  // Calculate floor plate dimensions - SQUARE like the default data
   const floorPlateArea = building.floor_plate_sf || 19000;
-  const floorPlateSide = Math.sqrt(floorPlateArea);  // ~138.96' for 19310 SF
-  const halfSide = floorPlateSide / 2;  // ~69.48'
+
+  // Generate boundary from real parcel shape (or fall back to square)
+  const { polygon: boundaryPolygon, isIrregular } = generateFloorBoundary(
+    data.project_id,
+    floorPlateArea,
+    3 // 3' inset for setback
+  );
+
+  // Derive halfSide for parking/ground floor placement.
+  // For irregular polygons, use the short dimension of the bounding box
+  // to prevent rooms from overflowing outside the polygon.
+  const bb = getBoundingBox(boundaryPolygon);
+  const halfSide = isIrregular
+    ? Math.min(bb.width, bb.height) / 2
+    : Math.max(bb.width, bb.height) / 2;
 
   const numFloorsAbove = building.stories_above_grade || 7;
   const numFloorsBelow = building.stories_below_grade || 1;
@@ -162,22 +236,18 @@ function generateFromBuildingData(data: ExtractedBuildingData): SolverResult {
   const unitsPerFloor = Math.ceil(totalUnits / Math.max(residentialFloors, 1));
 
   // Circulation dimensions - use FIXED realistic sizes, not PDF values
-  // PDF values are often total SF across building, not per-element sizes
   const corridorWidth = circulation?.corridor_width_ft || 6;
   const numElevators = Math.min(circulation?.elevators?.passenger?.count || 2, 3);
-  // Note: numStairs used in core calculations below
   const stairCount = Math.min(circulation?.stairs?.count || 2, 2);
 
   // Standard dimensions for circulation elements (industry standard)
-  const ELEVATOR_WIDTH = 8;   // 8' x 8' standard passenger elevator
+  const ELEVATOR_WIDTH = 8;
   const ELEVATOR_DEPTH = 8;
-  const STAIR_WIDTH = 10;     // 10' x 12' standard stair with landing
+  const STAIR_WIDTH = 10;
   const STAIR_DEPTH = 12;
 
-  // Generate floors
   const floors: FloorData[] = [];
 
-  // Generate each floor
   for (let floorIdx = -numFloorsBelow; floorIdx < numFloorsAbove; floorIdx++) {
     const spaces: SpaceData[] = [];
     let floorType: string;
@@ -191,83 +261,91 @@ function generateFromBuildingData(data: ExtractedBuildingData): SolverResult {
     }
 
     // Add vertical circulation (elevators and stairs) to every floor
-    // Position at CENTER (0, 0) - compact core arrangement
+    // 2-COLUMN COMPACT CORE LAYOUT
+    const COL_GAP = 1;
+    const ROW_GAP = 1;
+    const COL_WIDTH = Math.max(STAIR_WIDTH, ELEVATOR_WIDTH);
+    const coreWidth = 2 * COL_WIDTH + COL_GAP;
 
-    // Calculate core width: [Stair1] [Elevator(s)] [Stair2]
-    const coreWidth = STAIR_WIDTH + (numElevators * (ELEVATOR_WIDTH + 1)) + STAIR_WIDTH + 4 + (stairCount - 2) * STAIR_WIDTH;
+    const elevatorsLeft = Math.ceil(numElevators / 2);
+    const elevatorsRight = numElevators - elevatorsLeft;
+    const coreHeight = STAIR_DEPTH + ROW_GAP + Math.max(elevatorsLeft, elevatorsRight) * (ELEVATOR_DEPTH + ROW_GAP);
 
-    // Stair 1 - left side of core
+    const colLeftX = -(COL_GAP / 2 + COL_WIDTH / 2);
+    const colRightX = (COL_GAP / 2 + COL_WIDTH / 2);
+
+    const stairY = -coreHeight / 2 + STAIR_DEPTH / 2;
     spaces.push(createSpace(
-      `stair_1_f${floorIdx}`,
-      'CIRCULATION',
-      'Stair 1',
-      floorIdx,
-      -coreWidth / 2 + STAIR_WIDTH / 2,
-      0,
-      STAIR_WIDTH,
-      STAIR_DEPTH,
-      true
+      `stair_1_f${floorIdx}`, 'CIRCULATION', 'Stair 1', floorIdx,
+      colLeftX, stairY, STAIR_WIDTH, STAIR_DEPTH, true
     ));
 
-    // Elevators - center of core
-    const elevatorStartX = -coreWidth / 2 + STAIR_WIDTH + 2;
-    for (let e = 0; e < numElevators; e++) {
+    if (stairCount >= 2) {
       spaces.push(createSpace(
-        `elevator_${e + 1}_f${floorIdx}`,
-        'CIRCULATION',
-        `Elevator ${e + 1}`,
-        floorIdx,
-        elevatorStartX + e * (ELEVATOR_WIDTH + 1) + ELEVATOR_WIDTH / 2,
-        0,
-        ELEVATOR_WIDTH,
-        ELEVATOR_DEPTH,
-        true
+        `stair_2_f${floorIdx}`, 'CIRCULATION', 'Stair 2', floorIdx,
+        colRightX, stairY, STAIR_WIDTH, STAIR_DEPTH, true
       ));
     }
 
-    // Stair 2 - right side of core
-    spaces.push(createSpace(
-      `stair_2_f${floorIdx}`,
-      'CIRCULATION',
-      'Stair 2',
-      floorIdx,
-      coreWidth / 2 - STAIR_WIDTH / 2,
-      0,
-      STAIR_WIDTH,
-      STAIR_DEPTH,
-      true
-    ));
+    let elevPlaced = 0;
+    for (let row = 0; row < Math.ceil(numElevators / 2); row++) {
+      const elevY = stairY + STAIR_DEPTH / 2 + ROW_GAP + row * (ELEVATOR_DEPTH + ROW_GAP) + ELEVATOR_DEPTH / 2;
+
+      if (elevPlaced < numElevators) {
+        spaces.push(createSpace(
+          `elevator_${elevPlaced + 1}_f${floorIdx}`, 'CIRCULATION', `Elevator ${elevPlaced + 1}`, floorIdx,
+          colLeftX, elevY, ELEVATOR_WIDTH, ELEVATOR_DEPTH, true
+        ));
+        elevPlaced++;
+      }
+
+      if (elevPlaced < numElevators) {
+        spaces.push(createSpace(
+          `elevator_${elevPlaced + 1}_f${floorIdx}`, 'CIRCULATION', `Elevator ${elevPlaced + 1}`, floorIdx,
+          colRightX, elevY, ELEVATOR_WIDTH, ELEVATOR_DEPTH, true
+        ));
+        elevPlaced++;
+      }
+    }
+
+    if (stairCount >= 3) {
+      const stair3Y = stairY + STAIR_DEPTH / 2 + ROW_GAP + Math.ceil(numElevators / 2) * (ELEVATOR_DEPTH + ROW_GAP) + STAIR_DEPTH / 2;
+      spaces.push(createSpace(
+        `stair_3_f${floorIdx}`, 'CIRCULATION', 'Stair 3', floorIdx,
+        colLeftX, stair3Y, STAIR_WIDTH, STAIR_DEPTH, true
+      ));
+    }
 
     if (floorIdx < 0) {
-      // Parking floor - generate parking spaces
-      generateParkingFloor(spaces, floorIdx, halfSide, parking);
+      generateParkingFloor(spaces, floorIdx, halfSide, parking, coreWidth, coreHeight,
+        isIrregular ? boundaryPolygon : undefined);
     } else if (floorIdx === 0) {
-      // Ground floor - lobby, retail, support spaces
-      generateGroundFloor(spaces, floorIdx, halfSide, data);
+      generateGroundFloor(spaces, floorIdx, halfSide, data, coreWidth, coreHeight,
+        isIrregular ? boundaryPolygon : undefined);
+    } else if (isIrregular) {
+      // Use radial slice for irregular parcel shapes — trapezoidal units from boundary to core
+      generateResidentialFloorRadialSlice(
+        spaces, floorIdx, boundaryPolygon, units,
+        residentialFloors, coreWidth, coreHeight
+      );
     } else {
-      // Residential floors - use actual unit dimensions
+      // Fallback to square perimeter packing
       generateResidentialFloor(
-        spaces,
-        floorIdx,
-        halfSide,
-        units,
-        corridorWidth,
-        unitsPerFloor,
-        residentialFloors,
-        coreWidth  // Pass dynamic core width
+        spaces, floorIdx, halfSide, units,
+        corridorWidth, unitsPerFloor, residentialFloors,
+        coreWidth, coreHeight
       );
     }
 
-    // CENTER-ORIGIN boundary: from (-halfSide, -halfSide) to (halfSide, halfSide)
+    // Use actual polygon boundary for all floors when irregular
+    const floorBoundary: number[][] = isIrregular
+      ? boundaryPolygon.map(p => [p[0], p[1]])
+      : [[-halfSide, -halfSide], [halfSide, -halfSide], [halfSide, halfSide], [-halfSide, halfSide]];
+
     floors.push({
       floor_index: floorIdx,
       floor_type: floorType,
-      boundary: [
-        [-halfSide, -halfSide],
-        [halfSide, -halfSide],
-        [halfSide, halfSide],
-        [-halfSide, halfSide],
-      ],
+      boundary: floorBoundary,
       area_sf: floorPlateArea,
       spaces,
     });
@@ -294,13 +372,13 @@ function generateFromBuildingData(data: ExtractedBuildingData): SolverResult {
           id: 'elevator_stalk',
           type: 'elevator',
           floor_range: Array.from({ length: totalFloors }, (_, i) => i - numFloorsBelow),
-          position: { x: -4, y: 0 },  // 8' elevator, center at -4'
+          position: { x: -4, y: 0 },
         },
         {
           id: 'stair_stalk',
           type: 'stair',
           floor_range: Array.from({ length: totalFloors }, (_, i) => i - numFloorsBelow),
-          position: { x: 9, y: 0 },  // Right of elevators
+          position: { x: 9, y: 0 },
         },
       ],
       metrics: {
@@ -321,183 +399,81 @@ function generateParkingFloor(
   spaces: SpaceData[],
   floorIdx: number,
   halfSide: number,
-  parking: ExtractedBuildingData['parking']
+  parking: ExtractedBuildingData['parking'],
+  coreWidth: number,
+  coreHeight: number,
+  boundaryPolygon?: Polygon
 ): void {
-  const totalStalls = parking?.underground_stalls || 45;
+  const totalStalls = parking?.underground_stalls ?? 45;
   const h = halfSide;
-
-  // Standard dimensions
-  const STALL_WIDTH = 9;    // 9' wide
-  const STALL_DEPTH = 18;   // 18' deep
-  const AISLE_WIDTH = 24;   // 24' drive aisle
   const MARGIN = 5;
 
-  // Support room dimensions
-  const SUPPORT_DEPTH = 15;
+  // For irregular polygons, scale room sizes down based on available area
+  const roomScale = boundaryPolygon ? Math.min(1, h / 80) : 1;
 
-  // Layout: Drive aisle runs East-West through center
-  // Parking stalls on North and South sides
-  // Support rooms along East edge
+  // Standard dimensions (scaled for polygon)
+  const STALL_WIDTH = 9;
+  const STALL_DEPTH = Math.round(18 * roomScale);
+  const AISLE_WIDTH = Math.round(24 * roomScale);
 
-  // Add support rooms on EAST side (like reference)
-  let supportY = -h + MARGIN;
+  const boundary = { minX: -h + MARGIN, maxX: h - MARGIN, minY: -h + MARGIN, maxY: h - MARGIN };
+  const placedBounds: BoundingBox[] = [
+    { x: 0, y: 0, width: coreWidth, height: coreHeight }
+  ];
 
-  // Storage room
-  spaces.push(createSpace(
-    `storage_f${floorIdx}`,
-    'SUPPORT',
-    'Storage',
-    floorIdx,
-    h - MARGIN - 15,
-    supportY + 12,
-    20,
-    20,
-    false
-  ));
-  supportY += 25;
+  // Support rooms — scaled for polygon
+  const supportRooms: Array<{ id: string; name: string; w: number; h: number }> = [
+    { id: 'storage',        name: 'Storage',        w: Math.round(15 * roomScale), h: Math.round(12 * roomScale) },
+    { id: 'trash_recycle',  name: 'Trash/Recycle',  w: Math.round(12 * roomScale), h: Math.round(10 * roomScale) },
+    { id: 'fan_room',       name: 'Fan Room',       w: Math.round(12 * roomScale), h: Math.round(10 * roomScale) },
+    { id: 'fire_pump',      name: 'Fire Pump',      w: Math.round(10 * roomScale), h: Math.round(10 * roomScale) },
+    { id: 'domestic_water', name: 'Domestic Water',  w: Math.round(10 * roomScale), h: Math.round(10 * roomScale) },
+    { id: 'mpoe',           name: 'MPOE',           w: Math.round(10 * roomScale), h: Math.round(8 * roomScale) },
+  ];
 
-  // Trash/Recycle room
-  spaces.push(createSpace(
-    `trash_recycle_f${floorIdx}`,
-    'SUPPORT',
-    'Trash/Recycle',
-    floorIdx,
-    h - MARGIN - 12,
-    supportY + 10,
-    18,
-    16,
-    false
-  ));
-  supportY += 20;
-
-  // Fan Room
-  spaces.push(createSpace(
-    `fan_room_f${floorIdx}`,
-    'SUPPORT',
-    'Fan Room',
-    floorIdx,
-    h - MARGIN - 12,
-    supportY + 10,
-    18,
-    16,
-    false
-  ));
-  supportY += 20;
-
-  // Fire Pump Room
-  spaces.push(createSpace(
-    `fire_pump_f${floorIdx}`,
-    'SUPPORT',
-    'Fire Pump',
-    floorIdx,
-    h - MARGIN - 10,
-    h - MARGIN - 10,
-    15,
-    15,
-    false
-  ));
-
-  // Domestic Water
-  spaces.push(createSpace(
-    `domestic_water_f${floorIdx}`,
-    'SUPPORT',
-    'Domestic Water',
-    floorIdx,
-    h - MARGIN - 10,
-    h - MARGIN - 28,
-    15,
-    15,
-    false
-  ));
-
-  // MPOE (Main Point of Entry) - telecom
-  spaces.push(createSpace(
-    `mpoe_f${floorIdx}`,
-    'SUPPORT',
-    'MPOE',
-    floorIdx,
-    h - MARGIN - 8,
-    -h + MARGIN + 40,
-    12,
-    10,
-    false
-  ));
-
-  // Add drive aisle (runs East-West through center)
-  spaces.push(createSpace(
-    `drive_aisle_f${floorIdx}`,
-    'CIRCULATION',
-    'Drive Aisle',
-    floorIdx,
-    -10,  // Offset slightly west to make room for support
-    0,
-    2 * h - 60,  // Leave room for support rooms
-    AISLE_WIDTH,
-    false
-  ));
-
-  // Calculate parking area (west of support rooms)
-  const parkingAreaWidth = 2 * h - 60;  // Leave room for support rooms
-  const parkingStartX = -h + MARGIN;
-
-  // Calculate stalls per row
-  const stallsPerRow = Math.floor(parkingAreaWidth / STALL_WIDTH);
-
-  let stallCount = 0;
-
-  // NORTH side parking (above drive aisle)
-  const northY = -AISLE_WIDTH / 2 - STALL_DEPTH / 2;
-  for (let col = 0; col < stallsPerRow && stallCount < totalStalls; col++) {
-    const x = parkingStartX + col * STALL_WIDTH + STALL_WIDTH / 2;
-    spaces.push(createSpace(
-      `parking_${stallCount + 1}_f${floorIdx}`,
-      'PARKING',
-      `P${stallCount + 1}`,
-      floorIdx,
-      x,
-      northY,
-      STALL_WIDTH - 0.5,
-      STALL_DEPTH,
-      false
-    ));
-    stallCount++;
+  // Place support rooms — let grid scan find valid position inside polygon
+  for (const room of supportRooms) {
+    safelyPlaceSpace(
+      spaces, placedBounds,
+      `${room.id}_f${floorIdx}`, 'SUPPORT', room.name, floorIdx,
+      h * 0.4, 0, room.w, room.h, false, boundary, boundaryPolygon
+    );
   }
 
-  // SOUTH side parking (below drive aisle)
-  const southY = AISLE_WIDTH / 2 + STALL_DEPTH / 2;
-  for (let col = 0; col < stallsPerRow && stallCount < totalStalls; col++) {
-    const x = parkingStartX + col * STALL_WIDTH + STALL_WIDTH / 2;
-    spaces.push(createSpace(
-      `parking_${stallCount + 1}_f${floorIdx}`,
-      'PARKING',
-      `P${stallCount + 1}`,
-      floorIdx,
-      x,
-      southY,
-      STALL_WIDTH - 0.5,
-      STALL_DEPTH,
-      false
-    ));
-    stallCount++;
-  }
+  if (totalStalls > 0) {
+    // Double-loaded parking layout: max 2 rows deep per aisle side (back-to-back)
+    // Cars access from front or back only, so no stall is more than 2 deep from an aisle.
+    //
+    //   | outer-N | (backs touch inner-N)
+    //   | inner-N | (fronts face aisle)
+    //   ═══════════ DRIVE AISLE ═══════════
+    //   | inner-S | (fronts face aisle)
+    //   | outer-S | (backs touch inner-S)
 
-  // If we need more stalls, add another row further out
-  if (stallCount < totalStalls) {
-    const northY2 = northY - STALL_DEPTH - 2;
-    for (let col = 0; col < stallsPerRow && stallCount < totalStalls; col++) {
-      const x = parkingStartX + col * STALL_WIDTH + STALL_WIDTH / 2;
-      spaces.push(createSpace(
-        `parking_${stallCount + 1}_f${floorIdx}`,
-        'PARKING',
-        `P${stallCount + 1}`,
-        floorIdx,
-        x,
-        northY2,
-        STALL_WIDTH - 0.5,
-        STALL_DEPTH,
-        false
-      ));
-      stallCount++;
+    const aisleW = Math.min(2 * h - 30, 80) * roomScale;
+    // Reserve aisle footprint for collision detection (implicit — not rendered)
+    placedBounds.push({ x: 0, y: 0, width: aisleW, height: AISLE_WIDTH });
+
+    // 4 row Y-positions (inner = adjacent to aisle, outer = back-to-back with inner)
+    const innerNorthY = -AISLE_WIDTH / 2 - STALL_DEPTH / 2;
+    const outerNorthY = innerNorthY - STALL_DEPTH;
+    const innerSouthY = AISLE_WIDTH / 2 + STALL_DEPTH / 2;
+    const outerSouthY = innerSouthY + STALL_DEPTH;
+
+    const rowYPositions = [innerNorthY, innerSouthY, outerNorthY, outerSouthY];
+    const startX = -h + MARGIN;
+    let stallCount = 0;
+
+    for (const rowY of rowYPositions) {
+      for (let col = 0; stallCount < totalStalls && col < 30; col++) {
+        const x = startX + col * STALL_WIDTH + STALL_WIDTH / 2;
+        safelyPlaceSpace(
+          spaces, placedBounds,
+          `parking_${stallCount + 1}_f${floorIdx}`, 'PARKING', `P${stallCount + 1}`, floorIdx,
+          x, rowY, STALL_WIDTH - 0.5, STALL_DEPTH, false, boundary, boundaryPolygon
+        );
+        stallCount++;
+      }
     }
   }
 }
@@ -511,102 +487,537 @@ function generateGroundFloor(
   spaces: SpaceData[],
   floorIdx: number,
   halfSide: number,
-  data: ExtractedBuildingData
+  data: ExtractedBuildingData,
+  coreWidth: number,
+  coreHeight: number,
+  boundaryPolygon?: Polygon
 ): void {
   const h = halfSide;
   const MARGIN = 5;
   const boundary = { minX: -h + MARGIN, maxX: h - MARGIN, minY: -h + MARGIN, maxY: h - MARGIN };
+  const s = boundaryPolygon ? Math.min(1, h / 80) : 1; // scale for tight polygons
 
-  // Track placed spaces for collision detection
-  const placedBounds: BoundingBox[] = [];
+  const placedBounds: BoundingBox[] = [
+    { x: 0, y: 0, width: coreWidth, height: coreHeight }
+  ];
 
-  // Main LOBBY - at south entrance (front of building)
-  const LOBBY_WIDTH = 40;
-  const LOBBY_DEPTH = 25;
-  safelyPlaceSpace(spaces, placedBounds,
-    `lobby_f${floorIdx}`, 'CIRCULATION', 'Lobby', floorIdx,
-    0, h - MARGIN - LOBBY_DEPTH / 2,
-    LOBBY_WIDTH, LOBBY_DEPTH, false, boundary
-  );
+  // Corridor reservation — implicit (gap between rooms IS the corridor)
+  placedBounds.push({ x: 0, y: 0, width: 6, height: Math.round(h * 1.2) });
 
-  // Corridor from lobby to core
-  safelyPlaceSpace(spaces, placedBounds,
-    `corridor_main_f${floorIdx}`, 'CIRCULATION', 'Corridor', floorIdx,
-    0, 0,
-    6, 2 * h - LOBBY_DEPTH - 20, false, boundary
-  );
+  // Rooms scaled for polygon — grid scan will find valid positions
+  const rooms: Array<{ id: string; type: string; name: string; w: number; h: number; prefX: number; prefY: number }> = [
+    { id: `lobby_f${floorIdx}`,          type: 'CIRCULATION', name: 'Lobby',        w: Math.round(30 * s), h: Math.round(20 * s), prefX: 0, prefY: h * 0.5 },
+    { id: `leasing_f${floorIdx}`,        type: 'SUPPORT',     name: 'Leasing',      w: Math.round(18 * s), h: Math.round(15 * s), prefX: h * 0.5, prefY: h * 0.3 },
+    { id: `mail_f${floorIdx}`,           type: 'SUPPORT',     name: 'Mail/Package', w: Math.round(15 * s), h: Math.round(12 * s), prefX: -h * 0.5, prefY: h * 0.3 },
+    { id: `lounge_f${floorIdx}`,         type: 'AMENITY',     name: 'Lounge',       w: Math.round(30 * s), h: Math.round(25 * s), prefX: -h * 0.4, prefY: 0 },
+    { id: `fitness_f${floorIdx}`,        type: 'AMENITY',     name: 'Fitness',      w: Math.round(25 * s), h: Math.round(20 * s), prefX: -h * 0.3, prefY: -h * 0.4 },
+    { id: `restroom_m_f${floorIdx}`,     type: 'SUPPORT',     name: 'Restroom M',   w: Math.round(12 * s), h: Math.round(10 * s), prefX: h * 0.5, prefY: -h * 0.2 },
+    { id: `restroom_f_f${floorIdx}`,     type: 'SUPPORT',     name: 'Restroom F',   w: Math.round(12 * s), h: Math.round(10 * s), prefX: h * 0.5, prefY: -h * 0.4 },
+    { id: `trash_f${floorIdx}`,          type: 'SUPPORT',     name: 'Trash',        w: Math.round(10 * s), h: Math.round(8 * s),  prefX: h * 0.4, prefY: 0 },
+    { id: `bike_storage_f${floorIdx}`,   type: 'SUPPORT',     name: 'Bike Storage', w: Math.round(20 * s), h: Math.round(18 * s), prefX: h * 0.3, prefY: -h * 0.5 },
+  ];
 
-  // LEASING OFFICE - right of lobby
-  safelyPlaceSpace(spaces, placedBounds,
-    `leasing_f${floorIdx}`, 'SUPPORT', 'Leasing', floorIdx,
-    h - MARGIN - 15, h - MARGIN - 12,
-    25, 20, false, boundary
-  );
+  for (const room of rooms) {
+    safelyPlaceSpace(spaces, placedBounds,
+      room.id, room.type, room.name, floorIdx,
+      room.prefX, room.prefY, room.w, room.h, false, boundary, boundaryPolygon
+    );
+  }
 
-  // MAIL/PACKAGE ROOM - left of lobby
-  safelyPlaceSpace(spaces, placedBounds,
-    `mail_f${floorIdx}`, 'SUPPORT', 'Mail/Package', floorIdx,
-    -h + MARGIN + 12, h - MARGIN - 12,
-    20, 18, false, boundary
-  );
-
-  // AMENITY LOUNGE - southwest corner (away from stairs)
-  safelyPlaceSpace(spaces, placedBounds,
-    `lounge_f${floorIdx}`, 'AMENITY', 'Lounge', floorIdx,
-    -h + MARGIN + 25, h - MARGIN - LOBBY_DEPTH - 25,
-    45, 35, false, boundary
-  );
-
-  // FITNESS CENTER - northwest corner
-  safelyPlaceSpace(spaces, placedBounds,
-    `fitness_f${floorIdx}`, 'AMENITY', 'Fitness', floorIdx,
-    -h + MARGIN + 20, -h + MARGIN + 20,
-    35, 30, false, boundary
-  );
-
-  // RESTROOM M - east side, upper (with gap from other spaces)
-  safelyPlaceSpace(spaces, placedBounds,
-    `restroom_m_f${floorIdx}`, 'SUPPORT', 'Restroom M', floorIdx,
-    h - MARGIN - 10, h - MARGIN - 38,
-    15, 12, false, boundary
-  );
-
-  // RESTROOM F - east side, below restroom M (with gap)
-  safelyPlaceSpace(spaces, placedBounds,
-    `restroom_f_f${floorIdx}`, 'SUPPORT', 'Restroom F', floorIdx,
-    h - MARGIN - 10, h - MARGIN - 55,
-    15, 12, false, boundary
-  );
-
-  // TRASH/UTILITY - east side, near center (with gap from restrooms)
-  safelyPlaceSpace(spaces, placedBounds,
-    `trash_f${floorIdx}`, 'SUPPORT', 'Trash', floorIdx,
-    h - MARGIN - 10, 0,
-    12, 10, false, boundary
-  );
-
-  // BIKE STORAGE - northeast area
-  safelyPlaceSpace(spaces, placedBounds,
-    `bike_storage_f${floorIdx}`, 'SUPPORT', 'Bike Storage', floorIdx,
-    h - MARGIN - 25, -h + MARGIN + 25,
-    40, 35, false, boundary
-  );
-
-  // Optional: Some ground floor units on north side (if building has them)
+  // Optional ground floor units
   const groundUnits = data.dwelling_units?.filter(u => u.count > 0).slice(0, 2) || [];
-  let unitX = -h + MARGIN + 60;  // Start after fitness
-
-  for (let i = 0; i < 3 && unitX < h - 80; i++) {
+  for (let i = 0; i < 2; i++) {
     const unit = groundUnits[i % groundUnits.length];
     if (unit) {
-      const unitWidth = Math.min(unit.width_ft || 20, 20);
-      const unitDepth = Math.min(unit.depth_ft || 25, 25);
+      const unitWidth = Math.min(unit.width_ft || 15, Math.round(15 * s));
+      const unitDepth = Math.min(unit.depth_ft || 20, Math.round(20 * s));
       safelyPlaceSpace(spaces, placedBounds,
         `unit_ground_${i}_f${floorIdx}`, 'DWELLING_UNIT', `${unit.name || unit.type} A${i + 1}`, floorIdx,
-        unitX + unitWidth / 2, -h + MARGIN + unitDepth / 2,
-        unitWidth, unitDepth, false, boundary
+        0, -h * 0.3, unitWidth, unitDepth, false, boundary, boundaryPolygon
       );
-      unitX += unitWidth + 2;
+    }
+  }
+}
+
+// ============================================
+// RADIAL SLICE ALGORITHM FOR IRREGULAR POLYGONS
+// ============================================
+// Units shaped by boundary — outer edge IS the building perimeter (windows).
+// Radial slices from perimeter to corridor ring around core.
+// Non-rectangular (trapezoidal/polygonal) units that conform to the parcel.
+
+/** Frontage widths for radial units (wider than compact — these are the window wall) */
+const RADIAL_FRONTAGES: Record<string, number> = {
+  'studio': 16, '1br': 20, '2br': 28, '3br': 34,
+};
+
+/**
+ * Create a SpaceData with PolygonGeometry instead of rect
+ */
+function createPolygonSpace(
+  id: string,
+  type: string,
+  name: string,
+  floorIndex: number,
+  vertices: [number, number][],
+  targetArea: number
+): SpaceData {
+  const actualArea = calculatePolygonArea(vertices);
+  const deviation = targetArea > 0
+    ? ((actualArea - targetArea) / targetArea * 100).toFixed(1)
+    : '0.0';
+  return {
+    id,
+    type,
+    name,
+    floor_index: floorIndex,
+    geometry: { vertices } as PolygonGeometry,
+    target_area_sf: targetArea,
+    actual_area_sf: actualArea,
+    membership: 1.0,
+    area_deviation: `${Number(deviation) >= 0 ? '+' : ''}${deviation}%`,
+    is_vertical: false,
+  };
+}
+
+/**
+ * Walk boundary perimeter, place interpolated cut points spaced by unit frontage widths.
+ * Scale all frontages uniformly so they sum to exactly the perimeter length.
+ * Returns cut points as [x, y] along the boundary.
+ */
+function placeCutPoints(
+  boundary: Polygon,
+  unitQueue: Array<{ type: string; frontage: number }>,
+): Point[] {
+  const perim = computePerimeter(boundary);
+  const rawSum = unitQueue.reduce((s, u) => s + u.frontage, 0);
+  const scale = perim / rawSum;
+
+  // Walk along boundary edges, placing cut points at accumulated distances
+  const cutPoints: Point[] = [];
+  let accumulated = 0;
+  let nextCutDist = 0;
+  let unitIdx = 0;
+  const n = boundary.length;
+
+  // First cut point is always boundary[0]
+  cutPoints.push([boundary[0][0], boundary[0][1]]);
+  nextCutDist = unitQueue[unitIdx].frontage * scale;
+  unitIdx++;
+
+  for (let i = 0; i < n && unitIdx < unitQueue.length; i++) {
+    const p1 = boundary[i];
+    const p2 = boundary[(i + 1) % n];
+    const dx = p2[0] - p1[0];
+    const dy = p2[1] - p1[1];
+    const edgeLen = Math.sqrt(dx * dx + dy * dy);
+    if (edgeLen < 1e-6) continue;
+
+    const startOfEdge = accumulated;
+    const endOfEdge = accumulated + edgeLen;
+
+    while (unitIdx < unitQueue.length && nextCutDist <= endOfEdge + 1e-6) {
+      const t = (nextCutDist - startOfEdge) / edgeLen;
+      const clampT = Math.max(0, Math.min(1, t));
+      let newPoint: Point = [
+        p1[0] + dx * clampT,
+        p1[1] + dy * clampT,
+      ];
+
+      // Snap to nearby boundary vertex to prevent half-vertex inclusion gaps
+      const SNAP_DIST = 1.0;
+      for (let v = 0; v < boundary.length; v++) {
+        const d = Math.hypot(newPoint[0] - boundary[v][0], newPoint[1] - boundary[v][1]);
+        if (d < SNAP_DIST) {
+          newPoint = [boundary[v][0], boundary[v][1]];
+          break;
+        }
+      }
+
+      cutPoints.push(newPoint);
+      nextCutDist += unitQueue[unitIdx].frontage * scale;
+      unitIdx++;
+    }
+
+    accumulated = endOfEdge;
+  }
+
+  return cutPoints;
+}
+
+/**
+ * Collect boundary vertices between two points along the perimeter.
+ * Returns intermediate polygon vertices (not including cutA and cutB themselves).
+ */
+function collectBoundaryVerticesBetween(
+  boundary: Polygon,
+  cutA: Point,
+  cutB: Point,
+): Point[] {
+  const n = boundary.length;
+  const result: Point[] = [];
+
+  // Find which edge cutA falls on
+  let edgeA = -1;
+  let edgeB = -1;
+  const EPS = 0.5; // tolerance for point-on-edge
+
+  for (let i = 0; i < n; i++) {
+    const p1 = boundary[i];
+    const p2 = boundary[(i + 1) % n];
+    if (isPointOnSegment(cutA, p1, p2, EPS) && edgeA < 0) edgeA = i;
+    if (isPointOnSegment(cutB, p1, p2, EPS) && edgeB < 0) edgeB = i;
+  }
+
+  if (edgeA < 0 || edgeB < 0) return result;
+  if (edgeA === edgeB) return result; // Same edge, no intermediate vertices
+
+  // Walk from edgeA+1 to edgeB, collecting polygon vertices
+  let idx = (edgeA + 1) % n;
+  const limit = n + 1; // safety
+  let count = 0;
+  while (idx !== (edgeB + 1) % n && count < limit) {
+    result.push([boundary[idx][0], boundary[idx][1]]);
+    idx = (idx + 1) % n;
+    count++;
+  }
+
+  return result;
+}
+
+/** Check if point p lies on segment p1→p2 within tolerance */
+function isPointOnSegment(p: Point, p1: Point, p2: Point, eps: number): boolean {
+  const dx = p2[0] - p1[0];
+  const dy = p2[1] - p1[1];
+  const lenSq = dx * dx + dy * dy;
+  if (lenSq < 1e-10) return Math.hypot(p[0] - p1[0], p[1] - p1[1]) < eps;
+
+  const t = ((p[0] - p1[0]) * dx + (p[1] - p1[1]) * dy) / lenSq;
+  if (t < -0.01 || t > 1.01) return false;
+
+  const projX = p1[0] + t * dx;
+  const projY = p1[1] + t * dy;
+  return Math.hypot(p[0] - projX, p[1] - projY) < eps;
+}
+
+/**
+ * Build the polygon for a unit slice between two cut points.
+ * Rays from cut points toward origin, intersected with the corridor ring rectangle.
+ * Returns vertices forming the unit polygon, or null if degenerate.
+ */
+function buildUnitPolygon(
+  cutA: Point,
+  cutB: Point,
+  intermediateVerts: Point[],
+  corridorRing: { halfW: number; halfH: number },
+): [number, number][] | null {
+  // Cast rays from cutA and cutB toward origin (0,0) — but stop at corridor ring
+  const dirA: Point = [-cutA[0], -cutA[1]];
+  const dirB: Point = [-cutB[0], -cutB[1]];
+
+  // The corridor ring is a rectangle centered at origin
+  const ringPoly: Polygon = [
+    [-corridorRing.halfW, -corridorRing.halfH],
+    [corridorRing.halfW, -corridorRing.halfH],
+    [corridorRing.halfW, corridorRing.halfH],
+    [-corridorRing.halfW, corridorRing.halfH],
+  ];
+
+  const innerA = rayBoundaryIntersection(cutA, dirA, ringPoly);
+  const innerB = rayBoundaryIntersection(cutB, dirB, ringPoly);
+
+  if (!innerA || !innerB) return null;
+
+  // Build polygon: outer boundary from cutA → intermediateVerts → cutB,
+  // then inner boundary from innerB back to innerA (tracing corridor ring if needed)
+  const verts: [number, number][] = [];
+
+  // Outer wall (boundary side)
+  verts.push([cutA[0], cutA[1]]);
+  for (const v of intermediateVerts) {
+    verts.push([v[0], v[1]]);
+  }
+  verts.push([cutB[0], cutB[1]]);
+
+  // Inner wall (corridor ring side)
+  // If innerA and innerB are on different edges of the ring, include corners
+  const ringCorners = getCorridorCornersBetween(innerB, innerA, corridorRing);
+  verts.push([innerB[0], innerB[1]]);
+  for (const c of ringCorners) {
+    verts.push(c);
+  }
+  verts.push([innerA[0], innerA[1]]);
+
+  // Sanity: need at least 3 vertices
+  if (verts.length < 3) return null;
+
+  // Check area — skip degenerate units
+  const area = calculatePolygonArea(verts);
+  if (area < 200) return null;
+
+  return verts;
+}
+
+/**
+ * Determine which edge of the corridor ring rectangle a point lies on.
+ * Returns 0=top, 1=right, 2=bottom, 3=left, or -1.
+ */
+function getRingEdge(pt: Point, ring: { halfW: number; halfH: number }): number {
+  const { halfW, halfH } = ring;
+  const EPS = 0.5;
+  if (Math.abs(pt[1] - (-halfH)) < EPS) return 0; // top (min y)
+  if (Math.abs(pt[0] - halfW) < EPS) return 1;     // right
+  if (Math.abs(pt[1] - halfH) < EPS) return 2;     // bottom (max y)
+  if (Math.abs(pt[0] - (-halfW)) < EPS) return 3;  // left
+  return -1;
+}
+
+/**
+ * Get corridor ring corner vertices between two points on the ring,
+ * taking the SHORTER path (CW or CCW) to avoid wrapping the long way around.
+ */
+function getCorridorCornersBetween(
+  from: Point,
+  to: Point,
+  ring: { halfW: number; halfH: number },
+): [number, number][] {
+  const { halfW, halfH } = ring;
+  const corners: [number, number][] = [
+    [-halfW, -halfH],  // TL (0) — between edge 3 and edge 0
+    [halfW, -halfH],   // TR (1) — between edge 0 and edge 1
+    [halfW, halfH],    // BR (2) — between edge 1 and edge 2
+    [-halfW, halfH],   // BL (3) — between edge 2 and edge 3
+  ];
+
+  const edgeFrom = getRingEdge(from, ring);
+  const edgeTo = getRingEdge(to, ring);
+
+  if (edgeFrom < 0 || edgeTo < 0 || edgeFrom === edgeTo) return [];
+
+  // CW path: corner after edge e (CW) is corners[(e+1)%4... actually mapped below)
+  const cornerAfterEdge = [1, 2, 3, 0]; // edge 0→TR, edge 1→BR, edge 2→BL, edge 3→TL
+
+  // Collect CW corners from edgeFrom to edgeTo
+  const cwResult: [number, number][] = [];
+  let e = edgeFrom;
+  for (let s = 0; s < 4 && e !== edgeTo; s++) {
+    cwResult.push(corners[cornerAfterEdge[e]]);
+    e = (e + 1) % 4;
+  }
+
+  // Collect CCW corners from edgeFrom to edgeTo
+  // Going CCW from edge e, the corner you pass is corners[e]
+  const ccwResult: [number, number][] = [];
+  e = edgeFrom;
+  for (let s = 0; s < 4 && e !== edgeTo; s++) {
+    ccwResult.push(corners[e]);
+    e = (e - 1 + 4) % 4;
+  }
+  ccwResult.reverse(); // Reverse to get correct from→to order
+
+  // Return shorter path
+  return cwResult.length <= ccwResult.length ? cwResult : ccwResult;
+}
+
+/**
+ * Check that all edges of a polygon are at least minLen apart.
+ * Rejects degenerate slivers with very thin dimensions.
+ */
+function hasMinimumEdgeLength(verts: [number, number][], minLen: number): boolean {
+  for (let i = 0; i < verts.length; i++) {
+    const j = (i + 1) % verts.length;
+    const dist = Math.hypot(verts[j][0] - verts[i][0], verts[j][1] - verts[i][1]);
+    if (dist < minLen) return false;
+  }
+  return true;
+}
+
+/**
+ * RADIAL SLICE residential floor generator
+ *
+ * Drop-in replacement for generateResidentialFloorFillAndCut.
+ * Units are trapezoidal slices from boundary to corridor ring around core.
+ * Every unit's outer wall IS the building boundary — guaranteed windows.
+ */
+function generateResidentialFloorRadialSlice(
+  spaces: SpaceData[],
+  floorIdx: number,
+  boundary: Polygon,
+  units: ExtractedBuildingData['dwelling_units'],
+  totalResidentialFloors: number,
+  coreWidth: number,
+  coreHeight: number,
+): void {
+  const CORRIDOR_W = 5;
+  const coreHalfW = coreWidth / 2;
+  const coreHalfH = coreHeight / 2;
+
+  // 1. Corridor ring = core expanded by CORRIDOR_W on all sides
+  const corridorRing = {
+    halfW: coreHalfW + CORRIDOR_W,
+    halfH: coreHalfH + CORRIDOR_W,
+  };
+
+  // 2. O-ring corridor is implicit — the gap between units and core IS the corridor.
+  //    No corridor spaces rendered; corridorRing dimensions still used for ray-casting.
+
+  // 3. Support rooms at corridor ring dead corners (inside the ring, not outside)
+  // The 4 corners where N/S corridor meets E/W corridor are CORRIDOR_W × CORRIDOR_W
+  // squares with no pass-through traffic — perfect for BOH rooms.
+  const SUPPORT_W = 5;
+  const SUPPORT_H = 5;
+  const supportPositions = [
+    { id: `trash_f${floorIdx}`, name: 'Trash',  x:  coreHalfW + CORRIDOR_W / 2, y: -coreHalfH - CORRIDOR_W / 2 },  // NE corner
+    { id: `mech_f${floorIdx}`,  name: 'Mech',   x:  coreHalfW + CORRIDOR_W / 2, y:  coreHalfH + CORRIDOR_W / 2 },  // SE corner
+    { id: `stor_f${floorIdx}`,  name: 'Stor',   x: -coreHalfW - CORRIDOR_W / 2, y: -coreHalfH - CORRIDOR_W / 2 },  // NW corner
+    { id: `elec_f${floorIdx}`,  name: 'Elec',   x: -coreHalfW - CORRIDOR_W / 2, y:  coreHalfH + CORRIDOR_W / 2 },  // SW corner
+  ];
+  for (const s of supportPositions) {
+    spaces.push(createSpace(s.id, 'SUPPORT', s.name, floorIdx, s.x, s.y, SUPPORT_W, SUPPORT_H, false));
+  }
+
+  // 4. Build unit queue with frontage widths + target areas
+  const totalUnits = units.reduce((sum, u) => sum + u.count, 0);
+  const targetPerFloor = Math.ceil(totalUnits / Math.max(totalResidentialFloors, 1));
+
+  const unitQueue: Array<{ type: string; name: string; frontage: number; targetArea: number }> = [];
+  let typeIdx = 0;
+  for (let i = 0; i < targetPerFloor; i++) {
+    const unitType = units[typeIdx % units.length];
+    if (unitType) {
+      unitQueue.push({
+        type: unitType.type,
+        name: unitType.name || unitType.type,
+        frontage: RADIAL_FRONTAGES[unitType.type.toLowerCase()] || 20,
+        targetArea: unitType.area_sf || 700,
+      });
+    }
+    typeIdx++;
+  }
+
+  if (unitQueue.length === 0) return;
+
+  // 5. Filter out cut points near sharp boundary vertices (< 30 degrees)
+  const n = boundary.length;
+  const sharpVertices = new Set<number>();
+  for (let i = 0; i < n; i++) {
+    const prev = boundary[(i - 1 + n) % n];
+    const curr = boundary[i];
+    const next = boundary[(i + 1) % n];
+    const angle = interiorAngle(prev, curr, next);
+    if (angle < 30 || angle > 330) {
+      sharpVertices.add(i);
+    }
+  }
+
+  // 6. Place cut points along perimeter
+  const cutPoints = placeCutPoints(
+    boundary,
+    unitQueue.map(u => ({ type: u.type, frontage: u.frontage })),
+  );
+
+  // 7. Build unit polygons — two-pass: place, then fill gaps
+  //
+  // Pass 1: Place units at each cut pair, recording successful placements
+  // Pass 2: Extend each unit to meet the next, eliminating wedge gaps
+
+  interface PlacedUnit {
+    cutA: Point;
+    cutB: Point;
+    unit: typeof unitQueue[0];
+    unitIdx: number;
+    spaceIdx: number; // index into spaces[]
+  }
+  const placedUnits: PlacedUnit[] = [];
+  const spaceBaseIdx = spaces.length; // remember where unit spaces start
+
+  let unitIdx = 0;
+  for (let i = 0; i < cutPoints.length - 1 && unitIdx < unitQueue.length; i++) {
+    const cutA = cutPoints[i];
+    const cutB = cutPoints[i + 1];
+
+    // Skip degenerate cuts (too close together) — do NOT consume a unit
+    const cutDist = Math.hypot(cutB[0] - cutA[0], cutB[1] - cutA[1]);
+    if (cutDist < 3) { continue; }
+
+    const intermediateVerts = collectBoundaryVerticesBetween(boundary, cutA, cutB);
+    const unit = unitQueue[unitIdx];
+
+    const rawVerts = buildUnitPolygon(cutA, cutB, intermediateVerts, corridorRing);
+    if (rawVerts && calculatePolygonArea(rawVerts) >= 200 && hasMinimumEdgeLength(rawVerts, 2)) {
+      const spaceIdx = spaces.length;
+      spaces.push(createPolygonSpace(
+        `unit_${unit.type}_${unitIdx}_f${floorIdx}`,
+        'DWELLING_UNIT',
+        unit.name,
+        floorIdx,
+        rawVerts,
+        unit.targetArea,
+      ));
+      placedUnits.push({ cutA, cutB, unit, unitIdx, spaceIdx });
+    }
+
+    unitIdx++;
+  }
+
+  // Handle wrap-around: last cut point to first cut point (closing the perimeter)
+  if (cutPoints.length >= 2 && unitIdx < unitQueue.length) {
+    const cutA = cutPoints[cutPoints.length - 1];
+    const cutB = cutPoints[0];
+    const cutDist = Math.hypot(cutB[0] - cutA[0], cutB[1] - cutA[1]);
+
+    if (cutDist >= 3) {
+      const intermediateVerts = collectBoundaryVerticesBetween(boundary, cutA, cutB);
+      const unit = unitQueue[unitIdx];
+
+      const rawVerts = buildUnitPolygon(cutA, cutB, intermediateVerts, corridorRing);
+      if (rawVerts && calculatePolygonArea(rawVerts) >= 200 && hasMinimumEdgeLength(rawVerts, 2)) {
+        const spaceIdx = spaces.length;
+        spaces.push(createPolygonSpace(
+          `unit_${unit.type}_${unitIdx}_f${floorIdx}`,
+          'DWELLING_UNIT',
+          unit.name,
+          floorIdx,
+          rawVerts,
+          unit.targetArea,
+        ));
+        placedUnits.push({ cutA, cutB, unit, unitIdx, spaceIdx });
+      }
+    }
+  }
+
+  // Pass 2: Fill gaps — extend each unit to meet the next placed unit
+  // If there's a gap between unit N's cutB and unit N+1's cutA,
+  // rebuild unit N from its cutA to unit N+1's cutA.
+  if (placedUnits.length >= 2) {
+    for (let i = 0; i < placedUnits.length; i++) {
+      const curr = placedUnits[i];
+      const next = placedUnits[(i + 1) % placedUnits.length];
+
+      const gapDist = Math.hypot(
+        curr.cutB[0] - next.cutA[0],
+        curr.cutB[1] - next.cutA[1],
+      );
+
+      // If gap > 1ft, extend current unit to meet next unit
+      if (gapDist > 1) {
+        const extendedIntermediateVerts = collectBoundaryVerticesBetween(
+          boundary, curr.cutA, next.cutA,
+        );
+        const extendedVerts = buildUnitPolygon(
+          curr.cutA, next.cutA, extendedIntermediateVerts, corridorRing,
+        );
+        if (extendedVerts && calculatePolygonArea(extendedVerts) >= 200) {
+          // Replace the unit's polygon with the extended version
+          const space = spaces[curr.spaceIdx];
+          (space.geometry as PolygonGeometry).vertices = extendedVerts;
+          space.actual_area_sf = calculatePolygonArea(extendedVerts);
+          const deviation = curr.unit.targetArea > 0
+            ? ((space.actual_area_sf - curr.unit.targetArea) / curr.unit.targetArea * 100).toFixed(1)
+            : '0.0';
+          space.area_deviation = `${Number(deviation) >= 0 ? '+' : ''}${deviation}%`;
+        }
+      }
     }
   }
 }
@@ -639,7 +1050,8 @@ function generateResidentialFloor(
   _corridorWidth: number,
   _unitsPerFloor: number,
   totalResidentialFloors: number,
-  coreWidth: number  // Dynamic core width based on actual stairs/elevators
+  coreWidth: number,
+  coreHeight: number  // Actual core height (rectangular, not square)
 ): void {
   // Constants
   const MARGIN = 5;           // 5ft setback from property line
@@ -650,19 +1062,21 @@ function generateResidentialFloor(
 
   // ========================================
   // INSIDE-OUT ZONE COMPUTATION
-  // Each zone is computed from the previous one's boundary
+  // Rectangular core → asymmetric unit depths
   // ========================================
-  
-  // Zone 1: CORE - defined by actual stair/elevator layout
-  const coreHalf = coreWidth / 2;
-  
+
+  // Zone 1: CORE - rectangular (coreWidth × coreHeight)
+  const coreHalfW = coreWidth / 2;
+  const coreHalfH = coreHeight / 2;
+
   // Zone 2: CORRIDOR - wraps around core
-  const corridorInner = coreHalf;
-  const corridorOuter = coreHalf + CORRIDOR_WIDTH;
-  
-  // Zone 3: UNITS - fill space from corridor to property line
+  const corridorOuterW = coreHalfW + CORRIDOR_WIDTH;  // For E/W sides
+  const corridorOuterH = coreHalfH + CORRIDOR_WIDTH;  // For N/S sides
+
+  // Zone 3: UNITS - asymmetric depths based on rectangular core
   const unitOuter = h - MARGIN;  // Outer edge at property setback
-  const UNIT_DEPTH = Math.max(15, unitOuter - corridorOuter);  // Dynamic depth!
+  const UNIT_DEPTH_NS = Math.max(15, unitOuter - corridorOuterH);  // N/S sides (shorter core dim)
+  const UNIT_DEPTH_EW = Math.max(15, unitOuter - corridorOuterW);  // E/W sides (wider core dim)
 
   // SKINNY UNITS for maximum packing
   // Studios: 12', 1BR: 14', 2BR: 18', 3BR: 22'
@@ -677,7 +1091,7 @@ function generateResidentialFloor(
   const avgWidth = 15;  // Average of compact widths
   const sideLength = 2 * h - 2 * MARGIN;
   const unitsPerLongSide = Math.floor(sideLength / (avgWidth + UNIT_GAP));
-  const shortSideLength = sideLength - 2 * UNIT_DEPTH;
+  const shortSideLength = 2 * corridorOuterH;  // E/W sides span corridor height
   const unitsPerShortSide = Math.floor(shortSideLength / (avgWidth + UNIT_GAP));
 
   // Total perimeter capacity
@@ -699,96 +1113,62 @@ function generateResidentialFloor(
         type: unitType.type,
         name: unitType.name || unitType.type,
         width: compactWidth,
-        depth: UNIT_DEPTH,
+        depth: 0,  // depth set per-side during placement
       });
     }
     typeIdx++;
   }
 
-  // Place CORE elements in center (elevators, stairs already placed by caller)
-  // Support rooms INSIDE the 35' x 35' core area (within ±17.5 of center)
+  // Place support rooms at the ENDS of corridor segments (adjacent to corridor ring)
+  // This keeps them out of the unit zone and out of the core elements
+  const SUPPORT_W = 5;
+  const SUPPORT_H = CORRIDOR_WIDTH;  // Match corridor height for clean look
 
-  // Trash room - top left of core (inside core bounds)
-  spaces.push(createSpace(
-    `trash_f${floorIdx}`,
-    'SUPPORT',
-    'Trash',
-    floorIdx,
-    -12,   // Inside core (within ±17.5)
-    10,    // Top of core
-    8,
-    6,
-    false
-  ));
+  // Place at the east/west ends of the N and S corridor segments
+  // N corridor: centered at Y = -corridorOuterH + CORRIDOR_WIDTH/2
+  // S corridor: centered at Y = +corridorOuterH - CORRIDOR_WIDTH/2
+  const nCorridorY = -corridorOuterH + CORRIDOR_WIDTH / 2;
+  const sCorridorY =  corridorOuterH - CORRIDOR_WIDTH / 2;
+  // East end of corridor = corridorOuterW (where E corridor meets)
+  // Place support rooms just beyond the E/W corridor segments
+  const supportEastX = corridorOuterW + SUPPORT_W / 2;
+  const supportWestX = -corridorOuterW - SUPPORT_W / 2;
 
-  // Mech room - bottom left of core (inside core bounds)
-  spaces.push(createSpace(
-    `mech_f${floorIdx}`,
-    'SUPPORT',
-    'Mech',
-    floorIdx,
-    -12,   // Inside core
-    -10,   // Bottom of core
-    8,
-    6,
-    false
-  ));
+  const supportPositions = [
+    { id: `trash_f${floorIdx}`, name: 'Trash',  x: supportEastX, y: nCorridorY },
+    { id: `mech_f${floorIdx}`,  name: 'Mech',   x: supportEastX, y: sCorridorY },
+    { id: `stor_f${floorIdx}`,  name: 'Stor',   x: supportWestX, y: nCorridorY },
+    { id: `elec_f${floorIdx}`,  name: 'Elec',   x: supportWestX, y: sCorridorY },
+  ];
 
-  // Storage room - top right of core (inside core bounds)
-  spaces.push(createSpace(
-    `stor_f${floorIdx}`,
-    'SUPPORT',
-    'Stor',
-    floorIdx,
-    12,    // Inside core
-    10,    // Top of core
-    8,
-    6,
-    false
-  ));
+  // Pre-register support room bounds for collision detection with units
+  const supportBounds: BoundingBox[] = supportPositions.map(s => ({
+    x: s.x, y: s.y, width: SUPPORT_W, height: SUPPORT_H
+  }));
 
-  // Electrical room - bottom right of core (inside core bounds)
-  spaces.push(createSpace(
-    `elec_f${floorIdx}`,
-    'SUPPORT',
-    'Elec',
-    floorIdx,
-    12,    // Inside core
-    -10,   // Bottom of core
-    8,
-    6,
-    false
-  ));
+  for (const s of supportPositions) {
+    spaces.push(createSpace(s.id, 'SUPPORT', s.name, floorIdx, s.x, s.y, SUPPORT_W, SUPPORT_H, false));
+  }
 
   // ========================================
   // PLACE UNITS CONTINUOUSLY AROUND PERIMETER
   // All units touch exterior wall (windows)
-  // WITH COLLISION DETECTION against core
+  // WITH COLLISION DETECTION against core + support rooms
   // ========================================
 
-  // Initialize collision detection with core bounds
+  // Initialize collision detection with core + corridor ring + support rooms
   const placedBounds: BoundingBox[] = [
-    { x: 0, y: 0, width: coreWidth, height: coreWidth }  // Core occupies center
+    { x: 0, y: 0, width: coreWidth, height: coreHeight },
+    ...supportBounds
   ];
-
-  // Helper to check if a unit would overlap any placed bounds
-  const wouldOverlap = (bounds: BoundingBox): boolean => {
-    return placedBounds.some(existing => spacesOverlap(bounds, existing, 1));
-  };
 
   let unitIndex = 0;
 
   // ========================================
-  // Unit placement: positions units from CORRIDOR OUTWARD
-  // Inner edge of units aligns with corridorOuter
-  // Outer edge extends to building edge (h - MARGIN)
-  // ========================================
-
   // NORTH SIDE - units facing north (windows on north edge)
-  // Unit inner edge at: -corridorOuter
-  // Unit outer edge at: -(h - MARGIN) (building edge)
-  // Unit center Y: -corridorOuter - UNIT_DEPTH/2
-  const northY = -h + MARGIN + UNIT_DEPTH / 2;
+  // Uses UNIT_DEPTH_NS (depth from north corridor to north wall)
+  // ========================================
+  const northY = -h + MARGIN + UNIT_DEPTH_NS / 2;
   let northX = -h + MARGIN;
 
   while (unitIndex < unitQueue.length && northX + unitQueue[unitIndex].width <= h - MARGIN) {
@@ -797,63 +1177,52 @@ function generateResidentialFloor(
       x: northX + unit.width / 2,
       y: northY,
       width: unit.width,
-      height: UNIT_DEPTH
+      height: UNIT_DEPTH_NS
     };
-
-    // UNIT_DEPTH is calculated as (h - MARGIN) - corridorOuter, so units can't overlap corridor by design
-    placedBounds.push(unitBounds);
-    spaces.push(createSpace(
-      `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
-      'DWELLING_UNIT',
-      unit.name,
-      floorIdx,
-      unitBounds.x,
-      unitBounds.y,
-      unit.width,
-      UNIT_DEPTH,
-      false
-    ));
+    if (!hasOverlap(unitBounds, placedBounds, 0)) {
+      placedBounds.push(unitBounds);
+      spaces.push(createSpace(
+        `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
+        'DWELLING_UNIT', unit.name, floorIdx,
+        unitBounds.x, unitBounds.y, unit.width, UNIT_DEPTH_NS, false
+      ));
+    }
     northX += unit.width + UNIT_GAP;
     unitIndex++;
   }
 
+  // ========================================
   // EAST SIDE - units facing east (windows on east edge)
-  // Unit inner edge at: corridorOuter
-  // Unit outer edge at: h - MARGIN
-  // Only place between corner units (y from -corridorOuter to +corridorOuter)
-  const eastX = h - MARGIN - UNIT_DEPTH / 2;
-  let eastY = -corridorOuter;  // Start at corridor boundary
+  // Uses UNIT_DEPTH_EW; span from -corridorOuterH to +corridorOuterH
+  // ========================================
+  const eastX = h - MARGIN - UNIT_DEPTH_EW / 2;
+  let eastY = -corridorOuterH;
 
-  while (unitIndex < unitQueue.length && eastY + unitQueue[unitIndex].width <= corridorOuter) {
+  while (unitIndex < unitQueue.length && eastY + unitQueue[unitIndex].width <= corridorOuterH) {
     const unit = unitQueue[unitIndex];
     const unitBounds: BoundingBox = {
       x: eastX,
       y: eastY + unit.width / 2,
-      width: UNIT_DEPTH,
+      width: UNIT_DEPTH_EW,
       height: unit.width
     };
-
-    // UNIT_DEPTH ensures no overlap with corridor
-    placedBounds.push(unitBounds);
-    spaces.push(createSpace(
-      `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
-      'DWELLING_UNIT',
-      unit.name,
-      floorIdx,
-      unitBounds.x,
-      unitBounds.y,
-      UNIT_DEPTH,
-      unit.width,
-      false
-    ));
+    if (!hasOverlap(unitBounds, placedBounds, 0)) {
+      placedBounds.push(unitBounds);
+      spaces.push(createSpace(
+        `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
+        'DWELLING_UNIT', unit.name, floorIdx,
+        unitBounds.x, unitBounds.y, UNIT_DEPTH_EW, unit.width, false
+      ));
+    }
     eastY += unit.width + UNIT_GAP;
     unitIndex++;
   }
 
+  // ========================================
   // SOUTH SIDE - units facing south (windows on south edge)
-  // Unit inner edge at: +corridorOuter
-  // Unit outer edge at: h - MARGIN
-  const southY = h - MARGIN - UNIT_DEPTH / 2;
+  // Uses UNIT_DEPTH_NS
+  // ========================================
+  const southY = h - MARGIN - UNIT_DEPTH_NS / 2;
   let southX = h - MARGIN;
 
   while (unitIndex < unitQueue.length && southX - unitQueue[unitIndex].width >= -h + MARGIN) {
@@ -863,116 +1232,49 @@ function generateResidentialFloor(
       x: southX + unit.width / 2,
       y: southY,
       width: unit.width,
-      height: UNIT_DEPTH
+      height: UNIT_DEPTH_NS
     };
-
-    // UNIT_DEPTH ensures no overlap with corridor
-    placedBounds.push(unitBounds);
-    spaces.push(createSpace(
-      `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
-      'DWELLING_UNIT',
-      unit.name,
-      floorIdx,
-      unitBounds.x,
-      unitBounds.y,
-      unit.width,
-      UNIT_DEPTH,
-      false
-    ));
+    if (!hasOverlap(unitBounds, placedBounds, 0)) {
+      placedBounds.push(unitBounds);
+      spaces.push(createSpace(
+        `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
+        'DWELLING_UNIT', unit.name, floorIdx,
+        unitBounds.x, unitBounds.y, unit.width, UNIT_DEPTH_NS, false
+      ));
+    }
     southX -= UNIT_GAP;
     unitIndex++;
   }
 
+  // ========================================
   // WEST SIDE - units facing west (windows on west edge)
-  // Unit inner edge at: -corridorOuter
-  // Unit outer edge at: -(h - MARGIN)
-  // Only place between corner units (y from -corridorOuter to +corridorOuter)
-  const westX = -h + MARGIN + UNIT_DEPTH / 2;
-  let westY = corridorOuter;  // Start at corridor boundary (south side)
+  // Uses UNIT_DEPTH_EW; span from -corridorOuterH to +corridorOuterH
+  // ========================================
+  const westX = -h + MARGIN + UNIT_DEPTH_EW / 2;
+  let westY = corridorOuterH;
 
-  while (unitIndex < unitQueue.length && westY - unitQueue[unitIndex].width >= -corridorOuter) {
+  while (unitIndex < unitQueue.length && westY - unitQueue[unitIndex].width >= -corridorOuterH) {
     const unit = unitQueue[unitIndex];
     westY -= unit.width;
     const unitBounds: BoundingBox = {
       x: westX,
       y: westY + unit.width / 2,
-      width: UNIT_DEPTH,
+      width: UNIT_DEPTH_EW,
       height: unit.width
     };
-
-    // UNIT_DEPTH ensures no overlap with corridor
-    placedBounds.push(unitBounds);
-    spaces.push(createSpace(
-      `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
-      'DWELLING_UNIT',
-      unit.name,
-      floorIdx,
-      unitBounds.x,
-      unitBounds.y,
-      UNIT_DEPTH,
-      unit.width,
-      false
-    ));
+    if (!hasOverlap(unitBounds, placedBounds, 0)) {
+      placedBounds.push(unitBounds);
+      spaces.push(createSpace(
+        `unit_${unit.type}_${unitIndex}_f${floorIdx}`,
+        'DWELLING_UNIT', unit.name, floorIdx,
+        unitBounds.x, unitBounds.y, UNIT_DEPTH_EW, unit.width, false
+      ));
+    }
     westY -= UNIT_GAP;
     unitIndex++;
   }
 
-  // ========================================
-  // CORRIDOR - Ring around core (using dynamic zone boundaries)
-  // ========================================
-
-  // North corridor segment (horizontal ring)
-  spaces.push(createSpace(
-    `corridor_n_f${floorIdx}`,
-    'CIRCULATION',
-    'Corridor',
-    floorIdx,
-    0,
-    -corridorOuter + CORRIDOR_WIDTH / 2,
-    coreWidth + 2 * CORRIDOR_WIDTH,
-    CORRIDOR_WIDTH,
-    false
-  ));
-
-  // South corridor segment (horizontal ring)
-  spaces.push(createSpace(
-    `corridor_s_f${floorIdx}`,
-    'CIRCULATION',
-    'Corridor',
-    floorIdx,
-    0,
-    corridorOuter - CORRIDOR_WIDTH / 2,
-    coreWidth + 2 * CORRIDOR_WIDTH,
-    CORRIDOR_WIDTH,
-    false
-  ));
-
-  // East corridor segment (vertical ring)
-  spaces.push(createSpace(
-    `corridor_e_f${floorIdx}`,
-    'CIRCULATION',
-    'Corridor',
-    floorIdx,
-    corridorOuter - CORRIDOR_WIDTH / 2,
-    0,
-    CORRIDOR_WIDTH,
-    coreWidth,
-    false
-  ));
-
-  // West corridor segment (vertical ring)
-  spaces.push(createSpace(
-    `corridor_w_f${floorIdx}`,
-    'CIRCULATION',
-    'Corridor',
-    floorIdx,
-    -corridorOuter + CORRIDOR_WIDTH / 2,
-    0,
-    CORRIDOR_WIDTH,
-    coreWidth,
-    false
-  ));
-
+  // Corridor is implicit — the gap between units and core IS the corridor.
 }
 
 /**

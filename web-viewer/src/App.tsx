@@ -18,11 +18,13 @@ import { MetricsBar } from './components/panels/MetricsBar';
 import { SpaceSearch } from './components/panels/SpaceSearch';
 import { VerificationCalculator } from './components/verification/VerificationCalculator';
 import { CanvasToolbar } from './components/toolbar/CanvasToolbar';
+import { ParcelMap } from './components/map/ParcelMap';
 import { EnvironmentalMap } from './components/map/EnvironmentalMap';
+import { getParcelGeoJsonCoords, getScaledParcelGeoJson } from './utils/parcelGeometry';
 import { SpaceData } from './types/solverOutput';
 import './App.css';
 
-type ViewMode = 'floorplan' | 'map';
+type ViewMode = 'floorplan' | 'map' | 'environmental';
 
 function App() {
   const {
@@ -239,6 +241,12 @@ function App() {
             >
               Map View
             </button>
+            <button
+              className={`view-btn ${viewMode === 'environmental' ? 'active' : ''}`}
+              onClick={() => setViewMode('environmental')}
+            >
+              Environmental
+            </button>
           </div>
         </div>
         <div className="header-right">
@@ -308,15 +316,27 @@ function App() {
                 showLabels={true}
               />
             ) : viewMode === 'map' ? (
-              <EnvironmentalMap propertyAddress={buildingInput?.address} />
+              <ParcelMap
+                address={buildingInput?.address}
+                boundary={getParcelGeoJsonCoords(currentProjectId) ?? undefined}
+                buildingFootprint={getScaledParcelGeoJson(currentProjectId, buildingInput?.building.floor_plate_sf) ?? undefined}
+                parcelArea={buildingInput?.building.lot_size_sf}
+                floorArea={buildingInput?.building.floor_plate_sf}
+                projectName={buildingInput?.project_name}
+                currentFloor={currentFloor ?? undefined}
+                projectId={currentProjectId}
+              />
+            ) : viewMode === 'environmental' ? (
+              <EnvironmentalMap
+                propertyAddress={buildingInput?.address}
+              />
             ) : (
               <div className="no-floor">No floor selected</div>
             )}
           </div>
         </main>
 
-        {/* Right Panel - Properties (hidden for massing visualization contract) */}
-        {/*
+        {/* Right Panel - Properties */}
         <aside className={`properties-panel ${rightPanelCollapsed ? 'collapsed' : ''}`}>
           <div className="panel-header">Properties</div>
 
@@ -348,11 +368,9 @@ function App() {
             {rightPanelCollapsed ? '‹' : '›'}
           </button>
         </aside>
-        */}
       </div>
 
-      {/* Bottom Metrics Bar (hidden for massing visualization contract) */}
-      {/*
+      {/* Bottom Metrics Bar */}
       <MetricsBar
         efficiency={floorMetrics.efficiencyRatio}
         totalSpaces={floorMetrics.totalSpaces}
@@ -363,7 +381,6 @@ function App() {
         areaDelta={floorMetrics.areaDelta}
         areaDeltaPercent={floorMetrics.areaDeltaPercent}
       />
-      */}
     </div>
   );
 }

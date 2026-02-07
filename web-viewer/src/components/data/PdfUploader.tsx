@@ -10,6 +10,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLi
 
 // Matches p1_building.json schema for proper visualization
 export interface ExtractedBuildingData {
+  project_id?: string;  // 'p1', 'p4', 'p7', 'p9' — for parcel shape lookup
   building: {
     property_type?: string;
     construction_type?: string;

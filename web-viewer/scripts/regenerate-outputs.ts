@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 
 // Import the generation function
 import { generateSolverResultFromExtracted } from '../src/utils/generateFromExtracted.js';
+import { detectOverlaps } from './architect-agent.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -51,9 +52,27 @@ async function regenerateAll() {
     if (residentialFloors.length > 0) {
       const floor1 = residentialFloors[0];
       const unitsOnFloor = floor1.spaces.filter(s => s.type === 'DWELLING_UNIT').length;
-      console.log(`   → Floor plate: ${Math.round(Math.sqrt(floor1.area_sf))}' x ${Math.round(Math.sqrt(floor1.area_sf))}'`);
+      const boundaryVerts = floor1.boundary.length;
+      console.log(`   → Boundary vertices: ${boundaryVerts} (${boundaryVerts > 4 ? 'IRREGULAR' : 'square'})`);
+      console.log(`   → Floor plate area: ${Math.round(floor1.area_sf)} SF`);
       console.log(`   → Units per floor: ${unitsOnFloor}`);
       console.log(`   → Total floors: ${solverResult.building.floors.length}`);
+    }
+
+    // Post-generation overlap validation
+    let totalOverlaps = 0;
+    for (const floor of solverResult.building.floors) {
+      const overlaps = detectOverlaps(floor);
+      if (overlaps.length > 0) {
+        totalOverlaps += overlaps.length;
+        console.log(`   ⚠️  Floor ${floor.floor_index} (${floor.floor_type}): ${overlaps.length} overlap(s)`);
+        for (const o of overlaps) {
+          console.log(`      ${o.space1} ↔ ${o.space2}: ${o.overlap_area} SF`);
+        }
+      }
+    }
+    if (totalOverlaps === 0) {
+      console.log(`   ✅ No overlaps detected on any floor`);
     }
 
     // Write output

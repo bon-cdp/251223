@@ -165,7 +165,7 @@ function edgesIntersect(poly1: Polygon, poly2: Polygon): boolean {
 /**
  * Check if two line segments intersect
  */
-function lineSegmentsIntersect(a1: Point, a2: Point, b1: Point, b2: Point): boolean {
+export function lineSegmentsIntersect(a1: Point, a2: Point, b1: Point, b2: Point): boolean {
   const d1 = direction(b1, b2, a1);
   const d2 = direction(b1, b2, a2);
   const d3 = direction(a1, a2, b1);
@@ -435,4 +435,74 @@ export function snapToGrid(point: Point, gridSize: number): Point {
     Math.round(point[0] / gridSize) * gridSize,
     Math.round(point[1] / gridSize) * gridSize,
   ];
+}
+
+/**
+ * Cast a ray from origin in direction dir, return nearest intersection
+ * with polygon boundary. Returns null if no intersection found.
+ */
+export function rayBoundaryIntersection(
+  origin: Point,
+  dir: Point,
+  polygon: Polygon
+): Point | null {
+  let bestT = Infinity;
+  let bestPt: Point | null = null;
+  const n = polygon.length;
+
+  for (let i = 0; i < n; i++) {
+    const j = (i + 1) % n;
+    const p1 = polygon[i];
+    const p2 = polygon[j];
+
+    // Ray: origin + t * dir, t >= 0
+    // Segment: p1 + s * (p2 - p1), s in [0, 1]
+    const dx = p2[0] - p1[0];
+    const dy = p2[1] - p1[1];
+
+    const denom = dir[0] * dy - dir[1] * dx;
+    if (Math.abs(denom) < 1e-10) continue; // parallel
+
+    const t = ((p1[0] - origin[0]) * dy - (p1[1] - origin[1]) * dx) / denom;
+    const s = ((p1[0] - origin[0]) * dir[1] - (p1[1] - origin[1]) * dir[0]) / denom;
+
+    if (t > 1e-6 && s >= 0 && s <= 1 && t < bestT) {
+      bestT = t;
+      bestPt = [origin[0] + t * dir[0], origin[1] + t * dir[1]];
+    }
+  }
+
+  return bestPt;
+}
+
+/**
+ * Compute total perimeter length of a polygon
+ */
+export function computePerimeter(polygon: Polygon): number {
+  let total = 0;
+  const n = polygon.length;
+  for (let i = 0; i < n; i++) {
+    const j = (i + 1) % n;
+    const dx = polygon[j][0] - polygon[i][0];
+    const dy = polygon[j][1] - polygon[i][1];
+    total += Math.sqrt(dx * dx + dy * dy);
+  }
+  return total;
+}
+
+/**
+ * Compute interior angle at vertex `curr` (in degrees) given prev and next vertices.
+ * Returns angle in [0, 360).
+ */
+export function interiorAngle(prev: Point, curr: Point, next: Point): number {
+  const v1x = prev[0] - curr[0];
+  const v1y = prev[1] - curr[1];
+  const v2x = next[0] - curr[0];
+  const v2y = next[1] - curr[1];
+
+  const dot = v1x * v2x + v1y * v2y;
+  const cross = v1x * v2y - v1y * v2x;
+  let angle = Math.atan2(cross, dot) * (180 / Math.PI);
+  if (angle < 0) angle += 360;
+  return angle;
 }

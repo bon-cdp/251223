@@ -1,12 +1,15 @@
 /**
  * Parcel Map component using Leaflet
  * Shows parcel boundary on satellite imagery with geocoding support
+ * Optionally renders floor plan spaces as colored polygons
  */
 
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { geocodeAddress, createParcelBoundary, createBuildingFootprint } from '../../utils/geocoding';
+import { getFeetToLatLngTransform } from '../../utils/parcelGeometry';
+import { FloorData, isPolygonGeometry, isRectGeometry } from '../../types/solverOutput';
 
 interface ParcelMapProps {
   // Property address for geocoding
@@ -25,6 +28,10 @@ interface ParcelMapProps {
   zoom?: number;
   // Project name
   projectName?: string;
+  // Current floor data for space rendering
+  currentFloor?: FloorData;
+  // Project ID for coordinate transform
+  projectId?: string;
 }
 
 // Default center: Los Angeles (common for CA real estate)
@@ -39,6 +46,28 @@ const SAMPLE_PARCEL: [number, number][] = [
   [34.0520, -118.2440],
 ];
 
+/** Map space type to fill color */
+function getSpaceColor(type: string): string {
+  switch (type) {
+    case 'DWELLING_UNIT': return '#3b82f6';
+    case 'CIRCULATION': return '#f59e0b';
+    case 'SUPPORT': return '#8b5cf6';
+    case 'AMENITY': return '#10b981';
+    case 'PARKING': return '#6b7280';
+    case 'RETAIL': return '#ec4899';
+    default: return '#94a3b8';
+  }
+}
+
+/** Space type color legend entries */
+const SPACE_TYPE_LEGEND: Array<{ type: string; label: string; color: string }> = [
+  { type: 'DWELLING_UNIT', label: 'Units', color: '#3b82f6' },
+  { type: 'CIRCULATION', label: 'Circulation', color: '#f59e0b' },
+  { type: 'SUPPORT', label: 'Support', color: '#8b5cf6' },
+  { type: 'AMENITY', label: 'Amenity', color: '#10b981' },
+  { type: 'PARKING', label: 'Parking', color: '#6b7280' },
+];
+
 export const ParcelMap: React.FC<ParcelMapProps> = ({
   address,
   parcelArea,
@@ -48,11 +77,14 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
   center = DEFAULT_CENTER,
   zoom = DEFAULT_ZOOM,
   projectName,
+  currentFloor,
+  projectId,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const parcelPolygonRef = useRef<L.Polygon | null>(null);
   const footprintPolygonRef = useRef<L.Polygon | null>(null);
+  const spaceLayersRef = useRef<L.Layer[]>([]);
 
   // State for geocoded data
   const [geocodedCenter, setGeocodedCenter] = useState<[number, number] | null>(null);
@@ -69,7 +101,7 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
   useEffect(() => {
     // Early return with cleanup callback setup
     let cancelled = false;
-    
+
     const resetGeocodedState = () => {
       setGeocodedCenter(null);
       setGeocodedParcel(null);
@@ -182,17 +214,23 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
       footprintPolygonRef.current.remove();
       footprintPolygonRef.current = null;
     }
+    // Remove old space layers
+    for (const layer of spaceLayersRef.current) {
+      layer.remove();
+    }
+    spaceLayersRef.current = [];
 
     // Determine what to show - priority: explicit boundary > geocoded > sample
     const parcelCoords = boundary || geocodedParcel || SAMPLE_PARCEL;
     const footprintCoords = buildingFootprint || geocodedFootprint;
+    const showingSpaces = !!(currentFloor && projectId);
 
-    // Add parcel boundary polygon
+    // Add parcel boundary polygon — subtle when spaces are visible
     const parcelPoly = L.polygon(parcelCoords, {
       color: '#7c3aed',
-      weight: 3,
+      weight: showingSpaces ? 2 : 3,
       fillColor: '#7c3aed',
-      fillOpacity: 0.2,
+      fillOpacity: showingSpaces ? 0.05 : 0.2,
     }).addTo(map);
 
     // Build popup content
@@ -214,8 +252,8 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
     parcelPoly.bindPopup(popupContent);
     parcelPolygonRef.current = parcelPoly;
 
-    // Add building footprint if available
-    if (footprintCoords) {
+    // Add building footprint only when NOT showing spaces (avoids clutter)
+    if (footprintCoords && !showingSpaces) {
       const footprintPoly = L.polygon(footprintCoords, {
         color: '#10b981',
         weight: 2,
@@ -225,16 +263,77 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
       footprintPolygonRef.current = footprintPoly;
     }
 
+    // Render floor plan spaces if available
+    if (currentFloor && projectId) {
+      const transform = getFeetToLatLngTransform(projectId, floorArea);
+      if (transform) {
+        const { centroidLat, centroidLng, ftPerDegLat, ftPerDegLng, scaleFactor } = transform;
+
+        /** Convert center-origin feet (x,y) to [lat, lng] */
+        const feetToLatLng = (x: number, y: number): [number, number] => {
+          // x → lng offset, y → lat offset (scaled by floor plate scale factor)
+          const lng = centroidLng + (x / scaleFactor) / ftPerDegLng;
+          const lat = centroidLat + (y / scaleFactor) / ftPerDegLat;
+          return [lat, lng];
+        };
+
+        for (const space of currentFloor.spaces) {
+          const color = getSpaceColor(space.type);
+          let latLngs: [number, number][];
+
+          if (isPolygonGeometry(space.geometry)) {
+            latLngs = space.geometry.vertices.map(([x, y]) => feetToLatLng(x, y));
+          } else if (isRectGeometry(space.geometry)) {
+            const { x, y, width, height } = space.geometry;
+            const hw = width / 2;
+            const hh = height / 2;
+            latLngs = [
+              feetToLatLng(x - hw, y - hh),
+              feetToLatLng(x + hw, y - hh),
+              feetToLatLng(x + hw, y + hh),
+              feetToLatLng(x - hw, y + hh),
+            ];
+          } else {
+            continue;
+          }
+
+          const poly = L.polygon(latLngs, {
+            color: '#000',
+            weight: 0.3,
+            fillColor: color,
+            fillOpacity: 0.65,
+          }).addTo(map);
+
+          poly.bindPopup(`
+            <div style="font-family: -apple-system, sans-serif; font-size: 11px;">
+              <strong>${space.name}</strong><br/>
+              Type: ${space.type}<br/>
+              Area: ${Math.round(space.actual_area_sf)} SF
+            </div>
+          `);
+
+          spaceLayersRef.current.push(poly);
+        }
+      }
+    }
+
     // Fit map to parcel bounds
     map.fitBounds(parcelPoly.getBounds(), { padding: [50, 50] });
 
-  }, [boundary, geocodedParcel, buildingFootprint, geocodedFootprint, projectName, floorArea, parcelArea, formattedAddress]);
+  }, [boundary, geocodedParcel, buildingFootprint, geocodedFootprint, projectName, floorArea, parcelArea, formattedAddress, currentFloor, projectId]);
 
   // Update map center when geocoded center changes
   useEffect(() => {
     if (!mapRef.current || !geocodedCenter) return;
     mapRef.current.setView(geocodedCenter, zoom);
   }, [geocodedCenter, zoom]);
+
+  // Determine which space types are present for the legend
+  const activeSpaceTypes = currentFloor
+    ? SPACE_TYPE_LEGEND.filter(entry =>
+        currentFloor.spaces.some(s => s.type === entry.type)
+      )
+    : [];
 
   return (
     <div style={styles.container}>
@@ -266,6 +365,12 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
             <span>Building Footprint</span>
           </div>
         )}
+        {activeSpaceTypes.map(entry => (
+          <div key={entry.type} style={styles.legendItem}>
+            <span style={{ ...styles.legendColor, background: entry.color }} />
+            <span>{entry.label}</span>
+          </div>
+        ))}
       </div>
 
       <div style={styles.hint}>
@@ -329,6 +434,7 @@ const styles: Record<string, React.CSSProperties> = {
     padding: '8px 12px',
     background: '#2d2d3f',
     borderTop: '1px solid #3a3a4a',
+    flexWrap: 'wrap',
   },
   legendItem: {
     display: 'flex',
