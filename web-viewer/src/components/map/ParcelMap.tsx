@@ -11,6 +11,10 @@ import { geocodeAddress, createParcelBoundary, createBuildingFootprint } from '.
 import { getFeetToLatLngTransform } from '../../utils/parcelGeometry';
 import { FloorData, isPolygonGeometry, isRectGeometry } from '../../types/solverOutput';
 
+type LatLng = [number, number];
+type LatLngRing = LatLng[];
+type LatLngPolygons = LatLngRing[];
+
 interface ParcelMapProps {
   // Property address for geocoding
   address?: string;
@@ -19,9 +23,9 @@ interface ParcelMapProps {
   // Floor plate area in SF (for building footprint)
   floorArea?: number;
   // Explicit parcel boundary in lat/lng coordinates (overrides geocoding)
-  boundary?: [number, number][];
+  boundary?: LatLngRing | LatLngPolygons;
   // Explicit building footprint (optional)
-  buildingFootprint?: [number, number][];
+  buildingFootprint?: LatLngRing | LatLngPolygons;
   // Center point if no boundary or address
   center?: [number, number];
   // Zoom level
@@ -39,12 +43,21 @@ const DEFAULT_CENTER: [number, number] = [34.0522, -118.2437];
 const DEFAULT_ZOOM = 18;
 
 // Sample parcel coordinates (placeholder)
-const SAMPLE_PARCEL: [number, number][] = [
+const SAMPLE_PARCEL: LatLngRing = [
   [34.0525, -118.2440],
   [34.0525, -118.2435],
   [34.0520, -118.2435],
   [34.0520, -118.2440],
 ];
+
+function normalizePolygons(input?: LatLngRing | LatLngPolygons | null): LatLngPolygons {
+  if (!input || input.length === 0) return [];
+  const first = input[0];
+  if (Array.isArray(first) && typeof first[0] === 'number') {
+    return [input as LatLngRing];
+  }
+  return input as LatLngPolygons;
+}
 
 /** Map space type to fill color */
 function getSpaceColor(type: string): string {
@@ -82,14 +95,14 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
-  const parcelPolygonRef = useRef<L.Polygon | null>(null);
-  const footprintPolygonRef = useRef<L.Polygon | null>(null);
+  const parcelLayerRef = useRef<L.FeatureGroup | null>(null);
+  const footprintLayerRef = useRef<L.FeatureGroup | null>(null);
   const spaceLayersRef = useRef<L.Layer[]>([]);
 
   // State for geocoded data
-  const [geocodedCenter, setGeocodedCenter] = useState<[number, number] | null>(null);
-  const [geocodedParcel, setGeocodedParcel] = useState<[number, number][] | null>(null);
-  const [geocodedFootprint, setGeocodedFootprint] = useState<[number, number][] | null>(null);
+  const [geocodedCenter, setGeocodedCenter] = useState<LatLng | null>(null);
+  const [geocodedParcel, setGeocodedParcel] = useState<LatLngPolygons | null>(null);
+  const [geocodedFootprint, setGeocodedFootprint] = useState<LatLngPolygons | null>(null);
   const [formattedAddress, setFormattedAddress] = useState<string | null>(null);
   const [geocodingError, setGeocodingError] = useState<string | null>(null);
   const [isGeocoding, setIsGeocoding] = useState(false);
@@ -143,7 +156,7 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
             { lat: result.lat, lng: result.lng },
             parcelArea
           );
-          setGeocodedParcel(parcelBoundary);
+          setGeocodedParcel([parcelBoundary]);
         }
 
         // Generate building footprint from floor area
@@ -152,7 +165,7 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
             { lat: result.lat, lng: result.lng },
             floorArea
           );
-          setGeocodedFootprint(footprint);
+          setGeocodedFootprint([footprint]);
         }
       } else {
         setGeocodingError('Could not find location for address');
@@ -206,13 +219,13 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
     const map = mapRef.current;
 
     // Remove old polygons
-    if (parcelPolygonRef.current) {
-      parcelPolygonRef.current.remove();
-      parcelPolygonRef.current = null;
+    if (parcelLayerRef.current) {
+      parcelLayerRef.current.remove();
+      parcelLayerRef.current = null;
     }
-    if (footprintPolygonRef.current) {
-      footprintPolygonRef.current.remove();
-      footprintPolygonRef.current = null;
+    if (footprintLayerRef.current) {
+      footprintLayerRef.current.remove();
+      footprintLayerRef.current = null;
     }
     // Remove old space layers
     for (const layer of spaceLayersRef.current) {
@@ -221,17 +234,27 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
     spaceLayersRef.current = [];
 
     // Determine what to show - priority: explicit boundary > geocoded > sample
-    const parcelCoords = boundary || geocodedParcel || SAMPLE_PARCEL;
-    const footprintCoords = buildingFootprint || geocodedFootprint;
+    const normalizedBoundary = normalizePolygons(boundary);
+    const normalizedFootprint = normalizePolygons(buildingFootprint);
+    const parcelCoords = normalizedBoundary.length > 0
+      ? normalizedBoundary
+      : (geocodedParcel ?? [SAMPLE_PARCEL]);
+    const footprintCoords = normalizedFootprint.length > 0
+      ? normalizedFootprint
+      : (geocodedFootprint ?? []);
     const showingSpaces = !!(currentFloor && projectId);
 
-    // Add parcel boundary polygon — subtle when spaces are visible
-    const parcelPoly = L.polygon(parcelCoords, {
-      color: '#7c3aed',
-      weight: showingSpaces ? 2 : 3,
-      fillColor: '#7c3aed',
-      fillOpacity: showingSpaces ? 0.05 : 0.2,
-    }).addTo(map);
+    // Add parcel boundary polygons as one feature group for union bounds fitting
+    const parcelLayer = L.featureGroup();
+    for (const ring of parcelCoords) {
+      L.polygon(ring, {
+        color: '#7c3aed',
+        weight: showingSpaces ? 2 : 3,
+        fillColor: '#7c3aed',
+        fillOpacity: showingSpaces ? 0.05 : 0.2,
+      }).addTo(parcelLayer);
+    }
+    parcelLayer.addTo(map);
 
     // Build popup content
     let popupContent = `
@@ -249,18 +272,22 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
     }
     popupContent += '</div>';
 
-    parcelPoly.bindPopup(popupContent);
-    parcelPolygonRef.current = parcelPoly;
+    parcelLayer.bindPopup(popupContent);
+    parcelLayerRef.current = parcelLayer;
 
     // Add building footprint only when NOT showing spaces (avoids clutter)
-    if (footprintCoords && !showingSpaces) {
-      const footprintPoly = L.polygon(footprintCoords, {
-        color: '#10b981',
-        weight: 2,
-        fillColor: '#10b981',
-        fillOpacity: 0.4,
-      }).addTo(map);
-      footprintPolygonRef.current = footprintPoly;
+    if (footprintCoords.length > 0 && !showingSpaces) {
+      const footprintLayer = L.featureGroup();
+      for (const ring of footprintCoords) {
+        L.polygon(ring, {
+          color: '#10b981',
+          weight: 2,
+          fillColor: '#10b981',
+          fillOpacity: 0.4,
+        }).addTo(footprintLayer);
+      }
+      footprintLayer.addTo(map);
+      footprintLayerRef.current = footprintLayer;
     }
 
     // Render floor plan spaces if available
@@ -318,7 +345,7 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
     }
 
     // Fit map to parcel bounds
-    map.fitBounds(parcelPoly.getBounds(), { padding: [50, 50] });
+    map.fitBounds(parcelLayer.getBounds(), { padding: [50, 50] });
 
   }, [boundary, geocodedParcel, buildingFootprint, geocodedFootprint, projectName, floorArea, parcelArea, formattedAddress, currentFloor, projectId]);
 
@@ -359,7 +386,7 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
           <span style={{ ...styles.legendColor, background: '#7c3aed' }} />
           <span>Parcel Boundary</span>
         </div>
-        {(buildingFootprint || geocodedFootprint) && (
+        {(normalizePolygons(buildingFootprint).length > 0 || (geocodedFootprint?.length ?? 0) > 0) && (
           <div style={styles.legendItem}>
             <span style={{ ...styles.legendColor, background: '#10b981' }} />
             <span>Building Footprint</span>

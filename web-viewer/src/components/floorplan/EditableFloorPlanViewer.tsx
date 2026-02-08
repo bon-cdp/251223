@@ -149,8 +149,27 @@ export const EditableFloorPlanViewer: React.FC<EditableFloorPlanViewerProps> = (
     return floor.spaces;
   }, [editableSpaces, floor]);
 
+  const isBohLike = useCallback((space: SpaceData) => {
+    if (space.type === 'SUPPORT') return true;
+    const name = space.name.toLowerCase();
+    return name.includes('boh') || name.includes('trash') || name.includes('mech') || name.includes('stor') || name.includes('elec');
+  }, []);
+
   // Separate vertical and non-vertical spaces
-  const nonVerticalSpaces = spaces.filter(s => !s.is_vertical);
+  const nonVerticalSpaces = spaces
+    .filter(s => !s.is_vertical)
+    .sort((a, b) => {
+      // Keep explicitly selected space on top for interaction.
+      if (a.id === selectedSpaceId) return 1;
+      if (b.id === selectedSpaceId) return -1;
+
+      const rank = (space: SpaceData): number => {
+        if (isBohLike(space)) return 0;
+        if (space.type === 'CIRCULATION' || space.type === 'DWELLING_UNIT') return 2;
+        return 1;
+      };
+      return rank(a) - rank(b);
+    });
   const verticalSpaces = spaces.filter(s => s.is_vertical);
 
   // Check if we're in vertex editing mode or move mode

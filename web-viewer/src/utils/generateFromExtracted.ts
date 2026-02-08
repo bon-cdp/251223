@@ -11,7 +11,6 @@ import { SolverResult, FloorData, SpaceData, PolygonGeometry } from '../types/so
 import { ExtractedBuildingData } from '../components/data/PdfUploader';
 import {
   generateFloorBoundary,
-  lineLineIntersection,
   type Polygon,
   type Point,
 } from './parcelGeometry';
@@ -168,6 +167,188 @@ function safelyPlaceSpace(
   }
 }
 
+interface CorridorRingRect {
+  halfW: number;
+  halfH: number;
+}
+
+function getSpaceBounds(space: SpaceData): BoundingBox | null {
+  if ('width' in space.geometry && 'height' in space.geometry) {
+    return {
+      x: space.geometry.x,
+      y: space.geometry.y,
+      width: space.geometry.width,
+      height: space.geometry.height,
+    };
+  }
+
+  if ('vertices' in space.geometry && space.geometry.vertices.length > 2) {
+    const xs = space.geometry.vertices.map(([x]) => x);
+    const ys = space.geometry.vertices.map(([, y]) => y);
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const minY = Math.min(...ys);
+    const maxY = Math.max(...ys);
+    return {
+      x: (minX + maxX) / 2,
+      y: (minY + maxY) / 2,
+      width: maxX - minX,
+      height: maxY - minY,
+    };
+  }
+
+  return null;
+}
+
+function isBohSupportRoom(space: SpaceData): boolean {
+  if (space.type !== 'SUPPORT') return false;
+  const name = space.name.toLowerCase();
+  return (
+    name.includes('trash') ||
+    name.includes('mech') ||
+    name.includes('stor') ||
+    name.includes('elec') ||
+    name.includes('boh')
+  );
+}
+
+function segmentIntersectsRectHorizontal(y: number, x1: number, x2: number, rect: BoundingBox, buffer = 0): boolean {
+  const rx1 = rect.x - rect.width / 2 - buffer;
+  const rx2 = rect.x + rect.width / 2 + buffer;
+  const ry1 = rect.y - rect.height / 2 - buffer;
+  const ry2 = rect.y + rect.height / 2 + buffer;
+  if (y < ry1 || y > ry2) return false;
+  const minX = Math.min(x1, x2);
+  const maxX = Math.max(x1, x2);
+  return !(maxX < rx1 || minX > rx2);
+}
+
+function segmentIntersectsRectVertical(x: number, y1: number, y2: number, rect: BoundingBox, buffer = 0): boolean {
+  const rx1 = rect.x - rect.width / 2 - buffer;
+  const rx2 = rect.x + rect.width / 2 + buffer;
+  const ry1 = rect.y - rect.height / 2 - buffer;
+  const ry2 = rect.y + rect.height / 2 + buffer;
+  if (x < rx1 || x > rx2) return false;
+  const minY = Math.min(y1, y2);
+  const maxY = Math.max(y1, y2);
+  return !(maxY < ry1 || minY > ry2);
+}
+
+function hasCorridorDoorAccess(
+  dwelling: SpaceData,
+  blockers: SpaceData[],
+  ring: CorridorRingRect,
+): boolean {
+  const b = getSpaceBounds(dwelling);
+  if (!b) return false;
+
+  const useX = Math.abs(b.x) >= Math.abs(b.y);
+  if (useX) {
+    const dir = Math.sign(b.x || 1);
+    const doorX = b.x - dir * b.width / 2;
+    const targetX = dir * ring.halfW;
+    for (const blocker of blockers) {
+      const bb = getSpaceBounds(blocker);
+      if (!bb) continue;
+      if (segmentIntersectsRectHorizontal(b.y, doorX, targetX, bb, 0.25)) return false;
+    }
+    return true;
+  }
+
+  const dir = Math.sign(b.y || 1);
+  const doorY = b.y - dir * b.height / 2;
+  const targetY = dir * ring.halfH;
+  for (const blocker of blockers) {
+    const bb = getSpaceBounds(blocker);
+    if (!bb) continue;
+    if (segmentIntersectsRectVertical(b.x, doorY, targetY, bb, 0.25)) return false;
+  }
+  return true;
+}
+
+function setRectGeometry(space: SpaceData, x: number, y: number, width: number, height: number): void {
+  if (!('width' in space.geometry && 'height' in space.geometry)) return;
+  space.geometry.x = x;
+  space.geometry.y = y;
+  space.geometry.width = width;
+  space.geometry.height = height;
+  const area = width * height;
+  space.actual_area_sf = area;
+  space.target_area_sf = area;
+  space.area_deviation = '+0.0%';
+}
+
+function relocateSupportToDeadCorners(
+  supportRooms: SpaceData[],
+  ring: CorridorRingRect,
+  outwardOffset = 0.4,
+): void {
+  const ordered = [...supportRooms].sort((a, b) => a.id.localeCompare(b.id));
+  const cornerSign: Array<{ sx: 1 | -1; sy: 1 | -1 }> = [
+    { sx: 1, sy: -1 },
+    { sx: 1, sy: 1 },
+    { sx: -1, sy: -1 },
+    { sx: -1, sy: 1 },
+  ];
+
+  ordered.forEach((space, idx) => {
+    const b = getSpaceBounds(space);
+    if (!b) return;
+    const corner = cornerSign[idx % cornerSign.length];
+    const x = corner.sx * (ring.halfW + b.width / 2 + outwardOffset);
+    const y = corner.sy * (ring.halfH + b.height / 2 + outwardOffset);
+    setRectGeometry(space, x, y, b.width, b.height);
+  });
+}
+
+function shrinkAndRepositionSupport(
+  supportRooms: SpaceData[],
+  ring: CorridorRingRect,
+): void {
+  for (const space of supportRooms) {
+    const b = getSpaceBounds(space);
+    if (!b) continue;
+    const width = Math.max(3, Math.round((b.width * 0.8) * 10) / 10);
+    const height = Math.max(3, Math.round((b.height * 0.8) * 10) / 10);
+    const sx = b.x >= 0 ? 1 : -1;
+    const sy = b.y >= 0 ? 1 : -1;
+    const x = sx * (ring.halfW + width / 2 + 1);
+    const y = sy * (ring.halfH + height / 2 + 1);
+    setRectGeometry(space, x, y, width, height);
+  }
+}
+
+function enforceResidentialAccessWithBoh(
+  spaces: SpaceData[],
+  floorIdx: number,
+  ring: CorridorRingRect,
+  violations: string[],
+): void {
+  const dwellings = spaces.filter((s) => s.type === 'DWELLING_UNIT');
+  if (dwellings.length === 0) return;
+
+  const blockers = spaces.filter((s) => s.is_vertical || isBohSupportRoom(s));
+  const inaccessible = dwellings.filter((d) => !hasCorridorDoorAccess(d, blockers.filter((b) => b.id !== d.id), ring));
+  if (inaccessible.length === 0) return;
+
+  const supportRooms = spaces.filter(isBohSupportRoom);
+  relocateSupportToDeadCorners(supportRooms, ring);
+
+  const blockersAfterRelocate = spaces.filter((s) => s.is_vertical || isBohSupportRoom(s));
+  const stillInaccessible = dwellings.filter((d) => !hasCorridorDoorAccess(d, blockersAfterRelocate.filter((b) => b.id !== d.id), ring));
+  if (stillInaccessible.length === 0) return;
+
+  shrinkAndRepositionSupport(supportRooms, ring);
+
+  const blockersAfterShrink = spaces.filter((s) => s.is_vertical || isBohSupportRoom(s));
+  const unresolved = dwellings.filter((d) => !hasCorridorDoorAccess(d, blockersAfterShrink.filter((b) => b.id !== d.id), ring));
+  if (unresolved.length > 0) {
+    violations.push(
+      `Floor ${floorIdx}: ${unresolved.length} dwelling space(s) still have blocked corridor access after BOH fix-up`,
+    );
+  }
+}
+
 interface LegacyExtractedData {
   properties?: {
     area_sf?: number;
@@ -247,6 +428,7 @@ function generateFromBuildingData(data: ExtractedBuildingData): SolverResult {
   const STAIR_DEPTH = 12;
 
   const floors: FloorData[] = [];
+  const generatedViolations: string[] = [];
 
   for (let floorIdx = -numFloorsBelow; floorIdx < numFloorsAbove; floorIdx++) {
     const spaces: SpaceData[] = [];
@@ -337,6 +519,15 @@ function generateFromBuildingData(data: ExtractedBuildingData): SolverResult {
       );
     }
 
+    if (floorIdx > 0) {
+      enforceResidentialAccessWithBoh(
+        spaces,
+        floorIdx,
+        { halfW: coreWidth / 2 + 5, halfH: coreHeight / 2 + 5 },
+        generatedViolations,
+      );
+    }
+
     // Use actual polygon boundary for all floors when irregular
     const floorBoundary: number[][] = isIrregular
       ? boundaryPolygon.map(p => [p[0], p[1]])
@@ -358,7 +549,7 @@ function generateFromBuildingData(data: ExtractedBuildingData): SolverResult {
     obstruction: 0,
     iterations: 1,
     message: 'Generated from PDF extraction with actual unit dimensions',
-    violations: [],
+    violations: generatedViolations,
     metrics: {
       placement_rate: '100.0%',
       avg_membership: '1.00',
@@ -929,7 +1120,6 @@ function generateResidentialFloorRadialSlice(
     spaceIdx: number; // index into spaces[]
   }
   const placedUnits: PlacedUnit[] = [];
-  const spaceBaseIdx = spaces.length; // remember where unit spaces start
 
   let unitIdx = 0;
   for (let i = 0; i < cutPoints.length - 1 && unitIdx < unitQueue.length; i++) {
@@ -1275,31 +1465,6 @@ function generateResidentialFloor(
   }
 
   // Corridor is implicit — the gap between units and core IS the corridor.
-}
-
-/**
- * Distribute units evenly across residential floors
- */
-function distributeUnitsToFloor(
-  units: ExtractedBuildingData['dwelling_units'],
-  floorNumber: number,
-  totalFloors: number
-): Array<{ unitType: ExtractedBuildingData['dwelling_units'][0]; count: number }> {
-  const result: Array<{ unitType: ExtractedBuildingData['dwelling_units'][0]; count: number }> = [];
-
-  for (const unit of units) {
-    // Calculate how many of this unit type go on each floor
-    const unitsPerFloor = Math.ceil(unit.count / totalFloors);
-    const startingUnit = (floorNumber - 1) * unitsPerFloor;
-    const endingUnit = Math.min(startingUnit + unitsPerFloor, unit.count);
-    const countOnFloor = Math.max(0, endingUnit - startingUnit);
-
-    if (countOnFloor > 0) {
-      result.push({ unitType: unit, count: countOnFloor });
-    }
-  }
-
-  return result;
 }
 
 /**
