@@ -20,7 +20,7 @@ import { VerificationCalculator } from './components/verification/VerificationCa
 import { CanvasToolbar } from './components/toolbar/CanvasToolbar';
 import { ParcelMap } from './components/map/ParcelMap';
 import { EnvironmentalMap } from './components/map/EnvironmentalMap';
-import { getParcelGeoJsonCoords, getScaledParcelGeoJson } from './utils/parcelGeometry';
+import { getParcelGeoJsonPolygons, getScaledParcelGeoJsonPolygons } from './utils/parcelGeometry';
 import { SpaceData } from './types/solverOutput';
 import './App.css';
 
@@ -207,8 +207,6 @@ function App() {
     );
   }
 
-  const projectName = buildingInput?.project_name || 'Building Massing';
-
   return (
     <div className="app dark-theme">
       {/* Header */}
@@ -318,8 +316,8 @@ function App() {
             ) : viewMode === 'map' ? (
               <ParcelMap
                 address={buildingInput?.address}
-                boundary={getParcelGeoJsonCoords(currentProjectId) ?? undefined}
-                buildingFootprint={getScaledParcelGeoJson(currentProjectId, buildingInput?.building.floor_plate_sf) ?? undefined}
+                boundary={getParcelGeoJsonPolygons(currentProjectId) ?? undefined}
+                buildingFootprint={getScaledParcelGeoJsonPolygons(currentProjectId, buildingInput?.building.floor_plate_sf) ?? undefined}
                 parcelArea={buildingInput?.building.lot_size_sf}
                 floorArea={buildingInput?.building.floor_plate_sf}
                 projectName={buildingInput?.project_name}

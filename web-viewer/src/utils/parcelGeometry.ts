@@ -11,7 +11,6 @@ import {
   calculatePolygonArea,
   calculateCentroid,
   scalePolygon,
-  getBoundingBox,
 } from './polygon';
 
 // =============================================================================
@@ -89,7 +88,20 @@ const P9_GEOJSON: number[][] = [
   [-118.24981875122825, 34.05071424677597],
 ];
 
-// Pre-convert all parcels to feet at module load time
+type GeoJsonPolygonCoords = number[][];
+type GeoJsonPolygonCollection = GeoJsonPolygonCoords[];
+type LatLng = [number, number];
+
+// Raw parcel polygons by project. Each project can carry one or more polygons.
+const GEOJSON_MAP: Record<string, GeoJsonPolygonCollection> = {
+  p1: [P1_GEOJSON],
+  p4: [P4_GEOJSON],
+  p7: [P7_GEOJSON],
+  p9: [P9_GEOJSON],
+};
+
+// Pre-convert primary parcel polygon to feet for floor generation.
+// Generation currently expects one boundary polygon per project.
 const PARCEL_MAP: Record<string, Polygon> = {
   p1: convertGeoJsonToFeet(P1_GEOJSON),
   p4: convertGeoJsonToFeet(P4_GEOJSON),
@@ -312,18 +324,71 @@ export function lineLineIntersection(p1: Point, p2: Point, p3: Point, p4: Point)
 }
 
 // =============================================================================
-// GEO-JSON COORDINATE EXPORTS (for Leaflet map overlays)
+// GEOJSON COORDINATE EXPORTS (for Leaflet map overlays)
 // =============================================================================
 
+function normalizeRing(ring: number[][]): number[][] {
+  if (ring.length < 2) return ring;
+  const first = ring[0];
+  const last = ring[ring.length - 1];
+  if (first[0] === last[0] && first[1] === last[1]) {
+    return ring.slice(0, -1);
+  }
+  return ring;
+}
+
+function getProjectPolygonCollection(projectId: string | undefined): GeoJsonPolygonCollection | null {
+  if (!projectId) return null;
+  return GEOJSON_MAP[projectId.toLowerCase()] ?? null;
+}
+
+function getGlobalCentroid(polygons: GeoJsonPolygonCollection): { lng: number; lat: number } {
+  let sumLng = 0;
+  let sumLat = 0;
+  let count = 0;
+
+  for (const ringRaw of polygons) {
+    const ring = normalizeRing(ringRaw);
+    for (const [lng, lat] of ring) {
+      sumLng += lng;
+      sumLat += lat;
+      count++;
+    }
+  }
+
+  if (count === 0) return { lng: 0, lat: 0 };
+  return { lng: sumLng / count, lat: sumLat / count };
+}
+
+function polygonsTotalAreaFeet(polygons: GeoJsonPolygonCollection, center: { lng: number; lat: number }): number {
+  const FT_PER_DEG_LNG = 288200;
+  const FT_PER_DEG_LAT = 364000;
+  let totalArea = 0;
+
+  for (const ringRaw of polygons) {
+    const ring = normalizeRing(ringRaw);
+    const feetPoly: Polygon = ring.map(([lng, lat]) => [
+      (lng - center.lng) * FT_PER_DEG_LNG,
+      (lat - center.lat) * FT_PER_DEG_LAT,
+    ] as Point);
+    totalArea += calculatePolygonArea(feetPoly);
+  }
+
+  return totalArea;
+}
+
 /**
- * Raw GeoJSON coordinate arrays keyed by project ID.
+ * Return raw parcel lat/lng polygons as [lat, lng][][] (Leaflet format).
+ * GeoJSON stores [lng, lat], so we swap.
  */
-const GEOJSON_MAP: Record<string, number[][]> = {
-  p1: P1_GEOJSON,
-  p4: P4_GEOJSON,
-  p7: P7_GEOJSON,
-  p9: P9_GEOJSON,
-};
+export function getParcelGeoJsonPolygons(projectId: string | undefined): LatLng[][] | null {
+  const polygons = getProjectPolygonCollection(projectId);
+  if (!polygons) return null;
+  return polygons.map((ringRaw) => {
+    const ring = normalizeRing(ringRaw);
+    return ring.map(([lng, lat]) => [lat, lng] as LatLng);
+  });
+}
 
 /**
  * Return raw parcel lat/lng coords as [lat, lng][] (Leaflet format).
@@ -331,10 +396,8 @@ const GEOJSON_MAP: Record<string, number[][]> = {
  * Returns null for unknown project IDs.
  */
 export function getParcelGeoJsonCoords(projectId: string | undefined): [number, number][] | null {
-  if (!projectId) return null;
-  const coords = GEOJSON_MAP[projectId.toLowerCase()];
-  if (!coords) return null;
-  return coords.map(([lng, lat]) => [lat, lng] as [number, number]);
+  const polygons = getParcelGeoJsonPolygons(projectId);
+  return polygons?.[0] ?? null;
 }
 
 /**
@@ -342,46 +405,35 @@ export function getParcelGeoJsonCoords(projectId: string | undefined): [number, 
  * Useful for showing a building footprint overlay at the correct scale.
  * Returns [lat, lng][] for Leaflet, or null for unknown projects.
  */
-export function getScaledParcelGeoJson(
+export function getScaledParcelGeoJsonPolygons(
   projectId: string | undefined,
   targetAreaSf: number | undefined
-): [number, number][] | null {
+): [number, number][][] | null {
   if (!projectId || !targetAreaSf) return null;
-  const coords = GEOJSON_MAP[projectId.toLowerCase()];
-  if (!coords) return null;
+  const polygons = getProjectPolygonCollection(projectId);
+  if (!polygons) return null;
 
-  // Compute centroid in lng/lat space
-  const ring = coords[coords.length - 1][0] === coords[0][0] &&
-               coords[coords.length - 1][1] === coords[0][1]
-    ? coords.slice(0, -1)
-    : coords;
-
-  let cLng = 0, cLat = 0;
-  for (const [lng, lat] of ring) {
-    cLng += lng;
-    cLat += lat;
-  }
-  cLng /= ring.length;
-  cLat /= ring.length;
-
-  // Convert to feet to compute current area
-  const FT_PER_DEG_LNG = 288200;
-  const FT_PER_DEG_LAT = 364000;
-  const feetPoly: Polygon = ring.map(([lng, lat]) => [
-    (lng - cLng) * FT_PER_DEG_LNG,
-    (lat - cLat) * FT_PER_DEG_LAT,
-  ] as Point);
-
-  const currentArea = calculatePolygonArea(feetPoly);
+  const center = getGlobalCentroid(polygons);
+  const currentArea = polygonsTotalAreaFeet(polygons, center);
   if (currentArea < 1) return null;
 
   const scaleFactor = Math.sqrt(targetAreaSf / currentArea);
 
-  // Scale in lng/lat space from centroid, then convert to [lat, lng]
-  return ring.map(([lng, lat]) => [
-    cLat + (lat - cLat) * scaleFactor,
-    cLng + (lng - cLng) * scaleFactor,
-  ] as [number, number]);
+  return polygons.map((ringRaw) => {
+    const ring = normalizeRing(ringRaw);
+    return ring.map(([lng, lat]) => [
+      center.lat + (lat - center.lat) * scaleFactor,
+      center.lng + (lng - center.lng) * scaleFactor,
+    ] as [number, number]);
+  });
+}
+
+export function getScaledParcelGeoJson(
+  projectId: string | undefined,
+  targetAreaSf: number | undefined
+): [number, number][] | null {
+  const polygons = getScaledParcelGeoJsonPolygons(projectId, targetAreaSf);
+  return polygons?.[0] ?? null;
 }
 
 /**
@@ -394,7 +446,8 @@ export function getFeetToLatLngTransform(
   floorPlateArea: number | undefined
 ): { centroidLat: number; centroidLng: number; ftPerDegLat: number; ftPerDegLng: number; scaleFactor: number } | null {
   if (!projectId || !floorPlateArea) return null;
-  const coords = GEOJSON_MAP[projectId.toLowerCase()];
+  const polygons = getProjectPolygonCollection(projectId);
+  const coords = polygons?.[0];
   if (!coords) return null;
 
   // Compute centroid in lng/lat space (same logic as getScaledParcelGeoJson)
