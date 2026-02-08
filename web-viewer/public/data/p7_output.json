@@ -7,8 +7,8 @@
   "metrics": {
     "placement_rate": "100.0%",
     "avg_membership": "1.00",
-    "total_spaces": 410,
-    "placed_spaces": 410
+    "total_spaces": 418,
+    "placed_spaces": 418
   },
   "building": {
     "floors": [
@@ -236,17 +236,17 @@
           {
             "id": "parking_bay_1_f-2",
             "type": "PARKING",
-            "name": "P1-10",
+            "name": "P1-5",
             "floor_index": -2,
             "geometry": {
               "x": -34.22570531405037,
-              "y": -33.73694010536188,
+              "y": -24.73694010536188,
               "width": 45,
-              "height": 36,
+              "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1620,
-            "actual_area_sf": 1620,
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -254,17 +254,17 @@
           {
             "id": "parking_bay_2_f-2",
             "type": "PARKING",
-            "name": "P11-20",
+            "name": "P6-10",
             "floor_index": -2,
             "geometry": {
-              "x": 33.27429468594963,
+              "x": -11.725705314050373,
               "y": -51.73694010536188,
               "width": 45,
-              "height": 36,
+              "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1620,
-            "actual_area_sf": 1620,
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -272,17 +272,17 @@
           {
             "id": "parking_bay_3_f-2",
             "type": "PARKING",
-            "name": "P21-30",
+            "name": "P11-15",
             "floor_index": -2,
             "geometry": {
-              "x": 33.27429468594963,
-              "y": 38.26305989463812,
+              "x": 55.77429468594963,
+              "y": -33.73694010536188,
               "width": 45,
-              "height": 36,
+              "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1620,
-            "actual_area_sf": 1620,
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -290,17 +290,89 @@
           {
             "id": "parking_bay_4_f-2",
             "type": "PARKING",
-            "name": "P31-40",
+            "name": "P16-20",
             "floor_index": -2,
             "geometry": {
-              "x": -34.22570531405037,
-              "y": 38.26305989463812,
+              "x": 55.77429468594963,
+              "y": -60.73694010536188,
               "width": 45,
-              "height": 36,
+              "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1620,
-            "actual_area_sf": 1620,
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
+            "membership": 1,
+            "area_deviation": "+0.0%",
+            "is_vertical": false
+          },
+          {
+            "id": "parking_bay_5_f-2",
+            "type": "PARKING",
+            "name": "P21-25",
+            "floor_index": -2,
+            "geometry": {
+              "x": 55.77429468594963,
+              "y": 29.26305989463812,
+              "width": 45,
+              "height": 18,
+              "rotation": 0
+            },
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
+            "membership": 1,
+            "area_deviation": "+0.0%",
+            "is_vertical": false
+          },
+          {
+            "id": "parking_bay_6_f-2",
+            "type": "PARKING",
+            "name": "P26-30",
+            "floor_index": -2,
+            "geometry": {
+              "x": 55.77429468594963,
+              "y": 56.26305989463812,
+              "width": 45,
+              "height": 18,
+              "rotation": 0
+            },
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
+            "membership": 1,
+            "area_deviation": "+0.0%",
+            "is_vertical": false
+          },
+          {
+            "id": "parking_bay_7_f-2",
+            "type": "PARKING",
+            "name": "P31-35",
+            "floor_index": -2,
+            "geometry": {
+              "x": -11.725705314050373,
+              "y": 29.26305989463812,
+              "width": 45,
+              "height": 18,
+              "rotation": 0
+            },
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
+            "membership": 1,
+            "area_deviation": "+0.0%",
+            "is_vertical": false
+          },
+          {
+            "id": "parking_bay_8_f-2",
+            "type": "PARKING",
+            "name": "P36-40",
+            "floor_index": -2,
+            "geometry": {
+              "x": -11.725705314050373,
+              "y": 56.26305989463812,
+              "width": 45,
+              "height": 18,
+              "rotation": 0
+            },
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -531,17 +603,17 @@
           {
             "id": "parking_bay_1_f-1",
             "type": "PARKING",
-            "name": "P1-10",
+            "name": "P1-5",
             "floor_index": -1,
             "geometry": {
               "x": -34.22570531405037,
-              "y": -33.73694010536188,
+              "y": -24.73694010536188,
               "width": 45,
-              "height": 36,
+              "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1620,
-            "actual_area_sf": 1620,
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -549,17 +621,17 @@
           {
             "id": "parking_bay_2_f-1",
             "type": "PARKING",
-            "name": "P11-20",
+            "name": "P6-10",
             "floor_index": -1,
             "geometry": {
-              "x": 33.27429468594963,
+              "x": -11.725705314050373,
               "y": -51.73694010536188,
               "width": 45,
-              "height": 36,
+              "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1620,
-            "actual_area_sf": 1620,
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -567,17 +639,17 @@
           {
             "id": "parking_bay_3_f-1",
             "type": "PARKING",
-            "name": "P21-30",
+            "name": "P11-15",
             "floor_index": -1,
             "geometry": {
-              "x": 33.27429468594963,
-              "y": 38.26305989463812,
+              "x": 55.77429468594963,
+              "y": -33.73694010536188,
               "width": 45,
-              "height": 36,
+              "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1620,
-            "actual_area_sf": 1620,
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -585,17 +657,89 @@
           {
             "id": "parking_bay_4_f-1",
             "type": "PARKING",
-            "name": "P31-40",
+            "name": "P16-20",
             "floor_index": -1,
             "geometry": {
-              "x": -34.22570531405037,
-              "y": 38.26305989463812,
+              "x": 55.77429468594963,
+              "y": -60.73694010536188,
               "width": 45,
-              "height": 36,
+              "height": 18,
               "rotation": 0
             },
-            "target_area_sf": 1620,
-            "actual_area_sf": 1620,
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
+            "membership": 1,
+            "area_deviation": "+0.0%",
+            "is_vertical": false
+          },
+          {
+            "id": "parking_bay_5_f-1",
+            "type": "PARKING",
+            "name": "P21-25",
+            "floor_index": -1,
+            "geometry": {
+              "x": 55.77429468594963,
+              "y": 29.26305989463812,
+              "width": 45,
+              "height": 18,
+              "rotation": 0
+            },
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
+            "membership": 1,
+            "area_deviation": "+0.0%",
+            "is_vertical": false
+          },
+          {
+            "id": "parking_bay_6_f-1",
+            "type": "PARKING",
+            "name": "P26-30",
+            "floor_index": -1,
+            "geometry": {
+              "x": 55.77429468594963,
+              "y": 56.26305989463812,
+              "width": 45,
+              "height": 18,
+              "rotation": 0
+            },
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
+            "membership": 1,
+            "area_deviation": "+0.0%",
+            "is_vertical": false
+          },
+          {
+            "id": "parking_bay_7_f-1",
+            "type": "PARKING",
+            "name": "P31-35",
+            "floor_index": -1,
+            "geometry": {
+              "x": -11.725705314050373,
+              "y": 29.26305989463812,
+              "width": 45,
+              "height": 18,
+              "rotation": 0
+            },
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
+            "membership": 1,
+            "area_deviation": "+0.0%",
+            "is_vertical": false
+          },
+          {
+            "id": "parking_bay_8_f-1",
+            "type": "PARKING",
+            "name": "P36-40",
+            "floor_index": -1,
+            "geometry": {
+              "x": -11.725705314050373,
+              "y": 56.26305989463812,
+              "width": 45,
+              "height": 18,
+              "rotation": 0
+            },
+            "target_area_sf": 810,
+            "actual_area_sf": 810,
             "membership": 1,
             "area_deviation": "+0.0%",
             "is_vertical": false
@@ -11824,7 +11968,7 @@
     ],
     "metrics": {
       "total_floors": 10,
-      "total_spaces": 410,
+      "total_spaces": 418,
       "cohomology_obstruction": 0
     }
   }

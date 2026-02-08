@@ -452,9 +452,11 @@ function generateParkingFloor(
     //   │ 5×2 bay │  │ 5×2 bay │   ← south bays
     //   └─────────┘  └─────────┘
 
-    const STALLS_PER_BAY = 10; // 5 wide × 2 deep
+    // Use 5×1 bays for tight polygons, 5×2 for normal
+    const bayRows = (roomScale < 1) ? 1 : 2;
+    const STALLS_PER_BAY = 5 * bayRows;
     const BAY_W = 5 * STALL_WIDTH;         // 45 ft
-    const BAY_H = 2 * STALL_DEPTH;         // 36 ft
+    const BAY_H = bayRows * STALL_DEPTH;   // 18 or 36 ft
     const BAY_GAP = 2;                      // gap between adjacent bays
 
     const aisleW = Math.min(2 * h - 30, 80) * roomScale;
