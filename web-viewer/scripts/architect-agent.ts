@@ -116,24 +116,78 @@ function getGeomBounds(g: Geometry): { left: number; right: number; top: number;
   };
 }
 
+/** Convert any geometry to a polygon (list of vertices) */
+function geomToPolygon(g: Geometry): [number, number][] {
+  if (isPolygonGeom(g)) return g.vertices;
+  // Rect → 4 corners
+  const r = g as RectGeometry;
+  const hw = r.width / 2, hh = r.height / 2;
+  return [
+    [r.x - hw, r.y - hh], [r.x + hw, r.y - hh],
+    [r.x + hw, r.y + hh], [r.x - hw, r.y + hh],
+  ];
+}
+
+/** Signed area of polygon (positive = CCW) */
+function polyArea(p: [number, number][]): number {
+  let a = 0;
+  for (let i = 0; i < p.length; i++) {
+    const j = (i + 1) % p.length;
+    a += p[i][0] * p[j][1] - p[j][0] * p[i][1];
+  }
+  return a / 2;
+}
+
+/** Sutherland-Hodgman polygon clipping — returns intersection polygon */
+function clipPolygons(subject: [number, number][], clip: [number, number][]): [number, number][] {
+  let output = [...subject];
+  for (let i = 0; i < clip.length && output.length > 0; i++) {
+    const input = output;
+    output = [];
+    const a = clip[i], b = clip[(i + 1) % clip.length];
+    const edgeX = b[0] - a[0], edgeY = b[1] - a[1];
+    for (let j = 0; j < input.length; j++) {
+      const c = input[j], d = input[(j + 1) % input.length];
+      const cInside = edgeX * (c[1] - a[1]) - edgeY * (c[0] - a[0]) >= 0;
+      const dInside = edgeX * (d[1] - a[1]) - edgeY * (d[0] - a[0]) >= 0;
+      if (cInside) output.push(c);
+      if (cInside !== dInside) {
+        // Intersection point
+        const cx = d[0] - c[0], cy = d[1] - c[1];
+        const denom = edgeX * cy - edgeY * cx;
+        if (Math.abs(denom) > 1e-12) {
+          const t = (edgeX * (c[1] - a[1]) - edgeY * (c[0] - a[0])) / denom;
+          output.push([c[0] + t * cx, c[1] + t * cy]);
+        }
+      }
+    }
+  }
+  return output;
+}
+
 export function detectOverlaps(floor: FloorData): Array<{space1: string, space2: string, overlap_area: number}> {
   const overlaps: Array<{space1: string, space2: string, overlap_area: number}> = [];
   const spaces = floor.spaces;
 
   for (let i = 0; i < spaces.length; i++) {
     for (let j = i + 1; j < spaces.length; j++) {
-      // Skip polygon-vs-polygon overlap check: radial slices are non-overlapping
-      // by construction (adjacent pie slices). BB overlap is a false positive.
-      if (isPolygonGeom(spaces[i].geometry) || isPolygonGeom(spaces[j].geometry)) continue;
-
+      // Quick BB check first
       const a = getGeomBounds(spaces[i].geometry);
       const b = getGeomBounds(spaces[j].geometry);
+      const bbOverlapX = Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left));
+      const bbOverlapY = Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+      if (bbOverlapX < 0.5 || bbOverlapY < 0.5) continue;
 
-      const overlapX = Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left));
-      const overlapY = Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
-      const overlapArea = overlapX * overlapY;
+      // Precise polygon intersection (ensure CCW winding for Sutherland-Hodgman)
+      let polyA = geomToPolygon(spaces[i].geometry);
+      let polyB = geomToPolygon(spaces[j].geometry);
+      if (polyArea(polyA) < 0) polyA = [...polyA].reverse();
+      if (polyArea(polyB) < 0) polyB = [...polyB].reverse();
+      const intersection = clipPolygons(polyA, polyB);
+      if (intersection.length < 3) continue;
 
-      if (overlapArea > 0.5) { // Threshold for meaningful overlap
+      const overlapArea = Math.abs(polyArea(intersection));
+      if (overlapArea > 1) {
         overlaps.push({
           space1: spaces[i].id,
           space2: spaces[j].id,

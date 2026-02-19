@@ -225,43 +225,13 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
     const footprintCoords = buildingFootprint || geocodedFootprint;
     const showingSpaces = !!(currentFloor && projectId);
 
-    // Add parcel boundary polygon — subtle when spaces are visible
+    // Fit map to parcel coords (for centering) but don't render boundary/footprint
     const parcelPoly = L.polygon(parcelCoords, {
-      color: '#7c3aed',
-      weight: showingSpaces ? 2 : 3,
-      fillColor: '#7c3aed',
-      fillOpacity: showingSpaces ? 0.05 : 0.2,
+      color: 'transparent',
+      weight: 0,
+      fillOpacity: 0,
     }).addTo(map);
-
-    // Build popup content
-    let popupContent = `
-      <div style="font-family: -apple-system, sans-serif; font-size: 12px;">
-        <strong>${projectName || 'Parcel'}</strong>
-    `;
-    if (formattedAddress) {
-      popupContent += `<br/><span style="color: #666;">${formattedAddress}</span>`;
-    }
-    if (parcelArea) {
-      popupContent += `<br/>Lot: ${parcelArea.toLocaleString()} SF`;
-    }
-    if (floorArea) {
-      popupContent += `<br/>Floor Area: ${floorArea.toLocaleString()} SF`;
-    }
-    popupContent += '</div>';
-
-    parcelPoly.bindPopup(popupContent);
     parcelPolygonRef.current = parcelPoly;
-
-    // Add building footprint only when NOT showing spaces (avoids clutter)
-    if (footprintCoords && !showingSpaces) {
-      const footprintPoly = L.polygon(footprintCoords, {
-        color: '#10b981',
-        weight: 2,
-        fillColor: '#10b981',
-        fillOpacity: 0.4,
-      }).addTo(map);
-      footprintPolygonRef.current = footprintPoly;
-    }
 
     // Render floor plan spaces if available
     if (currentFloor && projectId) {
@@ -355,16 +325,6 @@ export const ParcelMap: React.FC<ParcelMapProps> = ({
       <div ref={mapContainerRef} style={styles.map} />
 
       <div style={styles.legend}>
-        <div style={styles.legendItem}>
-          <span style={{ ...styles.legendColor, background: '#7c3aed' }} />
-          <span>Parcel Boundary</span>
-        </div>
-        {(buildingFootprint || geocodedFootprint) && (
-          <div style={styles.legendItem}>
-            <span style={{ ...styles.legendColor, background: '#10b981' }} />
-            <span>Building Footprint</span>
-          </div>
-        )}
         {activeSpaceTypes.map(entry => (
           <div key={entry.type} style={styles.legendItem}>
             <span style={{ ...styles.legendColor, background: entry.color }} />

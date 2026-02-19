@@ -19,8 +19,8 @@ import { SpaceSearch } from './components/panels/SpaceSearch';
 import { VerificationCalculator } from './components/verification/VerificationCalculator';
 import { CanvasToolbar } from './components/toolbar/CanvasToolbar';
 import { ParcelMap } from './components/map/ParcelMap';
-import { EnvironmentalMap } from './components/map/EnvironmentalMap';
 import { getParcelGeoJsonCoords, getScaledParcelGeoJson } from './utils/parcelGeometry';
+import { EnvironmentalMap } from './components/map/EnvironmentalMap';
 import { SpaceData } from './types/solverOutput';
 import './App.css';
 
@@ -336,7 +336,8 @@ function App() {
           </div>
         </main>
 
-        {/* Right Panel - Properties */}
+        {/* Right Panel - Properties (hidden for massing visualization contract) */}
+        {/*
         <aside className={`properties-panel ${rightPanelCollapsed ? 'collapsed' : ''}`}>
           <div className="panel-header">Properties</div>
 
@@ -368,9 +369,11 @@ function App() {
             {rightPanelCollapsed ? '‹' : '›'}
           </button>
         </aside>
+        */}
       </div>
 
-      {/* Bottom Metrics Bar */}
+      {/* Bottom Metrics Bar (hidden for massing visualization contract) */}
+      {/*
       <MetricsBar
         efficiency={floorMetrics.efficiencyRatio}
         totalSpaces={floorMetrics.totalSpaces}
@@ -381,6 +384,7 @@ function App() {
         areaDelta={floorMetrics.areaDelta}
         areaDeltaPercent={floorMetrics.areaDeltaPercent}
       />
+      */}
     </div>
   );
 }
