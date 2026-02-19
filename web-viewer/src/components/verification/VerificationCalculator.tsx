@@ -12,8 +12,7 @@ interface VerificationCalculatorProps {
 
 interface VerificationItem {
   label: string;
-  expected: string | number;
-  actual: string | number;
+  value: string | number;
   pass: boolean;
   note?: string;  // Optional explanation
 }
@@ -39,8 +38,7 @@ export const VerificationCalculator: React.FC<VerificationCalculatorProps> = ({
   // Total floors
   verifications.push({
     label: 'Total Floors',
-    expected: buildingInput.building.stories_total,
-    actual: solverResult.building.metrics.total_floors,
+    value: buildingInput.building.stories_total,
     pass: buildingInput.building.stories_total === solverResult.building.metrics.total_floors,
   });
 
@@ -63,9 +61,8 @@ export const VerificationCalculator: React.FC<VerificationCalculatorProps> = ({
 
   verifications.push({
     label: 'Dwelling Units',
-    expected: expectedUnits,
-    actual: actualDwellingSpaces,
-    pass: actualDwellingSpaces >= expectedUnits * 0.9, // 90% tolerance
+    value: expectedUnits,
+    pass: actualDwellingSpaces >= expectedUnits * 0.9,
     note: needsCapacityNote
       ? `Perimeter layout: ~${totalPerimeterCapacity} max (all with windows)`
       : undefined,
@@ -75,9 +72,8 @@ export const VerificationCalculator: React.FC<VerificationCalculatorProps> = ({
   const lotSizeSf = buildingInput.building.lot_size_sf;
   verifications.push({
     label: 'Lot Size',
-    expected: `${lotSizeSf.toLocaleString()} SF`,
-    actual: `${lotSizeSf.toLocaleString()} SF`,  // Same as expected - it's input data
-    pass: true,  // Always passes - it's fixed input
+    value: `${lotSizeSf.toLocaleString()} SF`,
+    pass: true,
   });
 
   // Floor Plate (generated building footprint)
@@ -87,8 +83,7 @@ export const VerificationCalculator: React.FC<VerificationCalculatorProps> = ({
 
   verifications.push({
     label: 'Floor Plate',
-    expected: `${expectedFloorPlate.toLocaleString()} SF`,
-    actual: `${groundFloorArea.toLocaleString()} SF`,
+    value: `${expectedFloorPlate.toLocaleString()} SF`,
     pass: Math.abs(groundFloorArea - expectedFloorPlate) / expectedFloorPlate < 0.15,
   });
 
@@ -99,17 +94,15 @@ export const VerificationCalculator: React.FC<VerificationCalculatorProps> = ({
 
   verifications.push({
     label: 'FAR',
-    expected: expectedFar.toFixed(2),
-    actual: actualFar.toFixed(2),
-    pass: Math.abs(actualFar - expectedFar) / expectedFar < 0.1, // 10% tolerance
+    value: expectedFar.toFixed(2),
+    pass: Math.abs(actualFar - expectedFar) / expectedFar < 0.1,
   });
 
   // Placement rate
   const placementPercent = parseFloat(solverResult.metrics.placement_rate);
   verifications.push({
     label: 'Placement Rate',
-    expected: '100%',
-    actual: solverResult.metrics.placement_rate,
+    value: solverResult.metrics.placement_rate,
     pass: placementPercent >= 80,
   });
 
@@ -140,8 +133,7 @@ export const VerificationCalculator: React.FC<VerificationCalculatorProps> = ({
               <span style={styles.label}>{item.label}</span>
             </div>
             <div style={styles.values}>
-              <span style={styles.expected}>Expected: {item.expected}</span>
-              <span style={styles.actual}>Actual: {item.actual}</span>
+              <span style={styles.value}>{item.value}</span>
             </div>
             {item.note && (
               <div style={styles.note}>{item.note}</div>
@@ -216,12 +208,8 @@ const styles: Record<string, React.CSSProperties> = {
     gap: '16px',
     marginLeft: '26px',
   },
-  expected: {
-    fontSize: '11px',
-    color: '#666',
-  },
-  actual: {
-    fontSize: '11px',
+  value: {
+    fontSize: '12px',
     color: '#333',
     fontWeight: 500,
   },

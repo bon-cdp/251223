@@ -250,6 +250,7 @@ function App() {
           </div>
         </div>
         <div className="header-right">
+          <span className="project-name">{projectName}</span>
         </div>
       </header>
 
@@ -336,8 +337,7 @@ function App() {
           </div>
         </main>
 
-        {/* Right Panel - Properties (hidden for massing visualization contract) */}
-        {/*
+        {/* Right Panel - Properties & Metrics */}
         <aside className={`properties-panel ${rightPanelCollapsed ? 'collapsed' : ''}`}>
           <div className="panel-header">Properties</div>
 
@@ -369,11 +369,9 @@ function App() {
             {rightPanelCollapsed ? '‹' : '›'}
           </button>
         </aside>
-        */}
       </div>
 
-      {/* Bottom Metrics Bar (hidden for massing visualization contract) */}
-      {/*
+      {/* Bottom Metrics Bar */}
       <MetricsBar
         efficiency={floorMetrics.efficiencyRatio}
         totalSpaces={floorMetrics.totalSpaces}
@@ -384,7 +382,6 @@ function App() {
         areaDelta={floorMetrics.areaDelta}
         areaDeltaPercent={floorMetrics.areaDeltaPercent}
       />
-      */}
     </div>
   );
 }
