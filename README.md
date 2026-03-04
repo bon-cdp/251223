@@ -307,4 +307,40 @@ There are currently two layout engines:
 
 ---
 
-Built for GLOQ | Layout engine + viewer by Claude Code (Anthropic)
+next steps
+I agree with all those rules of thumbs.  Optimal inline unit depths can be 28’ to 32’.  But if the site geometry dictates deeper units, then we can use interlocking units which then throws the unit perimeter width off.  But for what we are doing, we should just focus on the typical cases.  There will always be unique site or program constraints.  We should also make sure there that the building is at least 10’ from all property lines except from the street property line.
+
+ 
+
+Ewa had this in her comment previously, but I just wanted to add that as long as there is access to the unit (shown with orange arrow), you can absorb the rest of unnecessary corridor into net rentable SF.  There was already a comment about the corridors.  We should assume 5’ for corridors, not what is shown below.
+
+ 
+
+Also, the units should stack in all floors ideally.  And we should show the lobby, stair and elevator cores, back of house spaces on the plans.  These SF are on the APT Logic tab on the MVP spreadsheet.  These SF vary according to the size of the project (ie, # of units). 
+
+Looking at units in three categories (inline, outside corner, inside corner):
+Inline
+The type of unit is driven mainly by exterior building frontage. 
+Studios range from 12'-16' in width of exterior building frontage, Inboard 1-Bedrooms range from 16'-21', Traditional 1-Bedrooms range from 22'-25', Traditional 2-Bedrooms range from 32'-36'.
+The above are just rules of thumb and don't account for special cases like interlocking units or other types of irregular shapes.
+The depth of units can vary, but default is 30'-32'. When you start hitting a depth of around 36'-38', it may become accretive when there are meaningful added attributes to the units that you get paid for (like a den that can be buried towards the back of the unit). After that, it's diminishing returns, and you likely want to make the courtyard bigger or find another way to build elsewhere on the site.
+Outside Corner
+Usually 2-Bedrooms (or larger) are located at outside corners because they don't consume as much exterior building frontage as their inline counterparts (also able to demand more rent with higher bedroom count outside corners).
+Inside Corner
+Like Ewa suggested, a diagonal partition wall works. Orthogonal interlocking units also work. The primary issue is adequate exterior frontage.
+The corner closest to the corridor is usually wasted space, so situating electrical, IDF, or storage rooms in those corridor corners is common. 
+Regarding courtyards, a general rule of thumb is a 1:1 ratio between the minimum width of the courtyard to the height of the building above the courtyard. So if your courtyard is on level 2, the minimum width of your courtyard should be at least dimension from level 2 to the top of your roof. More is better, but just a rule of thumb in heavily constrained sites (at least in CA).
+In general, the logic should start with maximizing FAR reasonably using double loaded corridors with a 5' corridor. If 32' deep units leave FAR on the table with an oversized courtyard, consider extending the units to 36'-38' to maximize FAR while still maintaining adequate courtyard area. Then, adjust the unit mix according to the amount of exterior building frontage and what is optimal for the market.
+ 
+
+
+ 
+
+Those chamfered corners on the inner edge can be tricky as well as the alignment, however I was able to fix the orthogonality. I was wondering (and the other archs feel free to chime in here) if something like this may work (or is at least headed in the right direction). Will the corridors for access to corner units work in general or should i try to work out the chamfer/offset solution. 
+
+
+
+
+Below are some examples how we go about corners, both inside and outside. Tom if you have other examples, can you please also send?
+
+ 
