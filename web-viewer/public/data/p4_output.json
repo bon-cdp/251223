@@ -8113,5 +8113,31 @@
       "total_spaces": 258,
       "cohomology_obstruction": 0
     }
+  },
+  "layout_metadata": {
+    "rect_corners": [
+      [
+        63.99,
+        -6.36
+      ],
+      [
+        -15.39,
+        73.02
+      ],
+      [
+        -135.49,
+        -47.07
+      ],
+      [
+        -56.11,
+        -126.46
+      ]
+    ],
+    "rangle_deg": 135.0,
+    "rw": 112.27,
+    "rh": 169.84,
+    "depth": 24.9,
+    "corr_w": 6,
+    "layout_mode": "courtyard"
   }
 }

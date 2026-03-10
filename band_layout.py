@@ -734,6 +734,13 @@ def write_solver_json(data, layout, output_path):
                    'total_spaces':total,'placed_spaces':total},
         'building':{'floors':floors,'stalks':[],
                     'metrics':{'total_floors':len(floors),'total_spaces':total,'cohomology_obstruction':0}},
+        'layout_metadata':{
+            'rect_corners':[[round(p[0],2),round(p[1],2)] for p in layout['rect']],
+            'rangle_deg':round(math.degrees(layout['rangle']),4),
+            'rw':round(layout['rw'],2),'rh':round(layout['rh'],2),
+            'depth':round(layout['depth'],2),'corr_w':layout['corr_w'],
+            'layout_mode':layout.get('layout_mode','basic'),
+        },
     }
     with open(output_path,'w') as f: json.dump(result,f,indent=2)
     print(f"  JSON → {output_path}")
