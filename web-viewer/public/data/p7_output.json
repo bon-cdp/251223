@@ -649,27 +649,27 @@
             "geometry": {
               "vertices": [
                 [
-                  80.91,
-                  62.77
+                  75.91,
+                  62.75
                 ],
                 [
-                  80.83,
-                  82.46
+                  80.81,
+                  87.46
                 ],
                 [
-                  55.45,
-                  82.35
+                  55.43,
+                  87.35
                 ],
                 [
-                  55.53,
-                  62.66
+                  50.53,
+                  62.64
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.6,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -1037,27 +1037,27 @@
             "geometry": {
               "vertices": [
                 [
-                  -80.92,
-                  -66.05
+                  -75.92,
+                  -66.03
                 ],
                 [
-                  -80.84,
-                  -85.74
+                  -80.82,
+                  -90.74
                 ],
                 [
-                  -55.46,
-                  -85.64
+                  -55.44,
+                  -90.64
                 ],
                 [
-                  -55.54,
-                  -65.95
+                  -50.54,
+                  -65.93
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.7,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -2101,27 +2101,27 @@
             "geometry": {
               "vertices": [
                 [
-                  80.91,
-                  62.77
+                  75.91,
+                  62.75
                 ],
                 [
-                  80.83,
-                  82.46
+                  80.81,
+                  87.46
                 ],
                 [
-                  55.45,
-                  82.35
+                  55.43,
+                  87.35
                 ],
                 [
-                  55.53,
-                  62.66
+                  50.53,
+                  62.64
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.6,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -2489,27 +2489,27 @@
             "geometry": {
               "vertices": [
                 [
-                  -80.92,
-                  -66.05
+                  -75.92,
+                  -66.03
                 ],
                 [
-                  -80.84,
-                  -85.74
+                  -80.82,
+                  -90.74
                 ],
                 [
-                  -55.46,
-                  -85.64
+                  -55.44,
+                  -90.64
                 ],
                 [
-                  -55.54,
-                  -65.95
+                  -50.54,
+                  -65.93
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.7,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -3553,27 +3553,27 @@
             "geometry": {
               "vertices": [
                 [
-                  80.91,
-                  62.77
+                  75.91,
+                  62.75
                 ],
                 [
-                  80.83,
-                  82.46
+                  80.81,
+                  87.46
                 ],
                 [
-                  55.45,
-                  82.35
+                  55.43,
+                  87.35
                 ],
                 [
-                  55.53,
-                  62.66
+                  50.53,
+                  62.64
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.6,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -3941,27 +3941,27 @@
             "geometry": {
               "vertices": [
                 [
-                  -80.92,
-                  -66.05
+                  -75.92,
+                  -66.03
                 ],
                 [
-                  -80.84,
-                  -85.74
+                  -80.82,
+                  -90.74
                 ],
                 [
-                  -55.46,
-                  -85.64
+                  -55.44,
+                  -90.64
                 ],
                 [
-                  -55.54,
-                  -65.95
+                  -50.54,
+                  -65.93
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.7,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -5005,27 +5005,27 @@
             "geometry": {
               "vertices": [
                 [
-                  80.91,
-                  62.77
+                  75.91,
+                  62.75
                 ],
                 [
-                  80.83,
-                  82.46
+                  80.81,
+                  87.46
                 ],
                 [
-                  55.45,
-                  82.35
+                  55.43,
+                  87.35
                 ],
                 [
-                  55.53,
-                  62.66
+                  50.53,
+                  62.64
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.6,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -5393,27 +5393,27 @@
             "geometry": {
               "vertices": [
                 [
-                  -80.92,
-                  -66.05
+                  -75.92,
+                  -66.03
                 ],
                 [
-                  -80.84,
-                  -85.74
+                  -80.82,
+                  -90.74
                 ],
                 [
-                  -55.46,
-                  -85.64
+                  -55.44,
+                  -90.64
                 ],
                 [
-                  -55.54,
-                  -65.95
+                  -50.54,
+                  -65.93
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.7,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -6457,27 +6457,27 @@
             "geometry": {
               "vertices": [
                 [
-                  80.91,
-                  62.77
+                  75.91,
+                  62.75
                 ],
                 [
-                  80.83,
-                  82.46
+                  80.81,
+                  87.46
                 ],
                 [
-                  55.45,
-                  82.35
+                  55.43,
+                  87.35
                 ],
                 [
-                  55.53,
-                  62.66
+                  50.53,
+                  62.64
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.6,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -6845,27 +6845,27 @@
             "geometry": {
               "vertices": [
                 [
-                  -80.92,
-                  -66.05
+                  -75.92,
+                  -66.03
                 ],
                 [
-                  -80.84,
-                  -85.74
+                  -80.82,
+                  -90.74
                 ],
                 [
-                  -55.46,
-                  -85.64
+                  -55.44,
+                  -90.64
                 ],
                 [
-                  -55.54,
-                  -65.95
+                  -50.54,
+                  -65.93
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.7,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -7909,27 +7909,27 @@
             "geometry": {
               "vertices": [
                 [
-                  80.91,
-                  62.77
+                  75.91,
+                  62.75
                 ],
                 [
-                  80.83,
-                  82.46
+                  80.81,
+                  87.46
                 ],
                 [
-                  55.45,
-                  82.35
+                  55.43,
+                  87.35
                 ],
                 [
-                  55.53,
-                  62.66
+                  50.53,
+                  62.64
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.6,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -8297,27 +8297,27 @@
             "geometry": {
               "vertices": [
                 [
-                  -80.92,
-                  -66.05
+                  -75.92,
+                  -66.03
                 ],
                 [
-                  -80.84,
-                  -85.74
+                  -80.82,
+                  -90.74
                 ],
                 [
-                  -55.46,
-                  -85.64
+                  -55.44,
+                  -90.64
                 ],
                 [
-                  -55.54,
-                  -65.95
+                  -50.54,
+                  -65.93
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.7,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -9361,27 +9361,27 @@
             "geometry": {
               "vertices": [
                 [
-                  80.91,
-                  62.77
+                  75.91,
+                  62.75
                 ],
                 [
-                  80.83,
-                  82.46
+                  80.81,
+                  87.46
                 ],
                 [
-                  55.45,
-                  82.35
+                  55.43,
+                  87.35
                 ],
                 [
-                  55.53,
-                  62.66
+                  50.53,
+                  62.64
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.6,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -9749,27 +9749,27 @@
             "geometry": {
               "vertices": [
                 [
-                  -80.92,
-                  -66.05
+                  -75.92,
+                  -66.03
                 ],
                 [
-                  -80.84,
-                  -85.74
+                  -80.82,
+                  -90.74
                 ],
                 [
-                  -55.46,
-                  -85.64
+                  -55.44,
+                  -90.64
                 ],
                 [
-                  -55.54,
-                  -65.95
+                  -50.54,
+                  -65.93
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.7,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -10813,27 +10813,27 @@
             "geometry": {
               "vertices": [
                 [
-                  80.91,
-                  62.77
+                  75.91,
+                  62.75
                 ],
                 [
-                  80.83,
-                  82.46
+                  80.81,
+                  87.46
                 ],
                 [
-                  55.45,
-                  82.35
+                  55.43,
+                  87.35
                 ],
                 [
-                  55.53,
-                  62.66
+                  50.53,
+                  62.64
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.6,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -11201,27 +11201,27 @@
             "geometry": {
               "vertices": [
                 [
-                  -80.92,
-                  -66.05
+                  -75.92,
+                  -66.03
                 ],
                 [
-                  -80.84,
-                  -85.74
+                  -80.82,
+                  -90.74
                 ],
                 [
-                  -55.46,
-                  -85.64
+                  -55.44,
+                  -90.64
                 ],
                 [
-                  -55.54,
-                  -65.95
+                  -50.54,
+                  -65.93
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.7,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -12265,27 +12265,27 @@
             "geometry": {
               "vertices": [
                 [
-                  80.91,
-                  62.77
+                  75.91,
+                  62.75
                 ],
                 [
-                  80.83,
-                  82.46
+                  80.81,
+                  87.46
                 ],
                 [
-                  55.45,
-                  82.35
+                  55.43,
+                  87.35
                 ],
                 [
-                  55.53,
-                  62.66
+                  50.53,
+                  62.64
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.6,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
@@ -12653,27 +12653,27 @@
             "geometry": {
               "vertices": [
                 [
-                  -80.92,
-                  -66.05
+                  -75.92,
+                  -66.03
                 ],
                 [
-                  -80.84,
-                  -85.74
+                  -80.82,
+                  -90.74
                 ],
                 [
-                  -55.46,
-                  -85.64
+                  -55.44,
+                  -90.64
                 ],
                 [
-                  -55.54,
-                  -65.95
+                  -50.54,
+                  -65.93
                 ]
               ]
             },
             "target_area_sf": 626.8,
-            "actual_area_sf": 499.7,
+            "actual_area_sf": 626.7,
             "membership": 1,
-            "area_deviation": "-20.3%",
+            "area_deviation": "-0.0%",
             "is_vertical": false
           },
           {
