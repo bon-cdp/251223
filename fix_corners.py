@@ -159,7 +159,8 @@ def fix_corner(spaces, corner_info, edge_dirs, edge_normals, depth, corr_w, cs):
 
     # Corridor clearance: we want 5ft clear corridor at the corner
     corridor_target = 5.0
-    push_back = 2.0  # push the larger unit back by 2ft
+    push_back = 5.0  # push the larger unit back for 5ft corridor
+    gap = 0.5  # buffer to prevent parallel overlap on the viewer
 
     changes = {
         'ci': ci,
@@ -188,19 +189,35 @@ def fix_corner(spaces, corner_info, edge_dirs, edge_normals, depth, corr_w, cs):
         # Extension along adjacent edge: stop at unit_b's pushed inner wall
         delta_to_b_inner = vsub(pushed_b3, v2_a)
         ext_amount = dot(delta_to_b_inner, ext_dir)
-        if ext_amount < 3:
-            ext_amount = 3
+        # Also clamp ext_amount so ext_v2 doesn't cross into unit_b's
+        # corridor-facing wall (v2-v3). Check distance from v2_a to unit_b's v3.
+        delta_to_b_v3 = vsub(verts_b[3], v2_a)
+        ext_limit_inner = dot(delta_to_b_v3, ext_dir) - gap
+        if ext_limit_inner < ext_amount:
+            ext_amount = ext_limit_inner
+        if ext_amount < 0:
+            ext_amount = 0
 
         ext_v1 = vadd(v1_a, vscale(ext_dir, ext_amount))  # outer extension corner
         ext_v2 = vadd(v2_a, vscale(ext_dir, ext_amount))  # inner extension corner
 
         # Also extend v4,v5 (the original inner vertices) perpendicular toward
-        # unit_b's pushed outer wall (v0 side).
+        # unit_b's pushed outer wall (v0 side), minus gap to prevent overlap.
         perp_dir = edge_normals[prev_ei]  # inward normal of unit_a's edge
         delta_to_b_outer = vsub(pushed_b0, v1_a)
-        perp_amount = dot(delta_to_b_outer, perp_dir)
+        perp_amount = dot(delta_to_b_outer, perp_dir) - gap
+        # Clamp: never extend past the corridor ring
+        max_perp = depth - corr_w - gap
+        if perp_amount > max_perp:
+            perp_amount = max_perp
+        # Also clamp against unit_b's corridor-facing wall (v2-v3 side).
+        # On narrow buildings, the perp extension can cross into unit_b.
+        delta_to_b_v3 = vsub(verts_b[3], verts_a[2])
+        max_from_b = dot(delta_to_b_v3, perp_dir) - gap
+        if max_from_b < perp_amount and max_from_b >= 0:
+            perp_amount = max_from_b
 
-        # Move v2 (corner-adjacent inner vertex) fully to unit_b's outer wall.
+        # Move v2 (corner-adjacent inner vertex) to near unit_b's outer wall.
         moved_v2 = vadd(verts_a[2], vscale(perp_dir, perp_amount))
 
         # Move v3 (far-from-corner inner vertex) perpendicular too, but clamp
@@ -215,7 +232,7 @@ def fix_corner(spaces, corner_info, edge_dirs, edge_normals, depth, corr_w, cs):
         # If the triangle v4-v5-v6 is too small to justify the complexity,
         # collapse it: drop v5 and align v4 to v6's perpendicular depth so the
         # wall between them runs straight.
-        STEP_AREA_THRESH = 50  # sqft — below this, collapse the step vertex
+        STEP_AREA_THRESH = 100  # sqft — below this, collapse the step vertex
         if clamped_perp_v3 < perp_amount - 0.1:
             step_v = vadd(verts_a[2], vscale(perp_dir, clamped_perp_v3))
             if tri_area(moved_v2, step_v, moved_v3) < STEP_AREA_THRESH:
@@ -250,19 +267,35 @@ def fix_corner(spaces, corner_info, edge_dirs, edge_normals, depth, corr_w, cs):
         # Extension along adjacent edge: stop at unit_a's pushed inner wall
         delta_to_a_inner = vsub(pushed_a2, v3_b)
         ext_amount = dot(delta_to_a_inner, ext_dir)
-        if ext_amount < 3:
-            ext_amount = 3
+        # Also clamp ext_amount so ext_v3 doesn't cross into unit_a's
+        # corridor-facing wall (v3-v0). Check distance from v3_b to unit_a's v3.
+        delta_to_a_v3 = vsub(verts_a[3], v3_b)
+        ext_limit_inner = dot(delta_to_a_v3, ext_dir) - gap
+        if ext_limit_inner < ext_amount:
+            ext_amount = ext_limit_inner
+        if ext_amount < 0:
+            ext_amount = 0
 
         ext_v0 = vadd(v0_b, vscale(ext_dir, ext_amount))  # outer extension corner
         ext_v3 = vadd(v3_b, vscale(ext_dir, ext_amount))  # inner extension corner
 
         # Also extend v4,v5 (the original inner vertices) perpendicular toward
-        # unit_a's pushed outer wall (v1 side).
+        # unit_a's pushed outer wall (v1 side), minus gap to prevent overlap.
         perp_dir = edge_normals[curr_ei]  # inward normal of unit_b's edge
         delta_to_a_outer = vsub(pushed_a1, v0_b)
-        perp_amount = dot(delta_to_a_outer, perp_dir)
+        perp_amount = dot(delta_to_a_outer, perp_dir) - gap
+        # Clamp: never extend past the corridor ring
+        max_perp = depth - corr_w - gap
+        if perp_amount > max_perp:
+            perp_amount = max_perp
+        # Also clamp against unit_a's corridor-facing wall (v0-v3 side).
+        # On narrow buildings, the perp extension can cross into unit_a.
+        delta_to_a_v3 = vsub(verts_a[3], verts_b[2])
+        max_from_a = dot(delta_to_a_v3, perp_dir) - gap
+        if max_from_a < perp_amount and max_from_a >= 0:
+            perp_amount = max_from_a
 
-        # Move v3 (corner-adjacent inner vertex) fully to unit_a's outer wall.
+        # Move v3 (corner-adjacent inner vertex) to near unit_a's outer wall.
         moved_v3_orig = vadd(verts_b[3], vscale(perp_dir, perp_amount))
 
         # Move v2 (far-from-corner inner vertex) perpendicular too, but clamp
@@ -276,7 +309,7 @@ def fix_corner(spaces, corner_info, edge_dirs, edge_normals, depth, corr_w, cs):
         # the clamped depth) to avoid a diagonal edge cutting through neighbors.
         # If the triangle is too small, collapse it: drop the step vertex and
         # align moved_v3 to moved_v2's perpendicular depth for a straight wall.
-        STEP_AREA_THRESH = 50  # sqft
+        STEP_AREA_THRESH = 100  # sqft
         if clamped_perp_v2 < perp_amount - 0.1:
             step_v = vadd(verts_b[3], vscale(perp_dir, clamped_perp_v2))
             if tri_area(moved_v2, step_v, moved_v3_orig) < STEP_AREA_THRESH:
