@@ -598,6 +598,28 @@ def process_project(pid, input_path, write_json=False):
             print(f"  Floor {fi}: {changes_made} corners fixed")
             all_corner_changes = floor_changes
 
+        # P7-specific: pull 1BR 13 top wall down 5ft, 1BR 25 bottom wall up 5ft
+        # to allow corridor access to the corner studios
+        if pid == 'p7':
+            for sp in floor['spaces']:
+                if sp['type'] != 'DWELLING_UNIT':
+                    continue
+                sid = sp['id']
+                verts = sp['geometry']['vertices']
+                # 1BR 13: topmost wall is v1-v2 (highest y). Pull down 5ft.
+                if '_1br_13_' in sid or 'unit_1br_13' in sid:
+                    # v1 and v2 have the high-y values
+                    verts[1][1] -= 5.0
+                    verts[2][1] -= 5.0
+                    sp['actual_area_sf'] = round(poly_area([tuple(v) for v in verts]), 1)
+                    print(f"  Floor {fi}: pulled 1BR 13 top wall down 5ft")
+                # 1BR 25: bottommost wall is v1-v2 (lowest y). Pull up 5ft.
+                elif '_1br_25_' in sid or 'unit_1br_25' in sid:
+                    verts[1][1] += 5.0
+                    verts[2][1] += 5.0
+                    sp['actual_area_sf'] = round(poly_area([tuple(v) for v in verts]), 1)
+                    print(f"  Floor {fi}: pulled 1BR 25 bottom wall up 5ft")
+
         # Only fix the first residential floor with units — all others are identical
         if changes_made > 0:
             template_spaces = floor['spaces']
